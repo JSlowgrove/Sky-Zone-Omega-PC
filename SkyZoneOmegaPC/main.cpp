@@ -7,14 +7,17 @@
 #include "States/S_StateManager.h"
 #include "States/S_Game.h"
 
+//The declaration of the main function
+int main(int argc, char *argv[]);
+
 int main(int argc, char *argv[])
 {
 	//Set the window title
 	std::string title = "Sky Zone Omega";
 
 	//Set the window and target resolutions
-	C_Vec2 targetRes = C_Vec2(640, 408);
-	C_Vec2 windowRes = C_Vec2(640, 408);
+	C_Vec2 targetRes = C_Vec2(640, 480);
+	C_Vec2 windowRes = C_Vec2(640, 480);
 
 	//Initialise SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
