@@ -7,6 +7,7 @@
 #include "../Core/C_Texture.h"
 #include "../Core/C_Audio.h"
 #include "../Core/C_Text.h"
+#include "../Enitites/E_Background.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -46,5 +47,12 @@ public:
 	void draw();
 	
 private:
-
+	///The Background images.
+	C_Texture* background[3];
+	///The bottom background layer backgrounds.
+	E_Background* bottomBackgroundLayer;
+	///The middle background layer backgrounds.
+	E_Background* middleBackgroundLayer[2];
+	///The top background layer backgrounds.
+	E_Background* topBackgroundLayer[2];
 };

@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 	std::string title = "Sky Zone Omega";
 
 	//Set the window and target resolutions
-	C_Vec2 targetRes = C_Vec2(640, 480);
+	C_Vec2 targetRes = C_Vec2(1920, 1080);
 	C_Vec2 windowRes = C_Vec2(640, 480);
 
 	//Initialise SDL
