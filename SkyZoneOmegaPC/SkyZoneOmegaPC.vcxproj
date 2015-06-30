@@ -81,12 +81,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackgroundSystem\B_BackgroundManager.cpp" />
+    <ClCompile Include="BackgroundSystem\B_Background.cpp" />
     <ClCompile Include="Core\C_Audio.cpp" />
     <ClCompile Include="Core\C_Text.cpp" />
     <ClCompile Include="Core\C_Texture.cpp" />
     <ClCompile Include="Core\C_Timer.cpp" />
     <ClCompile Include="Core\C_Utilities.cpp" />
-    <ClCompile Include="Enitites\E_Background.cpp" />
     <ClCompile Include="Enitites\E_Entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem\PS_Particle.cpp" />
@@ -96,13 +97,14 @@
     <ClCompile Include="States\S_StateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackgroundSystem\B_BackgroundManager.h" />
+    <ClInclude Include="BackgroundSystem\B_Background.h" />
     <ClInclude Include="Core\C_Audio.h" />
     <ClInclude Include="Core\C_Text.h" />
     <ClInclude Include="Core\C_Texture.h" />
     <ClInclude Include="Core\C_Timer.h" />
     <ClInclude Include="Core\C_Utilities.h" />
     <ClInclude Include="Core\C_Vec2.h" />
-    <ClInclude Include="Enitites\E_Background.h" />
     <ClInclude Include="Enitites\E_Entity.h" />
     <ClInclude Include="ParticleSystem\PS_Particle.h" />
     <ClInclude Include="ParticleSystem\PS_ParticleEffect.h" />
