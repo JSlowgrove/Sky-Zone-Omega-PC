@@ -8,7 +8,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 
 	//tmp
 	cloud = new C_Texture("Assets/Images/clouds.png", renderer);
-	clouds = new B_Background(cloud, C_Vec2(), dimensions, -200.0f);
+	clouds = new B_Background(cloud, C_Vec2(), dimensions, C_Vec2(-200.0f, 0.0f));
 }
 
 S_Game::~S_Game()

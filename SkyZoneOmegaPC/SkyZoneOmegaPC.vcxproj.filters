@@ -87,6 +87,9 @@
     <ClCompile Include="BackgroundSystem\B_Background.cpp">
       <Filter>Source Files\Background System</Filter>
     </ClCompile>
+    <ClCompile Include="Enitites\E_Velocity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="BackgroundSystem\B_BackgroundManager.h">
       <Filter>Header Files\Background System</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\E_Velocity.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
