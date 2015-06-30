@@ -12,8 +12,12 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	bottomBackgroundLayer = new E_Background(background[0], C_Vec2(), dimensions, 0.0f);
 	middleBackgroundLayer[0] = new E_Background(background[1], C_Vec2(), dimensions, -100.0f);
 	middleBackgroundLayer[1] = new E_Background(background[1], C_Vec2(dimensions.x, 0.0f), dimensions, -100.0f);
-	topBackgroundLayer[0] = new E_Background(background[2], C_Vec2(), dimensions, -200.0f);
-	topBackgroundLayer[1] = new E_Background(background[2], C_Vec2(dimensions.x, 0.0f), dimensions, -200.0f);
+	topBackgroundLayer[0] = new E_Background(background[2], C_Vec2(), dimensions, -150.0f);
+	topBackgroundLayer[1] = new E_Background(background[2], C_Vec2(dimensions.x, 0.0f), dimensions, -150.0f);
+
+	//tmp
+	cloud = new C_Texture("Assets/Images/clouds.png", renderer);
+	clouds = new E_Background(cloud, C_Vec2(), dimensions, -200.0f);
 }
 
 S_Game::~S_Game()
@@ -32,6 +36,10 @@ S_Game::~S_Game()
 	{
 		delete layer;
 	}
+
+	//tmp
+	delete cloud;
+	delete clouds;
 }
 
 bool S_Game::input()
@@ -72,6 +80,9 @@ void S_Game::update(float dt)
 	{
 		layer->update(dt);
 	}
+
+	//tmp
+	clouds->update(dt);
 }
 
 void S_Game::draw()
@@ -86,4 +97,7 @@ void S_Game::draw()
 	{
 		layer->draw(renderer);
 	}
+
+	//tmp
+	clouds->draw(renderer);
 }

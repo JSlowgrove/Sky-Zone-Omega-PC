@@ -55,4 +55,8 @@ private:
 	E_Background* middleBackgroundLayer[2];
 	///The top background layer backgrounds.
 	E_Background* topBackgroundLayer[2];
+
+	///Tmp
+	C_Texture* cloud;
+	E_Background* clouds;
 };
