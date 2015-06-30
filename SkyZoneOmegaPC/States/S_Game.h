@@ -8,7 +8,7 @@
 #include "../Core/C_Audio.h"
 #include "../Core/C_Text.h"
 #include "../BackgroundSystem/B_BackgroundManager.h"
-#include "../BackgroundSystem/B_Background.h"
+#include "../Enitites/E_Player.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -50,8 +50,8 @@ public:
 private:
 	///The Background.
 	B_BackgroundManager* background;
-
-	///Tmp
-	C_Texture* cloud;
-	B_Background* clouds;
+	///The Player.
+	E_Player* player;
+	///The Player texture.
+	C_Texture* playerSprite;
 };
