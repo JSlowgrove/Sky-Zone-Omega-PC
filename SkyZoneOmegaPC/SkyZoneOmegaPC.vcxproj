@@ -90,6 +90,7 @@
     <ClCompile Include="Core\C_Utilities.cpp" />
     <ClCompile Include="Enitites\E_Entity.cpp" />
     <ClCompile Include="Enitites\E_Player.cpp" />
+    <ClCompile Include="Enitites\E_StyphBird.cpp" />
     <ClCompile Include="Enitites\E_Velocity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem\PS_Particle.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="Core\C_Vec2.h" />
     <ClInclude Include="Enitites\E_Entity.h" />
     <ClInclude Include="Enitites\E_Player.h" />
+    <ClInclude Include="Enitites\E_StyphBird.h" />
     <ClInclude Include="Enitites\E_Velocity.h" />
     <ClInclude Include="ParticleSystem\PS_Particle.h" />
     <ClInclude Include="ParticleSystem\PS_ParticleEffect.h" />

@@ -93,6 +93,9 @@
     <ClCompile Include="Enitites\E_Player.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Enitites\E_StyphBird.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -141,6 +144,9 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Enitites\E_Player.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\E_StyphBird.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

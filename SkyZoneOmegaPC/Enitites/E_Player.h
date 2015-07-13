@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "E_Velocity.h"
+#include "E_Entity.h"
 #include "../Core/C_Vec2.h"
 
 /**

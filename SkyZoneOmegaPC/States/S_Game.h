@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <iostream>
+#include <vector>
 #include "S_State.h"
 #include "S_StateManager.h"
 #include "../Core/C_Texture.h"
@@ -9,6 +10,7 @@
 #include "../Core/C_Text.h"
 #include "../BackgroundSystem/B_BackgroundManager.h"
 #include "../Enitites/E_Player.h"
+#include "../Enitites/E_StyphBird.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -48,10 +50,16 @@ public:
 	void draw();
 	
 private:
+	///The mouse position
+	C_Vec2 mousePos;
 	///The Background.
 	B_BackgroundManager* background;
 	///The Player.
 	E_Player* player;
 	///The Player texture.
 	C_Texture* playerSprite;
+	///The StyphBird texture
+	C_Texture* styphBirdSprite;
+	///The vector array of StyphBirds
+	std::vector<E_StyphBird*> styphBirds;
 };
