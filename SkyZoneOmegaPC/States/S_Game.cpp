@@ -36,10 +36,6 @@ bool S_Game::input()
 	SDL_Event incomingEvent;
 	while (SDL_PollEvent(&incomingEvent))
 	{
-		//set the mouse position
-		mousePos.x = ((float)incomingEvent.motion.x);
-		mousePos.y = ((float)incomingEvent.motion.y);
-
 		switch (incomingEvent.type)
 		{
 		case SDL_QUIT: //If player closes the window, end the game loop
@@ -48,7 +44,6 @@ bool S_Game::input()
 			break;
 
 		case SDL_KEYDOWN:
-
 			switch (incomingEvent.key.keysym.sym)
 			{
 			case SDLK_ESCAPE: //If Escape is pressed, end the game loop
@@ -58,14 +53,22 @@ bool S_Game::input()
 
 				//TMP
 			case SDLK_SPACE:
-
 				styphBirds.push_back(new E_StyphBird(styphBirdSprite, 
-					C_Vec2(dimensions.x + (dimensions.x * 0.03f), 
-					player->getPosition().y), dimensions * 0.06f, dimensions));
+					C_Vec2(dimensions.x + (dimensions.x * 0.03f), player->getPosition().y), 
+					dimensions * 0.06f, dimensions));
 				break;
 			}
+			break;
+
+		case SDL_MOUSEMOTION: //If the mouse is moved
+
+			//set the mouse position
+			mousePos.x = ((float)incomingEvent.motion.x);
+			mousePos.y = ((float)incomingEvent.motion.y);
+			break;
 
 		case SDL_MOUSEBUTTONDOWN: //If a mouse button is pressed
+
 			//Left Mouse Button
 			if (incomingEvent.button.button == SDL_BUTTON_LEFT)
 			{
@@ -74,6 +77,7 @@ bool S_Game::input()
 			break;
 
 		case SDL_MOUSEBUTTONUP://If a mouse button is released
+
 			//Left Mouse Button
 			if (incomingEvent.button.button == SDL_BUTTON_LEFT)
 			{

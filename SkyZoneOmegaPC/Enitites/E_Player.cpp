@@ -35,6 +35,7 @@ void E_Player::input(SDL_Event& incomingEvent, C_Vec2 mousePos)
 	switch (incomingEvent.type)
 	{
 	case SDL_MOUSEBUTTONDOWN: //If a mouse button is pressed
+
 		//Left Mouse Button
 		if (incomingEvent.button.button == SDL_BUTTON_LEFT)
 		{
@@ -54,6 +55,7 @@ void E_Player::input(SDL_Event& incomingEvent, C_Vec2 mousePos)
 		break;
 
 	case SDL_MOUSEBUTTONUP: //If a mouse button is released
+
 		//Left Mouse Button
 		if (incomingEvent.button.button == SDL_BUTTON_LEFT)
 		{
