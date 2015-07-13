@@ -88,8 +88,10 @@
     <ClCompile Include="Core\C_Texture.cpp" />
     <ClCompile Include="Core\C_Timer.cpp" />
     <ClCompile Include="Core\C_Utilities.cpp" />
+    <ClCompile Include="Enitites\E_Coin.cpp" />
     <ClCompile Include="Enitites\E_Entity.cpp" />
     <ClCompile Include="Enitites\E_Player.cpp" />
+    <ClCompile Include="Enitites\E_StormCloud.cpp" />
     <ClCompile Include="Enitites\E_StyphBird.cpp" />
     <ClCompile Include="Enitites\E_Velocity.cpp" />
     <ClCompile Include="main.cpp" />
@@ -108,8 +110,10 @@
     <ClInclude Include="Core\C_Timer.h" />
     <ClInclude Include="Core\C_Utilities.h" />
     <ClInclude Include="Core\C_Vec2.h" />
+    <ClInclude Include="Enitites\E_Coin.h" />
     <ClInclude Include="Enitites\E_Entity.h" />
     <ClInclude Include="Enitites\E_Player.h" />
+    <ClInclude Include="Enitites\E_StormCloud.h" />
     <ClInclude Include="Enitites\E_StyphBird.h" />
     <ClInclude Include="Enitites\E_Velocity.h" />
     <ClInclude Include="ParticleSystem\PS_Particle.h" />

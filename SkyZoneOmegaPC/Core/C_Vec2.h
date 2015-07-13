@@ -110,7 +110,7 @@ inline C_Vec2 operator / (C_Vec2 vecInA, float scalar)
 
 /**
 @brief Overloads the * operator allowing a Vec2 to be multiplied by a scalar.
-@param a One of the input Vec2's.
+@param vecInA One of the input Vec2's.
 @param scalar The scalar to multiply by.
 @returns The new vector.
 */
@@ -119,5 +119,19 @@ inline C_Vec2 operator * (C_Vec2 vecInA, float scalar)
 	C_Vec2 vecOut;
 	vecOut.x = vecInA.x * scalar;
 	vecOut.y = vecInA.y * scalar;
+	return vecOut;
+}
+
+/**
+@brief Overloads the * operator allowing a Vec2 to be multiplied by another Vec2.
+@param vecInA One of the input Vec2's.
+@param vecInB One of the input Vec2's.
+@returns The new vector.
+*/
+inline C_Vec2 operator * (C_Vec2 vecInA, C_Vec2 vecInB)
+{
+	C_Vec2 vecOut;
+	vecOut.x = vecInA.x * vecInB.x;
+	vecOut.y = vecInA.y * vecInB.y;
 	return vecOut;
 }

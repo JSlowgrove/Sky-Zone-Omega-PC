@@ -30,10 +30,10 @@ public:
 	virtual void update(float dt) = 0;
 
 	/**
-	@brief Draws the Entity to the screen.
+	@brief A virtual function that draws the Entity to the screen.
 	@param renderer A pointer to the SDL renderer.
 	*/
-	void draw(SDL_Renderer* renderer);
+	virtual void draw(SDL_Renderer* renderer);
 
 	/**
 	@brief Sets the position of the Entity.
