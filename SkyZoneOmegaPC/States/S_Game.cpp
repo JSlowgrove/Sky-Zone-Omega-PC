@@ -21,10 +21,15 @@ S_Game::~S_Game()
 
 bool S_Game::input()
 {
+	C_Vec2 mousePos = C_Vec2();
 	//Check for user input
 	SDL_Event incomingEvent;
 	while (SDL_PollEvent(&incomingEvent))
 	{
+		//set the mouse position
+		mousePos.x = ((float)incomingEvent.motion.x);
+		mousePos.y = ((float)incomingEvent.motion.y);
+
 		switch (incomingEvent.type)
 		{
 		case SDL_QUIT: //If player closes the window, end the game loop
@@ -41,9 +46,25 @@ bool S_Game::input()
 				return false;
 				break;
 			}
+
+		case SDL_MOUSEBUTTONDOWN: //If a mouse button is pressed
+			//Left Mouse Button
+			if (incomingEvent.button.button == SDL_BUTTON_LEFT)
+			{
+
+			}
+			break;
+
+		case SDL_MOUSEBUTTONUP://If a mouse button is released
+			//Left Mouse Button
+			if (incomingEvent.button.button == SDL_BUTTON_LEFT)
+			{
+
+			}
+			break;
 		}
 		//Handle player input
-		player->input(incomingEvent);
+		player->input(incomingEvent, mousePos);
 	}
 	return true;
 }

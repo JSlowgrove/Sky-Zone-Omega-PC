@@ -8,7 +8,7 @@
 @brief Contains the data and functions for the player.
 @author Jamie Slowgrove
 */
-class E_Player : public E_Velocity
+class E_Player : public E_Entity
 {
 public:
 	/**
@@ -33,12 +33,16 @@ public:
 
 	/**
 	@brief A function that handles the Player input.
+	@param incomingEvent A reference to the incoming SDL event.
+	@param mousePos the position of the mouse.
 	*/
-	void input(SDL_Event& incomingEvent);
+	void input(SDL_Event& incomingEvent, C_Vec2 mousePos);
 
 private:
 	///The user commands for the Player.
-	bool up, down, left, right;
+	bool pressed;
+	///An offset for the position of the player from the position the player was pressed.
+	C_Vec2 offset;
 	///The screen Dimensions
 	C_Vec2 screenDimensions;
 };
