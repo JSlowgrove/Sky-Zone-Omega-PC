@@ -159,13 +159,10 @@ void S_Game::draw()
 	//Draw background
 	background->draw(renderer);
 
-	//Draw the player
-	player->draw(renderer);
-
-	//Draw the StyphBirds
-	for (auto styphBird : styphBirds)
+	//Draw the Coins
+	for (auto coin : coins)
 	{
-		styphBird->draw(renderer);
+		coin->draw(renderer);
 	}
 
 	//Draw the Storm Clouds
@@ -174,11 +171,14 @@ void S_Game::draw()
 		stormCloud->draw(renderer);
 	}
 
-	//Draw the Coins
-	for (auto coin : coins)
+	//Draw the player
+	player->draw(renderer);
+
+	//Draw the StyphBirds
+	for (auto styphBird : styphBirds)
 	{
-		coin->draw(renderer);
-	}
+		styphBird->draw(renderer);
+	}	
 }
 
 void S_Game::removeDeadEntites()
