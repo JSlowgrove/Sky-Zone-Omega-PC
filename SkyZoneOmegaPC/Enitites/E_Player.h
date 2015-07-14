@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "E_Entity.h"
 #include "../Core/C_Vec2.h"
+#include "../Core/C_Timer.h"
 
 /**
 @brief Contains the data and functions for the player.
@@ -32,6 +33,12 @@ public:
 	void update(float dt);
 
 	/**
+	@brief Draws the Player to the screen.
+	@param renderer A pointer to the SDL renderer.
+	*/
+	void draw(SDL_Renderer* renderer);
+
+	/**
 	@brief A function that handles the Player input.
 	@param incomingEvent A reference to the incoming SDL event.
 	@param mousePos the position of the mouse.
@@ -45,4 +52,16 @@ private:
 	C_Vec2 offset;
 	///The screen Dimensions
 	C_Vec2 screenDimensions;
+	///The dimensions of the sprite in the spritesheet.
+	C_Vec2 spriteDimensions;
+	///The index of the current sprite in the spritesheet.
+	C_Vec2 spriteIndex;
+	///The animation timer.
+	C_Timer animationTimer;
+
+	/**
+	@brief Animates the sprite of the storm cloud.
+	@param dt The delta time.
+	*/
+	void animate(float dt);
 };

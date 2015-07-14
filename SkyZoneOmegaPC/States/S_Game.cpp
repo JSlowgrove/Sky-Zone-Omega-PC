@@ -13,7 +13,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	background = new B_BackgroundManager(renderer, dimensions);
 
 	//Initialise player
-	playerSprite = new C_Texture("Assets/Images/player.png", renderer);
+	playerSprite = new C_Texture("Assets/Images/Player386x242.png", renderer);
 	player = new E_Player(playerSprite, C_Vec2(100.0f, 100.0f), dimensions * 0.2f, dimensions);
 
 	//Initialise entity textures

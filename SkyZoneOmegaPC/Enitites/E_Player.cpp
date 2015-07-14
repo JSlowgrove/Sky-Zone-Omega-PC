@@ -1,7 +1,8 @@
 #include "E_Player.h"
 
 E_Player::E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions)
-	: E_Entity(sprite, pos, dimensions), screenDimensions(screenDimensions), pressed(false)
+	: E_Entity(sprite, pos, dimensions), screenDimensions(screenDimensions), pressed(false), 
+	spriteDimensions(C_Vec2(386, 242)), animationTimer(0.05f), spriteIndex(C_Vec2())
 {
 }
 
@@ -11,6 +12,9 @@ E_Player::~E_Player()
 
 void E_Player::update(float dt)
 {
+	//Update the animation
+	animate(dt);
+
 	//Make sure that the player is on the screen
 	if (pos.x + dimensions.x > screenDimensions.x)
 	{
@@ -69,4 +73,28 @@ void E_Player::input(SDL_Event& incomingEvent, C_Vec2 mousePos)
 		//set the player position to the mouse pos using the pressed offset for the mouse position on the player
 		pos = mousePos - offset;
 	}	
+}
+
+void E_Player::draw(SDL_Renderer* renderer)
+{
+	sprite->pushSpriteToScreen(renderer, pos, dimensions, spriteIndex * spriteDimensions, spriteDimensions);
+}
+
+void E_Player::animate(float dt)
+{
+	//Update the animation
+	animationTimer.upadateTimer(dt);
+
+	//check if the timer has finished
+	if (animationTimer.checkTimer())
+	{
+		//change the current sprite of animation
+		spriteIndex.x++;
+		if (spriteIndex.x > 4.0f)
+		{
+			spriteIndex.x = 0.0f;
+		}
+		//reset the timer
+		animationTimer.resetTimer();
+	}
 }
