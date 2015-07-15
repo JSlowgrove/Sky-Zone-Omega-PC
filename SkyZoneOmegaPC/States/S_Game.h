@@ -11,9 +11,7 @@
 #include "../Core/C_Text.h"
 #include "../BackgroundSystem/B_BackgroundManager.h"
 #include "../Enitites/E_Player.h"
-#include "../Enitites/E_StyphBird.h"
-#include "../Enitites/E_Coin.h"
-#include "../Enitites/E_StormCloud.h"
+#include "../Enitites/E_EntityManager.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -61,21 +59,6 @@ private:
 	E_Player* player;
 	///The Player texture.
 	C_Texture* playerSprite;
-	///The StyphBird texture
-	C_Texture* styphBirdSprite;
-	///The vector array of StyphBirds
-	std::vector<E_StyphBird*> styphBirds;
-	///The Coin texture
-	C_Texture* coinSprite;
-	///The vector array of Coins
-	std::vector<E_Coin*> coins;
-	///The Storm Cloud texture
-	C_Texture* stormCloudSprite;
-	///The vector array of Storm Clouds
-	std::vector<E_StormCloud*> stormClouds;
-
-	/**
-	@brief A function that deletes all of the entities flaged as dead.
-	*/
-	void removeDeadEntites();
+	///The EntityManager.
+	E_EntityManager* entityManager;
 };

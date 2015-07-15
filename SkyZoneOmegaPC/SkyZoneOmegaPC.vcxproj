@@ -90,6 +90,7 @@
     <ClCompile Include="Core\C_Utilities.cpp" />
     <ClCompile Include="Enitites\E_Animated.cpp" />
     <ClCompile Include="Enitites\E_Coin.cpp" />
+    <ClCompile Include="Enitites\E_EntityManager.cpp" />
     <ClCompile Include="Enitites\E_Entity.cpp" />
     <ClCompile Include="Enitites\E_Player.cpp" />
     <ClCompile Include="Enitites\E_StormCloud.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Core\C_Vec2.h" />
     <ClInclude Include="Enitites\E_Animated.h" />
     <ClInclude Include="Enitites\E_Coin.h" />
+    <ClInclude Include="Enitites\E_EntityManager.h" />
     <ClInclude Include="Enitites\E_Entity.h" />
     <ClInclude Include="Enitites\E_Player.h" />
     <ClInclude Include="Enitites\E_StormCloud.h" />
