@@ -16,9 +16,8 @@ public:
 	@param sprite A pointer to the objects Texture.
 	@param pos The position of the StyphBird.
 	@param dimensions The dimensions of the StyphBird.
-	@param screenDimensions The dimensions of the screen.
 	*/
-	E_StyphBird(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions);
+	E_StyphBird(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions);
 
 	/**
 	@brief Destructs the StyphBird object.

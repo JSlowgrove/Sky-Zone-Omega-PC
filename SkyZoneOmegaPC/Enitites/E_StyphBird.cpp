@@ -1,6 +1,6 @@
 #include "E_StyphBird.h"
 
-E_StyphBird::E_StyphBird(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions)
+E_StyphBird::E_StyphBird(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
 	: E_Velocity(sprite, pos, dimensions, C_Vec2(-1500.0f, 0.0f)), dead(false)
 {
 }

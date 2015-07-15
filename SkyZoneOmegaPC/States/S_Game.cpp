@@ -13,7 +13,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	background = new B_BackgroundManager(renderer, dimensions);
 
 	//Initialise player
-	playerSprite = new C_Texture("Assets/Images/Player386x242.png", renderer);
+	playerSprite = new C_Texture("Assets/Images/Player699x436.png", renderer);
 	player = new E_Player(playerSprite, C_Vec2(100.0f, 100.0f), dimensions * 0.2f, dimensions);
 
 	//Initialise entity textures
@@ -78,12 +78,12 @@ bool S_Game::input()
 			case SDLK_SPACE:
 				styphBirds.push_back(new E_StyphBird(styphBirdSprite, 
 					C_Vec2(dimensions.x + (dimensions.x * 0.06f), player->getPosition().y), 
-					dimensions * 0.06f, dimensions));
+					dimensions * 0.06f));
 				break;
 			case SDLK_s:
 				stormClouds.push_back(new E_StormCloud(stormCloudSprite,
 					C_Vec2(dimensions.x + (dimensions.x * 0.15f), player->getPosition().y),
-					C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f), dimensions));
+					C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f)));
 				break;
 			case SDLK_c:
 				coins.push_back(new E_Coin(coinSprite,
@@ -164,16 +164,16 @@ void S_Game::draw()
 	{
 		coin->draw(renderer);
 	}
+	
+	//Draw the player
+	player->draw(renderer);
 
 	//Draw the Storm Clouds
 	for (auto stormCloud : stormClouds)
 	{
 		stormCloud->draw(renderer);
 	}
-
-	//Draw the player
-	player->draw(renderer);
-
+	
 	//Draw the StyphBirds
 	for (auto styphBird : styphBirds)
 	{
