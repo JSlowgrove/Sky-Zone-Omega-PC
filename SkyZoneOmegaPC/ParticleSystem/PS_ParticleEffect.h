@@ -7,6 +7,7 @@
 #include "PS_Particle.h"
 #include "../Core/C_Vec2.h"
 #include "../Core/C_Utilities.h"
+#include "../Core/C_Timer.h"
 
 ///A definition for the max number of particles.
 #define MAX_NUMBER_OF_PARTICLES 100
@@ -20,35 +21,24 @@ class PS_ParticleEffect
 public:
 	/**
 	@brief Constructs the ParticleEffect Object.
-	@param objectName The file name of the texture that the Particle will use.
+	@param texture A pointer to the particle texture.
 	@param emitter The position that the particle effect emits from.
 	@param emit The new value of the emit boolean.
-	@param renderer A pointer to the renderer.
 	@param moveSpeed The speed of the particle effect movement.
+	@param scale The scale of the particles.
 	*/
-	PS_ParticleEffect(std::string fileName, C_Vec2 emitter, bool emit, SDL_Renderer* renderer, float moveSpeed);
+	PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale);
 
 	/**
 	@brief Constructs the ParticleEffect Object.
+	@param texture A pointer to the particle texture.
 	@param emitter The position that the particle effect emits from.
 	@param emit The new value of the emit boolean.
-	@param renderer A pointer to the renderer.
 	@param moveSpeed The speed of the particle effect movement.
-	@param r The red value (0-255).
-	@param g The green value (0-255).
-	@param b The blue value (0-255).
+	@param scale The scale of the particles.
+	@param timerLength The length of the lifespan timer for the particle effect.
 	*/
-	PS_ParticleEffect(C_Vec2 emitter, bool emit, SDL_Renderer* renderer, float moveSpeed, int r, int g, int b);
-
-	/**
-	@brief Constructs the ParticleEffect Object.
-	@param emitter The position that the particle effect emits from.
-	@param emit The new value of the emit boolean.
-	@param renderer A pointer to the renderer.
-	@param moveSpeed The speed of the particle effect movement.
-	@param colour The colour of the Particle.
-	*/
-	PS_ParticleEffect(C_Vec2 emitter, bool emit, SDL_Renderer* renderer, float moveSpeed, SDL_Colour colour);
+	PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale, float timerLength);
 
 	/**
 	@brief Destructs the ParticleEffect Object deleting the Particle Object from memory.
@@ -85,6 +75,30 @@ public:
 	*/
 	void setMoveSpeed(float moveSpeed);
 
+	/**
+	@brief Set the scale of the particles.
+	@param scale The scale of the particle.
+	*/
+	void setParticleScale(float scale);
+
+	/**
+	@brief Get the timer for the lifespan of the effect.
+	@returns A pointer to the timer of the particle effect.
+	*/
+	C_Timer* getLifeSpan();
+
+	/**
+	@brief Set the value of dead.
+	@param dead The value of dead.
+	*/
+	void setDead(bool dead);
+
+	/**
+	@brief Get the value of dead.
+	@returns If the particle effect is dead.
+	*/
+	bool getDead();
+
 private:
 	///A vector of Particle objects.
 	std::vector<PS_Particle*> particles;
@@ -96,6 +110,12 @@ private:
 	C_Vec2 emitter;
 	///A boolean for if the ParticleEffect should emit.
 	bool emit;
+	///The scale of the particles.
+	float scale;
+	///A timer for the lifespan of the particle effect.
+	C_Timer* lifeSpan;
+	///A boolean for if the particle effect should be deleted.
+	bool dead;
 
 	/**
 	@brief Creates the new Particle objects.

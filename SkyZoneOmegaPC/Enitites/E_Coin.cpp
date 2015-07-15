@@ -1,7 +1,7 @@
 #include "E_Coin.h"
 
-E_Coin::E_Coin(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions)
-	: E_Velocity(sprite, pos, dimensions, C_Vec2(-500.0f, 0.0f)), dead(false)
+E_Coin::E_Coin(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions, C_Vec2 velocities)
+	: E_Velocity(sprite, pos, dimensions, velocities), dead(false)
 {
 }
 

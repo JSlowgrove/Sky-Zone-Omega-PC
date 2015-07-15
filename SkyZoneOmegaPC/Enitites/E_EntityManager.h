@@ -5,6 +5,7 @@
 #include "E_StyphBird.h"
 #include "E_Coin.h"
 #include "E_StormCloud.h"
+#include "../ParticleSystem/PS_ParticleEffect.h"
 
 /**
 @brief A class that manages all of the entities in the game with the exception of the player.
@@ -40,30 +41,60 @@ public:
 
 	/**
 	@brief A function to draw the Entities to the screen.
-	@param renderer A pointer to the renderer.
 	*/
-	void draw(SDL_Renderer* renderer);
+	void draw();
 
 private:
 	///The screen dimensions
 	C_Vec2 dimensions;
+	///A pointer to the renderer.
+	SDL_Renderer* renderer;
+
 	///A pointer to the Player.
 	E_Player* player;
+
 	///The StyphBird texture
 	C_Texture* styphBirdSprite;
+	///The dimensions of the StyphBirds.
+	C_Vec2 styphBirdDimensions;
 	///The vector array of StyphBirds
 	std::vector<E_StyphBird*> styphBirds;
-	///The Coin texture
+
+	///The Coin texture.
 	C_Texture* coinSprite;
-	///The vector array of Coins
+	///The dimensions of the coins.
+	C_Vec2 coinDimensions;
+	///The vector array of Coins.
 	std::vector<E_Coin*> coins;
+
 	///The Storm Cloud texture
 	C_Texture* stormCloudSprite;
-	///The vector array of Storm Clouds
+	///The dimensions of the storm clouds.
+	C_Vec2 stormCloudsDimensions;
+	///The vector array of Storm Clouds.
 	std::vector<E_StormCloud*> stormClouds;
+
+	///The texture for use with the death sprites.
+	C_Texture* deathEffectTexture;
+	///The vector array of particle effects for use with entity death.
+	std::vector<PS_ParticleEffect*> deathEffects;
 
 	/**
 	@brief A function that deletes all of the entities flagged as dead.
 	*/
 	void removeDeadEntites();
+	
+	/**
+	@brief A function that creates the particle effects for if the entities are killed.
+	@param entityPos The position of the entity.
+	@param entityVelocity The Velocity of the entity.
+	@param coinSpawn A boolean for if the entity should spawn coins.
+	@param maxCoins The max number of coins to spawn.
+	*/
+	void createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, bool coinSpawn, int maxCoins);
+	
+	/**
+	@brief A function that deletes all of the entities flagged as dead.
+	*/
+	void removeCompletedEffects();
 };

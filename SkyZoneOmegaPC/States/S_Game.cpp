@@ -108,7 +108,7 @@ void S_Game::draw()
 	background->draw(renderer);
 
 	//Draw the entity manager
-	entityManager->draw(renderer);
+	entityManager->draw();
 	
 	//Draw the player
 	player->draw(renderer);

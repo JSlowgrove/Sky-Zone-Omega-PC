@@ -1,56 +1,40 @@
 #include "PS_ParticleEffect.h"
 
-PS_ParticleEffect::PS_ParticleEffect(std::string fileName, C_Vec2 emitter, bool emit, SDL_Renderer* renderer, float moveSpeed)
-	: emitter(emitter), moveSpeed(moveSpeed), emit(emit)
+PS_ParticleEffect::PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale)
+	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(0.0f)), dead(false)
 {
 	//Initialize random seed
 	srand((unsigned int)time(NULL));
 	
-	//Initialise the texture
-	texture = new C_Texture(fileName, renderer);
+	//Generate the new particles
+	makeNewParticles();
+}
+
+PS_ParticleEffect::PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale, float timerLength)
+	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(timerLength)), dead(false)
+{
+	//Initialize random seed
+	srand((unsigned int)time(NULL));
 
 	//Generate the new particles
 	makeNewParticles();
 }
 
-
-PS_ParticleEffect::PS_ParticleEffect(C_Vec2 emitter, bool emit, SDL_Renderer* renderer, float moveSpeed, int r, int g, int b)
-	: emitter(emitter), moveSpeed(moveSpeed), emit(emit)
-{
-	/*initialize random seed: */
-	srand((unsigned int)time(NULL));
-
-	/*initialise the texture*/
-	texture = new C_Texture(renderer, r, g, b);
-
-	/*generate the new particles*/
-	makeNewParticles();
-}
-
-PS_ParticleEffect::PS_ParticleEffect(C_Vec2 emitter, bool emit, SDL_Renderer* renderer, float moveSpeed, SDL_Colour colour)
-	: emitter(emitter), moveSpeed(moveSpeed), emit(emit)
-{
-	/*initialize random seed: */
-	srand((unsigned int)time(NULL));
-
-	/*initialise the texture*/
-	texture = new C_Texture(renderer, colour);
-
-	/*generate the new particles*/
-	makeNewParticles();
-}
-
 PS_ParticleEffect::~PS_ParticleEffect()
 {
-	/*delete pointers*/
+	//Delete pointers
 	for (auto particle : particles)
 	{
 		delete particle;
 	}
+	delete lifeSpan;
 }
 
 void PS_ParticleEffect::update(float dt)
 {
+	//Update the timer
+	lifeSpan->upadateTimer(dt);
+
 	//Generate the new particles
 	makeNewParticles();
 
@@ -110,6 +94,26 @@ void PS_ParticleEffect::setMoveSpeed(float moveSpeed)
 	this->moveSpeed = moveSpeed;
 }
 
+void PS_ParticleEffect::setParticleScale(float scale)
+{
+	this->scale = scale;
+}
+
+C_Timer* PS_ParticleEffect::getLifeSpan()
+{
+	return lifeSpan;
+}
+
+void PS_ParticleEffect::setDead(bool dead)
+{
+	this->dead = dead;
+}
+
+bool PS_ParticleEffect::getDead()
+{
+	return dead;
+}
+
 void PS_ParticleEffect::makeNewParticles()
 {
 	//If the particle should emit:
@@ -121,16 +125,13 @@ void PS_ParticleEffect::makeNewParticles()
 		//Loop for all of the particles to create
 		for (int i = 0; i < numberOfParticles; i++)
 		{
-			//Get the scale of the particle, between 1 and 5
-			float scaleValue = (float)((rand() % 4) + 1);
-
 			//Get the direction of the particle between -15 and 15
 			C_Vec2 direction;
 			direction.x = (float)((rand() % 30) + 1) - 15.0f;
 			direction.y = (float)((rand() % 30) + 1) - 15.0f;
 
 			//Push a new particle to the vector
-			particles.push_back(new PS_Particle(texture, scaleValue, direction, moveSpeed, emitter));
+			particles.push_back(new PS_Particle(texture, scale, direction, moveSpeed, emitter));
 		}
 	}
 }
