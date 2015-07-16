@@ -19,8 +19,10 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	//Initialise entity manager
 	entityManager = new E_EntityManager(dimensions, player, renderer);
 
-	//Initialise number of coins
+	//Initialise number of coins and text
 	coins = 0;
+	maxCoins = 999999999;
+	numOfCoins = new C_Text(std::to_string(coins), "Assets/Font/TheMoment.ttf", (int)(dimensions.y * 0.1f), renderer, 255, 255, 255);
 }
 
 S_Game::~S_Game()
@@ -108,6 +110,15 @@ void S_Game::update(float dt)
 
 	//Update Entity Manager
 	entityManager->update(dt);
+
+	//Make sure that the number of coins is not greater than the max number of coins.
+	if (coins > maxCoins)
+	{
+		coins = maxCoins;
+	}
+
+	//Update coins text
+	numOfCoins->setText(std::to_string(coins));
 }
 
 void S_Game::draw()
@@ -121,6 +132,6 @@ void S_Game::draw()
 	//Draw the player
 	player->draw(renderer);
 
-	//TMP
-	C_Utilities::logI(std::to_string(coins));
+	//Draw the Number of Coins
+	numOfCoins->pushToScreen(dimensions * 0.05f);
 }
