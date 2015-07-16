@@ -61,4 +61,6 @@ private:
 	C_Texture* playerSprite;
 	///The EntityManager.
 	E_EntityManager* entityManager;
+	///The current number of coins of the player.
+	int coins;
 };

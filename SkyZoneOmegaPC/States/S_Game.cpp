@@ -18,6 +18,9 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 
 	//Initialise entity manager
 	entityManager = new E_EntityManager(dimensions, player, renderer);
+
+	//Initialise number of coins
+	coins = 0;
 }
 
 S_Game::~S_Game()
@@ -52,6 +55,11 @@ bool S_Game::input()
 			case SDLK_ESCAPE: //If Escape is pressed, end the game loop
 
 				return false;
+				break;
+
+				//TMP
+			case SDLK_m:
+				coins++;
 				break;
 			}
 			break;
@@ -112,4 +120,7 @@ void S_Game::draw()
 	
 	//Draw the player
 	player->draw(renderer);
+
+	//TMP
+	C_Utilities::logI(std::to_string(coins));
 }
