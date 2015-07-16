@@ -199,7 +199,7 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 	if (coinSpawn)
 	{
 		//push back a coin effect for the entity.
-		deathEffects.push_back(new PS_ParticleEffect(coinSprite, entityPos, true, 50.0f, 50.0f, 0.1f));
+		deathEffects.push_back(new PS_ParticleEffect(coinSprite, entityPos, true, 50.0f, 25.0f, 0.1f));
 
 		//create a random number of coins to spawn
 		int numOfCoins = (rand() % maxCoins) + 1;
