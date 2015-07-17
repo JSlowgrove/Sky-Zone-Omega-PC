@@ -26,10 +26,10 @@ E_EntityManager::~E_EntityManager()
 	}
 
 	//Delete particle effect textures
-	/*for (auto deathEffectTexture : deathEffectTextures)
+	for (auto i = deathEffectTextures.begin(); i != deathEffectTextures.end(); ++i)
 	{
-		delete deathEffectTexture; NEED TO FIX!!!!! MEMORY NOT CLEANED UP!!!!!!
-	}*/
+		delete i->second;
+	}
 
 	//Delete StyphBirds
 	for (auto styphBird : styphBirds)
