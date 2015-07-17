@@ -1,7 +1,7 @@
 #include "E_StormCloud.h"
 
 E_StormCloud::E_StormCloud(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: E_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-500.0f, 0.0f), 3, C_Vec2(562, 500), 0.075f), dead(false)
+	: E_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-500.0f, 0.0f), 3, C_Vec2(562, 500), 0.075f), dead(false), deathParticles(false)
 {
 	//Initialise the sprite position
 	int spriteYindex = rand() % 4;
@@ -28,9 +28,24 @@ void E_StormCloud::update(float dt)
 	}
 }
 
+void E_StormCloud::setDeadStatus(bool dead)
+{
+	this->dead = dead;
+}
+
 bool E_StormCloud::getDeadStatus()
 {
 	return dead;
+}
+
+void E_StormCloud::setDeathParticles(bool deathParticles)
+{
+	this->deathParticles = deathParticles;
+}
+
+bool E_StormCloud::getDeathParticles()
+{
+	return deathParticles;
 }
 
 void E_StormCloud::animate(float dt)

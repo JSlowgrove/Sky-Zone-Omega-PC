@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <unordered_map>
 #include "E_Player.h"
 #include "E_StyphBird.h"
 #include "E_Coin.h"
@@ -80,8 +81,8 @@ private:
 	///The vector array of Storm Clouds.
 	std::vector<E_StormCloud*> stormClouds;
 
-	///The texture for use with the death sprites.
-	C_Texture* deathEffectTexture;
+	///An unordered map of textures for use with the death particle effects.
+	std::unordered_map<std::string, C_Texture*> deathEffectTextures;
 	///The vector array of particle effects for use with entity death.
 	std::vector<PS_ParticleEffect*> deathEffects;
 
@@ -94,10 +95,13 @@ private:
 	@brief A function that creates the particle effects for if the entities are killed.
 	@param entityPos The position of the entity.
 	@param entityVelocity The Velocity of the entity.
+	@param entityDimensions The dimensions of the Entity.
 	@param coinSpawn A boolean for if the entity should spawn coins.
 	@param maxCoins The max number of coins to spawn.
+	@param entityType The name of the type of entity that is killed.
 	*/
-	void createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, bool coinSpawn, int maxCoins);
+	void createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 entityDimensions, 
+		bool coinSpawn, int maxCoins, std::string entityType);
 	
 	/**
 	@brief A function that deletes all of the entities flagged as dead.

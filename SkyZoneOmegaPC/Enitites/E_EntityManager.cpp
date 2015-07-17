@@ -7,8 +7,9 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	stormCloudSprite = new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer);
 	coinSprite = new C_Texture("Assets/Images/coin.png", renderer);
 
-	//Initialise the particle effect texture
-	deathEffectTexture = new C_Texture(renderer, 255, 0, 0);
+	//Initialise the particle effect textures
+	deathEffectTextures["styphBird"] = new C_Texture(renderer, 255, 193, 3);
+	deathEffectTextures["stormCloud"] = new C_Texture(renderer, 0, 0, 0);
 
 	//Initialise the entity dimensions
 	styphBirdDimensions = dimensions * 0.06f;
@@ -23,6 +24,12 @@ E_EntityManager::~E_EntityManager()
 	{
 		delete deathEffect;
 	}
+
+	//Delete particle effect textures
+	/*for (auto deathEffectTexture : deathEffectTextures)
+	{
+		delete deathEffectTexture; NEED TO FIX!!!!! MEMORY NOT CLEANED UP!!!!!!
+	}*/
 
 	//Delete StyphBirds
 	for (auto styphBird : styphBirds)
@@ -76,12 +83,22 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 				styphBird->setCoinSpawn(true);
 				styphBird->setDeadStatus(true);
 			}
+			for (auto stormCloud : stormClouds)
+			{
+				stormCloud->setDeathParticles(true);
+				stormCloud->setDeadStatus(true);
+			}
 			break;
 		case SDLK_d:
 			for (auto styphBird : styphBirds)
 			{
 				styphBird->setDeathParticles(true);
 				styphBird->setDeadStatus(true);
+			}
+			for (auto stormCloud : stormClouds)
+			{
+				stormCloud->setDeathParticles(true);
+				stormCloud->setDeadStatus(true);
 			}
 			break;
 		}
@@ -168,7 +185,8 @@ void E_EntityManager::removeDeadEntites()
 			if (styphBirds[i]->getDeathParticles())
 			{
 				//Handle the death particle effects.
-				createDeathEffects(styphBirds[i]->getPosition(), styphBirds[i]->getVelocities(), styphBirds[i]->getCoinSpawn(), 5);
+				createDeathEffects(styphBirds[i]->getPosition(), styphBirds[i]->getVelocities(),
+					styphBirds[i]->getDimensions(), styphBirds[i]->getCoinSpawn(), 5, "styphBird");
 			}
 			//delete pointer
 			delete styphBirds[i];
@@ -182,6 +200,13 @@ void E_EntityManager::removeDeadEntites()
 	{
 		if (stormClouds[i]->getDeadStatus())
 		{
+			//Check if the cloud will have death particles
+			if (stormClouds[i]->getDeathParticles())
+			{
+				//Handle the death particle effects.
+				createDeathEffects(stormClouds[i]->getPosition(), stormClouds[i]->getVelocities(), 
+					stormClouds[i]->getDimensions(), false, 0, "stormCloud");
+			}
 			//delete pointer
 			delete stormClouds[i];
 			//erase from array
@@ -202,7 +227,8 @@ void E_EntityManager::removeDeadEntites()
 	}
 }
 
-void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, bool coinSpawn, int maxCoins)
+void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 entityDimensions, 
+	bool coinSpawn, int maxCoins, std::string entityType)
 {
 	if (coinSpawn)
 	{
@@ -216,7 +242,8 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 		{
 			//generate a new random position for the coin
 			C_Vec2 coinPos = entityPos + coinDimensions * 0.5f;
-			coinPos += C_Vec2((rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y, (rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y);
+			coinPos += C_Vec2((rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y, 
+				(rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y);
 
 			//spawn the coin
 			coins.push_back(new E_Coin(coinSprite, coinPos, coinDimensions, dimensions, entityVelocity));
@@ -226,7 +253,8 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 	else
 	{
 		//push back a death effect for the entity.
-		deathEffects.push_back(	new PS_ParticleEffect(deathEffectTexture, entityPos + (coinDimensions * 0.5f), true, 50.0f, 15.0f, 0.1f));
+		deathEffects.push_back(	new PS_ParticleEffect(deathEffectTextures[entityType], 
+			entityPos + (entityDimensions * 0.5f), true, 50.0f, 15.0f, 0.1f));
 	}
 }
 
@@ -269,6 +297,20 @@ void E_EntityManager::playerEntityCollisionDetection()
 		{
 			styphBird->setDeathParticles(true);
 			styphBird->setDeadStatus(true);
+			player->decreaseHealth();
+		}
+	}
+
+	//Collision between the player and storm clouds
+	for (auto stormCloud : stormClouds)
+	{
+		if (stormCloud->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
+			&& stormCloud->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
+			&& player->getPosition().x <= (stormCloud->getPosition().x + stormCloud->getDimensions().x)
+			&& player->getPosition().y <= (stormCloud->getPosition().y + stormCloud->getDimensions().y))
+		{
+			stormCloud->setDeathParticles(true);
+			stormCloud->setDeadStatus(true);
 			player->decreaseHealth();
 		}
 	}
