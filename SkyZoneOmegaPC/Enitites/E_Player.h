@@ -55,6 +55,17 @@ public:
 	*/
 	int getHealth();
 
+	/**
+	@brief A function that increases the Player coins by 1.
+	*/
+	void increaseCoins();
+
+	/**
+	@brief Returns the number coins of the Player.
+	@returns The Player coins.
+	*/
+	int getCoins();
+
 private:
 	///The user commands for the Player.
 	bool pressed;
@@ -64,4 +75,9 @@ private:
 	C_Vec2 screenDimensions;
 	///The health of the player.
 	int health;
+	///The current number of coins of the player.
+	int coins;
+	/**The maximum number of coins that the player can get.
+	This is mainly to make sure that the number does not leave its boundaries on the screen*/
+	int maxCoins;
 };

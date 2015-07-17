@@ -1,7 +1,8 @@
 #include "E_Player.h"
 
 E_Player::E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions)
-	: E_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f), screenDimensions(screenDimensions), pressed(false), health(3)
+	: E_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f), screenDimensions(screenDimensions), 
+	pressed(false), health(3), coins(0), maxCoins(999999999)
 {
 }
 
@@ -30,6 +31,12 @@ void E_Player::update(float dt)
 	if (pos.y < 0.0f)
 	{
 		pos.y = 0.0f;
+	}
+
+	//Make sure that the number of coins is not greater than the max number of coins.
+	if (coins > maxCoins)
+	{
+		coins = maxCoins;
 	}
 }
 
@@ -87,4 +94,14 @@ void E_Player::decreaseHealth()
 int E_Player::getHealth()
 {
 	return health;
+}
+
+void E_Player::increaseCoins()
+{
+	coins++;
+}
+
+int E_Player::getCoins()
+{
+	return coins;
 }

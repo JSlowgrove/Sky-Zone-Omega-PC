@@ -103,4 +103,9 @@ private:
 	@brief A function that deletes all of the entities flagged as dead.
 	*/
 	void removeCompletedEffects();
+
+	/**
+	@brief A function that handles all of the collision detection between the player and the entities.
+	*/
+	void playerEntityCollisionDetection();
 };

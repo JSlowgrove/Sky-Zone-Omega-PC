@@ -33,6 +33,12 @@ public:
 	void update(float dt);
 
 	/**
+	@brief Sets the value of dead.
+	@param dead The new value of dead.
+	*/
+	void setDeadStatus(bool dead);
+
+	/**
 	@brief Returns the value of dead.
 	@returns The value of dead.
 	*/

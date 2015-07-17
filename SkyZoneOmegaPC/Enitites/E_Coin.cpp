@@ -22,6 +22,11 @@ void E_Coin::update(float dt)
 	}
 }
 
+void E_Coin::setDeadStatus(bool dead)
+{
+	this->dead = dead;
+}
+
 bool E_Coin::getDeadStatus()
 {
 	return dead;

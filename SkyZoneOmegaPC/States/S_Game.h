@@ -61,13 +61,11 @@ private:
 	C_Texture* playerSprite;
 	///The EntityManager.
 	E_EntityManager* entityManager;
-	///The current number of coins of the player.
-	int coins;
-	/**The maximum number of coins that the player can get. 
-	This is mainly to make sure that the number does not leave its boundaries on the screen*/
-	int maxCoins;
 	///The texture for the scroll.
 	C_Texture* scroll;
 	///The number of coins text to be displayed.
 	C_Text* numOfCoins;
+	
+	//TMP
+	C_Text* health;
 };

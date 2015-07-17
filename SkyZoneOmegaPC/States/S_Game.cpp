@@ -22,10 +22,13 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	//Initialise the scroll texture
 	scroll = new C_Texture("Assets/Images/scroll.png", renderer);
 
-	//Initialise number of coins and text
-	coins =	0;
-	maxCoins = 999999999;
-	numOfCoins = new C_Text(std::to_string(coins), "Assets/Font/TheMoment.ttf", (int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
+	//Initialise number of coins text
+	numOfCoins = new C_Text(std::to_string(player->getCoins()), "Assets/Font/TheMoment.ttf", 
+		(int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
+
+	//TMP
+	health = new C_Text(std::to_string(player->getHealth()), "Assets/Font/TheMoment.ttf", 
+		(int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
 }
 
 S_Game::~S_Game()
@@ -67,7 +70,7 @@ bool S_Game::input()
 
 				//TMP
 			case SDLK_m:
-				coins++;
+				player->increaseCoins();
 				break;
 			}
 			break;
@@ -117,14 +120,11 @@ void S_Game::update(float dt)
 	//Update Entity Manager
 	entityManager->update(dt);
 
-	//Make sure that the number of coins is not greater than the max number of coins.
-	if (coins > maxCoins)
-	{
-		coins = maxCoins;
-	}
-
 	//Update coins text
-	numOfCoins->setText(std::to_string(coins));
+	numOfCoins->setText(std::to_string(player->getCoins()));
+
+	//TMP
+	health->setText(std::to_string(player->getHealth()));
 }
 
 void S_Game::draw()
@@ -149,4 +149,7 @@ void S_Game::draw()
 
 	//Draw the Number of Coins
 	numOfCoins->pushToScreen(C_Vec2(dimensions.x * 0.08f, dimensions.y * 0.05f));
+
+	//TMP
+	health->pushToScreen(C_Vec2(dimensions.x * 0.5f, dimensions.y * 0.05f));
 }

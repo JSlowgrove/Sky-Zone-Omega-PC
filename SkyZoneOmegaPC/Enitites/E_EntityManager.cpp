@@ -115,6 +115,9 @@ void E_EntityManager::update(float dt)
 		coin->update(dt);
 	}
 
+	//Collision detection between the player and the entities
+	playerEntityCollisionDetection();
+
 	//remove entities flagged as dead.
 	removeDeadEntites();
 
@@ -251,5 +254,36 @@ void E_EntityManager::removeCompletedEffects()
 			}
 			
 		}
+	}
+}
+
+void E_EntityManager::playerEntityCollisionDetection()
+{
+	//Collision between the player and StyphBirds
+	for (auto styphBird : styphBirds)
+	{
+		if (styphBird->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
+			&& styphBird->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
+			&& player->getPosition().x <= (styphBird->getPosition().x + styphBird->getDimensions().x)
+			&& player->getPosition().y <= (styphBird->getPosition().y + styphBird->getDimensions().y))
+		{
+			styphBird->setDeathParticles(true);
+			styphBird->setDeadStatus(true);
+			player->decreaseHealth();
+		}
+	}
+
+	//Collision between the player and the coins
+	for (auto coin : coins)
+	{
+		if (coin->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
+			&& coin->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
+			&& player->getPosition().x <= (coin->getPosition().x + coin->getDimensions().x)
+			&& player->getPosition().y <= (coin->getPosition().y + coin->getDimensions().y))
+		{
+			coin->setDeadStatus(true);
+			player->increaseCoins();
+		}
+
 	}
 }
