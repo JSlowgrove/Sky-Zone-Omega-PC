@@ -44,6 +44,12 @@ public:
 	*/
 	void draw();
 
+	/**
+	@brief Gets the pointer to the coin texture.
+	@returns The pointer to the coin texture.
+	*/
+	C_Texture* getCoinTexture();
+
 private:
 	///The screen dimensions
 	C_Vec2 dimensions;

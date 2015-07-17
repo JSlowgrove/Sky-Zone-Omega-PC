@@ -13,16 +13,19 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	background = new B_BackgroundManager(renderer, dimensions);
 
 	//Initialise player
-	playerSprite = new C_Texture("Assets/Images/Player699x436.png", renderer);
-	player = new E_Player(playerSprite, C_Vec2(100.0f, 100.0f), dimensions * 0.2f, dimensions);
+	playerSprite = new C_Texture("Assets/Images/player699x436.png", renderer);
+	player = new E_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.2f, dimensions);
 
 	//Initialise entity manager
 	entityManager = new E_EntityManager(dimensions, player, renderer);
 
+	//Initialise the scroll texture
+	scroll = new C_Texture("Assets/Images/scroll.png", renderer);
+
 	//Initialise number of coins and text
-	coins = 0;
+	coins =	0;
 	maxCoins = 999999999;
-	numOfCoins = new C_Text(std::to_string(coins), "Assets/Font/TheMoment.ttf", (int)(dimensions.y * 0.1f), renderer, 255, 255, 255);
+	numOfCoins = new C_Text(std::to_string(coins), "Assets/Font/TheMoment.ttf", (int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
 }
 
 S_Game::~S_Game()
@@ -36,6 +39,9 @@ S_Game::~S_Game()
 	//Delete player
 	delete player;
 	delete playerSprite;
+
+	//Delete scroll texture
+	delete scroll;
 }
 
 bool S_Game::input()
@@ -132,6 +138,15 @@ void S_Game::draw()
 	//Draw the player
 	player->draw(renderer);
 
+	//Draw the scroll behind the number of coins
+	scroll->pushToScreen(renderer, dimensions * 0.01f, C_Vec2(dimensions.x * 0.25f, dimensions.y * 0.15f));
+
+	//Draw the coin next to the number of coins
+	entityManager->getCoinTexture()
+		->pushToScreen(renderer, 
+		C_Vec2(dimensions.x * 0.045f, dimensions.y * 0.0575f), 
+		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f));
+
 	//Draw the Number of Coins
-	numOfCoins->pushToScreen(dimensions * 0.05f);
+	numOfCoins->pushToScreen(C_Vec2(dimensions.x * 0.08f, dimensions.y * 0.05f));
 }

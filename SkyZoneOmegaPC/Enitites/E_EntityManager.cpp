@@ -149,6 +149,11 @@ void E_EntityManager::draw()
 	}
 }
 
+C_Texture* E_EntityManager::getCoinTexture()
+{
+	return coinSprite;
+}
+
 void E_EntityManager::removeDeadEntites()
 {
 	//Remove dead StyphBirds

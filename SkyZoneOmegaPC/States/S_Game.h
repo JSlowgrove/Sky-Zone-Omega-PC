@@ -66,6 +66,8 @@ private:
 	/**The maximum number of coins that the player can get. 
 	This is mainly to make sure that the number does not leave its boundaries on the screen*/
 	int maxCoins;
+	///The texture for the scroll.
+	C_Texture* scroll;
 	///The number of coins text to be displayed.
 	C_Text* numOfCoins;
 };
