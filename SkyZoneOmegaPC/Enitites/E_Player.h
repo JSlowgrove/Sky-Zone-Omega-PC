@@ -39,11 +39,29 @@ public:
 	*/
 	void input(SDL_Event& incomingEvent, C_Vec2 mousePos);
 
+	/**
+	@brief A function that increases the Player health by 1.
+	*/
+	void increaseHealth();
+
+	/**
+	@brief A function that decreases the Player health by 1.
+	*/
+	void decreaseHealth();
+
+	/**
+	@brief Returns the health of the Player.
+	@returns The Player health.
+	*/
+	int getHealth();
+
 private:
 	///The user commands for the Player.
 	bool pressed;
 	///An offset for the position of the player from the position the player was pressed.
 	C_Vec2 offset;
-	///The screen Dimensions
+	///The screen Dimensions.
 	C_Vec2 screenDimensions;
+	///The health of the player.
+	int health;
 };

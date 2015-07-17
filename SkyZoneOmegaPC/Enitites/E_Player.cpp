@@ -1,7 +1,7 @@
 #include "E_Player.h"
 
 E_Player::E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions)
-	: E_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f), screenDimensions(screenDimensions), pressed(false)
+	: E_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f), screenDimensions(screenDimensions), pressed(false), health(3)
 {
 }
 
@@ -72,4 +72,19 @@ void E_Player::input(SDL_Event& incomingEvent, C_Vec2 mousePos)
 		//set the player position to the mouse pos using the pressed offset for the mouse position on the player
 		pos = mousePos - offset;
 	}	
+}
+
+void E_Player::increaseHealth()
+{
+	health++;
+}
+
+void E_Player::decreaseHealth()
+{
+	health--;
+}
+
+int E_Player::getHealth()
+{
+	return health;
 }
