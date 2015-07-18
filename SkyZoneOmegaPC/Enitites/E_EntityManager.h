@@ -90,6 +90,9 @@ private:
 	///The array of hit audio.
 	C_Audio* healthLossSounds[3];
 
+	///The coin collect sound effect.
+	C_Audio* coinCollectSound;
+
 	/**
 	@brief A function that deletes all of the entities flagged as dead.
 	*/

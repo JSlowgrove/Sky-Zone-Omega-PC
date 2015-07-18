@@ -51,8 +51,10 @@ public:
 	void draw();
 	
 private:
-	///The mouse position
+	///The mouse position.
 	C_Vec2 mousePos;
+	///The background music.
+	C_Audio* backgroundMusic;
 	///The Background.
 	B_BackgroundManager* background;
 	///The Player.

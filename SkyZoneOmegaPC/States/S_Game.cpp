@@ -26,6 +26,9 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	numOfCoins = new C_Text(std::to_string(player->getCoins()), "Assets/Font/TheMoment.ttf", 
 		(int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
 
+	//Initialise the music
+	backgroundMusic = new C_Audio("Assets/Audio/Firebrand.ogg", true);
+
 	//TMP
 	health = new C_Text(std::to_string(player->getHealth()), "Assets/Font/TheMoment.ttf", 
 		(int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
@@ -45,6 +48,11 @@ S_Game::~S_Game()
 
 	//Delete scroll texture
 	delete scroll;
+
+	//Stop music
+	backgroundMusic->stopAudio();
+	//Delete audio pointers
+	delete backgroundMusic;
 }
 
 bool S_Game::input()
@@ -111,6 +119,9 @@ bool S_Game::input()
 
 void S_Game::update(float dt)
 {
+	//Keep the music playing
+	backgroundMusic->startAudio();
+
 	//Update background
 	background->update(dt);
 

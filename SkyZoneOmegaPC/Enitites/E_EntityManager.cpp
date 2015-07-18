@@ -17,10 +17,11 @@ dimensions(dimensions), player(player), renderer(renderer)
 	stormCloudsDimensions = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
 	coinDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 
-	//Initialise health loss sounds
+	//Initialise sounds
 	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg", false);
 	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg", false);
 	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg", false);
+	coinCollectSound = new C_Audio("Assets/Audio/powerUp2.ogg", false);
 }
 
 E_EntityManager::~E_EntityManager()
@@ -63,6 +64,7 @@ E_EntityManager::~E_EntityManager()
 	{
 		delete healthLossSound;
 	}
+	delete coinCollectSound;
 }
 
 //TMP
@@ -339,6 +341,7 @@ void E_EntityManager::playerEntityCollisionDetection()
 		{
 			coin->setDeadStatus(true);
 			player->increaseCoins();
+			coinCollectSound->playEffect();
 		}
 
 	}

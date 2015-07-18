@@ -103,6 +103,9 @@ void C_Text::pushToScreen(C_Vec2 pos)
 
 void C_Text::setColour(int r, int g, int b)
 {
+	//deletes the texture from memory
+	SDL_DestroyTexture(textureData);
+
 	//Set the font colour
 	fontColour = { (Uint8)r, (Uint8)g, (Uint8)b };
 
@@ -112,6 +115,9 @@ void C_Text::setColour(int r, int g, int b)
 
 void C_Text::setColour(SDL_Colour fontColour)
 {
+	//deletes the texture from memory
+	SDL_DestroyTexture(textureData);
+
 	//Set the font colour
 	this->fontColour = fontColour;
 
@@ -121,6 +127,12 @@ void C_Text::setColour(SDL_Colour fontColour)
 
 void C_Text::setFontSize(int fontSize)
 {
+	//deletes the texture from memory
+	SDL_DestroyTexture(textureData);
+	//delete font
+	TTF_CloseFont(font);
+	font = NULL;
+
 	//Set the font size
 	this->fontSize = fontSize;
 
@@ -133,6 +145,12 @@ void C_Text::setFontSize(int fontSize)
 
 void C_Text::setFont(std::string fontLocation)
 {
+	//deletes the texture from memory
+	SDL_DestroyTexture(textureData);
+	//delete font
+	TTF_CloseFont(font);
+	font = NULL;
+
 	//Set the font
 	font = TTF_OpenFont(fontLocation.c_str(), fontSize);
 
@@ -142,6 +160,9 @@ void C_Text::setFont(std::string fontLocation)
 
 void C_Text::setText(std::string text)
 {
+	//deletes the texture from memory
+	SDL_DestroyTexture(textureData);
+
 	//Set the text
 	this->text = text;
 

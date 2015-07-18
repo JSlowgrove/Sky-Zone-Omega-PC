@@ -9,10 +9,10 @@ B_BackgroundManager::B_BackgroundManager(SDL_Renderer* renderer, C_Vec2 dimensio
 
 	//Initialise the background layers
 	bottomBackgroundLayer = new B_Background(background[0], C_Vec2(), dimensions, C_Vec2());
-	middleBackgroundLayer[0] = new B_Background(background[1], C_Vec2(), dimensions, C_Vec2(-100.0f, 0.0f));
-	middleBackgroundLayer[1] = new B_Background(background[1], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-100.0f, 0.0f));
-	topBackgroundLayer[0] = new B_Background(background[2], C_Vec2(), dimensions, C_Vec2(-150.0f, 0.0f));
-	topBackgroundLayer[1] = new B_Background(background[2], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-150.0f, 0.0f));
+	middleBackgroundLayer[0] = new B_Background(background[1], C_Vec2(), dimensions, C_Vec2(-400.0f, 0.0f));
+	middleBackgroundLayer[1] = new B_Background(background[1], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-400.0f, 0.0f));
+	topBackgroundLayer[0] = new B_Background(background[2], C_Vec2(), dimensions, C_Vec2(-750.0f, 0.0f));
+	topBackgroundLayer[1] = new B_Background(background[2], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-750.0f, 0.0f));
 }
 
 B_BackgroundManager::~B_BackgroundManager()
