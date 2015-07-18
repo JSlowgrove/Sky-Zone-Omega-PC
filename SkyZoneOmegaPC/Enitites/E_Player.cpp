@@ -2,7 +2,7 @@
 
 E_Player::E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions)
 	: E_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f), screenDimensions(screenDimensions), 
-	pressed(false), health(3), coins(0), maxCoins(999999999)
+	pressed(false), health(3), maxHealth(3), coins(0), maxCoins(999999999)
 {
 }
 
@@ -83,12 +83,20 @@ void E_Player::input(SDL_Event& incomingEvent, C_Vec2 mousePos)
 
 void E_Player::increaseHealth()
 {
-	health++;
+	//increase health if lower than the max health
+	if (health < maxHealth)
+	{
+		health++;
+	}
 }
 
 void E_Player::decreaseHealth()
 {
-	health--;
+	//decrease health if higher than 0
+	if (health > 0)
+	{
+		health--;
+	}
 }
 
 int E_Player::getHealth()

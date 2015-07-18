@@ -1,6 +1,7 @@
 #include "E_EntityManager.h"
 
-E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer) : dimensions(dimensions), player(player), renderer(renderer)
+E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer) : 
+dimensions(dimensions), player(player), renderer(renderer)
 {	
 	//Initialise entity textures
 	styphBirdSprite = new C_Texture("Assets/Images/stymphalianBird.png", renderer);
@@ -15,6 +16,11 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	styphBirdDimensions = dimensions * 0.06f;
 	stormCloudsDimensions = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
 	coinDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+
+	//Initialise health loss sounds
+	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg", false);
+	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg", false);
+	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg", false);
 }
 
 E_EntityManager::~E_EntityManager()
@@ -51,6 +57,12 @@ E_EntityManager::~E_EntityManager()
 		delete coin;
 	}
 	delete coinSprite;
+
+	//Delete audio
+	for (auto healthLossSound : healthLossSounds)
+	{
+		delete healthLossSound;
+	}
 }
 
 //TMP
@@ -298,6 +310,7 @@ void E_EntityManager::playerEntityCollisionDetection()
 			styphBird->setDeathParticles(true);
 			styphBird->setDeadStatus(true);
 			player->decreaseHealth();
+			healthLossSounds[player->getHealth()]->playEffect();
 		}
 	}
 
@@ -312,6 +325,7 @@ void E_EntityManager::playerEntityCollisionDetection()
 			stormCloud->setDeathParticles(true);
 			stormCloud->setDeadStatus(true);
 			player->decreaseHealth();
+			healthLossSounds[player->getHealth()]->playEffect();
 		}
 	}
 

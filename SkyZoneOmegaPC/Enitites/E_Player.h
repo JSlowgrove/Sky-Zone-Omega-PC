@@ -75,6 +75,8 @@ private:
 	C_Vec2 screenDimensions;
 	///The health of the player.
 	int health;
+	///The max health of the player.
+	int maxHealth;
 	///The current number of coins of the player.
 	int coins;
 	/**The maximum number of coins that the player can get.

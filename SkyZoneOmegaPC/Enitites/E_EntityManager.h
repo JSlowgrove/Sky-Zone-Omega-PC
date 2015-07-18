@@ -6,6 +6,7 @@
 #include "E_StyphBird.h"
 #include "E_Coin.h"
 #include "E_StormCloud.h"
+#include "../Core/C_Audio.h"
 #include "../ParticleSystem/PS_ParticleEffect.h"
 
 /**
@@ -85,6 +86,9 @@ private:
 	std::unordered_map<std::string, C_Texture*> deathEffectTextures;
 	///The vector array of particle effects for use with entity death.
 	std::vector<PS_ParticleEffect*> deathEffects;
+
+	///The array of hit audio.
+	C_Audio* healthLossSounds[3];
 
 	/**
 	@brief A function that deletes all of the entities flagged as dead.
