@@ -29,9 +29,8 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	//Initialise the music
 	backgroundMusic = new C_Audio("Assets/Audio/Firebrand.ogg", true);
 
-	//TMP
-	health = new C_Text(std::to_string(player->getHealth()), "Assets/Font/TheMoment.ttf", 
-		(int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
+	//Initialise the texture
+	healthTexture = new C_Texture("Assets/Images/health300x299.png", renderer);
 }
 
 S_Game::~S_Game()
@@ -133,9 +132,6 @@ void S_Game::update(float dt)
 
 	//Update coins text
 	numOfCoins->setText(std::to_string(player->getCoins()));
-
-	//TMP
-	health->setText(std::to_string(player->getHealth()));
 }
 
 void S_Game::draw()
@@ -149,8 +145,9 @@ void S_Game::draw()
 	//Draw the player
 	player->draw(renderer);
 
-	//Draw the scroll behind the number of coins
+	//Draw the scroll behind the number of coins and player health
 	scroll->pushToScreen(renderer, dimensions * 0.01f, C_Vec2(dimensions.x * 0.25f, dimensions.y * 0.15f));
+	scroll->pushToScreen(renderer, C_Vec2(dimensions.x * 0.50f, dimensions.y * 0.01f), C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.15f));
 
 	//Draw the coin next to the number of coins
 	entityManager->getCoinTexture()
@@ -161,6 +158,32 @@ void S_Game::draw()
 	//Draw the Number of Coins
 	numOfCoins->pushToScreen(C_Vec2(dimensions.x * 0.08f, dimensions.y * 0.05f));
 
-	//TMP
-	health->pushToScreen(C_Vec2(dimensions.x * 0.5f, dimensions.y * 0.05f));
+	//Work out the health sprites to display from the player health
+	C_Vec2 healthOneSprite(0, 0), healthTwoSprite(0, 0), healthThreeSprite(0, 0);
+	switch (player->getHealth())
+	{
+	case 0:
+		healthOneSprite = C_Vec2(300, 0);
+		healthTwoSprite = C_Vec2(300, 0);
+		healthThreeSprite = C_Vec2(300, 0);
+		break;
+	case 1:
+		healthTwoSprite = C_Vec2(300, 0);
+		healthThreeSprite = C_Vec2(300, 0);
+		break;
+	case 2:
+		healthThreeSprite = C_Vec2(300, 0);
+		break;
+	}
+
+	//Draw the player health
+	healthTexture->pushSpriteToScreen(renderer,
+		C_Vec2(dimensions.x * 0.53f, dimensions.y * 0.0575f),
+		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthOneSprite, C_Vec2(300, 299));
+	healthTexture->pushSpriteToScreen(renderer,
+		C_Vec2(dimensions.x * 0.565f, dimensions.y * 0.0575f),
+		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthTwoSprite, C_Vec2(300, 299));
+	healthTexture->pushSpriteToScreen(renderer,
+		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.0575f),
+		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthThreeSprite, C_Vec2(300, 299));
 }

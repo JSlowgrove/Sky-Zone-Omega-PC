@@ -67,7 +67,6 @@ private:
 	C_Texture* scroll;
 	///The number of coins text to be displayed.
 	C_Text* numOfCoins;
-	
-	//TMP
-	C_Text* health;
+	///The health spritesheet.
+	C_Texture* healthTexture;
 };
