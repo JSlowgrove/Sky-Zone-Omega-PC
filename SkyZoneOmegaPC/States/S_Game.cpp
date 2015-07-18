@@ -1,57 +1,37 @@
 #include "S_Game.h"
 
 S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions)
-	: S_State(stateManager, renderer, dimensions)
+	: S_State(stateManager, renderer, dimensions), 
+	mousePos(C_Vec2()), 
+	background(new B_BackgroundManager(renderer, dimensions)),
+	playerSprite(new C_Texture("Assets/Images/player699x436.png", renderer)), 
+	scroll(new C_Texture("Assets/Images/scroll.png", renderer)), 
+	backgroundMusic(new C_Audio("Assets/Audio/Firebrand.ogg", true)),
+	healthTexture(new C_Texture("Assets/Images/health300x299.png", renderer)),
+	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf",(int)(dimensions.y * 0.075f), renderer, 255, 255, 255))
 {
 	//Initialise random seed
 	srand((unsigned int)time(NULL));
 
-	//Initialise the mouse position
-	mousePos = C_Vec2();
-
-	//Initialise the background
-	background = new B_BackgroundManager(renderer, dimensions);
-
 	//Initialise player
-	playerSprite = new C_Texture("Assets/Images/player699x436.png", renderer);
 	player = new E_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.2f, dimensions);
 
 	//Initialise entity manager
 	entityManager = new E_EntityManager(dimensions, player, renderer);
-
-	//Initialise the scroll texture
-	scroll = new C_Texture("Assets/Images/scroll.png", renderer);
-
-	//Initialise number of coins text
-	numOfCoins = new C_Text(std::to_string(player->getCoins()), "Assets/Font/TheMoment.ttf", 
-		(int)(dimensions.y * 0.075f), renderer, 255, 255, 255);
-
-	//Initialise the music
-	backgroundMusic = new C_Audio("Assets/Audio/Firebrand.ogg", true);
-
-	//Initialise the texture
-	healthTexture = new C_Texture("Assets/Images/health300x299.png", renderer);
 }
 
 S_Game::~S_Game()
 {	
-	//Delete pointers
-	delete background;
-
-	//Delete entity manager
-	delete entityManager;
-
-	//Delete player
-	delete player;
-	delete playerSprite;
-
-	//Delete scroll texture
-	delete scroll;
-
 	//Stop music
 	backgroundMusic->stopAudio();
 	//Delete audio pointers
 	delete backgroundMusic;
+	//Delete pointers
+	delete background;
+	delete entityManager;
+	delete player;
+	delete playerSprite;
+	delete scroll;
 }
 
 bool S_Game::input()
