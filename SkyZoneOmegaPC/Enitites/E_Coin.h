@@ -1,14 +1,14 @@
 #pragma once
 
 #include <SDL.h>
-#include "E_Velocity.h"
+#include "E_Pickup.h"
 #include "../Core/C_Vec2.h"
 
 /**
 @brief Contains the data and functions for the Coin.
 @author Jamie Slowgrove
 */
-class E_Coin : public E_Velocity
+class E_Coin : public E_Pickup
 {
 public:
 	/**
@@ -25,26 +25,4 @@ public:
 	@brief Destructs the Coin object.
 	*/
 	~E_Coin();
-
-	/**
-	@brief A function that updates the Coin.
-	@param dt The delta time.
-	*/
-	void update(float dt);
-
-	/**
-	@brief Sets the value of dead.
-	@param dead The new value of dead.
-	*/
-	void setDeadStatus(bool dead);
-
-	/**
-	@brief Returns the value of dead.
-	@returns The value of dead.
-	*/
-	bool getDeadStatus();
-
-private:
-	///A boolean for if the Coin is dead and to be deleted.
-	bool dead;
 };

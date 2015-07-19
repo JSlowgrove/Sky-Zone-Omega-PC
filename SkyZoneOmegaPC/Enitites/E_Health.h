@@ -1,14 +1,14 @@
 #pragma once
 
 #include <SDL.h>
-#include "E_Velocity.h"
+#include "E_Pickup.h"
 #include "../Core/C_Vec2.h"
 
 /**
 @brief Contains the data and functions for the Health pickup.
 @author Jamie Slowgrove
 */
-class E_Health : public E_Velocity
+class E_Health : public E_Pickup
 {
 public:
 	/**
@@ -27,30 +27,8 @@ public:
 	~E_Health();
 
 	/**
-	@brief A function that updates the Health.
-	@param dt The delta time.
-	*/
-	void update(float dt);
-
-	/**
 	@brief Draws the health to the screen.
 	@param renderer A pointer to the SDL renderer.
 	*/
 	void draw(SDL_Renderer* renderer);
-
-	/**
-	@brief Sets the value of dead.
-	@param dead The new value of dead.
-	*/
-	void setDeadStatus(bool dead);
-
-	/**
-	@brief Returns the value of dead.
-	@returns The value of dead.
-	*/
-	bool getDeadStatus();
-
-private:
-	///A boolean for if the Health is dead and to be deleted.
-	bool dead;
 };
