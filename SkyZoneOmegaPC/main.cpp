@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
 	//Set the window and target resolutions
 	C_Vec2 targetRes = C_Vec2(1920, 1080);
-	C_Vec2 windowRes = C_Vec2(1280, 720);
+	C_Vec2 windowRes = C_Vec2(850, 480);
 
 	//Initialise SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)

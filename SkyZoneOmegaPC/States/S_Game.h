@@ -63,10 +63,10 @@ private:
 	C_Texture* playerSprite;
 	///The EntityManager.
 	E_EntityManager* entityManager;
-	///The texture for the scroll.
-	C_Texture* scroll;
+	///The texture for the scoreScroll.
+	C_Texture* scoreScroll;
+	///The texture for the healthScroll.
+	C_Texture* healthScroll;
 	///The number of coins text to be displayed.
 	C_Text* numOfCoins;
-	///The health spritesheet.
-	C_Texture* healthTexture;
 };

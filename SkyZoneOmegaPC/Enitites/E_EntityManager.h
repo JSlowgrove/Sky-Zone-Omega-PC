@@ -6,6 +6,7 @@
 #include "E_StyphBird.h"
 #include "E_Coin.h"
 #include "E_StormCloud.h"
+#include "E_Health.h"
 #include "../Core/C_Audio.h"
 #include "../ParticleSystem/PS_ParticleEffect.h"
 
@@ -52,6 +53,12 @@ public:
 	*/
 	C_Texture* getCoinTexture();
 
+	/**
+	@brief Gets the pointer to the Health texture.
+	@returns The pointer to the Health texture.
+	*/
+	C_Texture* getHealthTexture();
+
 private:
 	///The screen dimensions
 	C_Vec2 dimensions;
@@ -75,6 +82,13 @@ private:
 	///The vector array of Coins.
 	std::vector<E_Coin*> coins;
 
+	///The Health texture.
+	C_Texture* healthSprite;
+	///The dimensions of the Health.
+	C_Vec2 healthDimensions;
+	///The vector array of Health.
+	std::vector<E_Health*> health;
+
 	///The Storm Cloud texture
 	C_Texture* stormCloudSprite;
 	///The dimensions of the storm clouds.
@@ -89,6 +103,9 @@ private:
 
 	///The array of hit audio.
 	C_Audio* healthLossSounds[3];
+
+	///The health collect sound effect.
+	C_Audio* healthCollectSound;
 
 	///The coin collect sound effect.
 	C_Audio* coinCollectSound;

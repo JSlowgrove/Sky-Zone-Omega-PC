@@ -7,6 +7,7 @@ dimensions(dimensions), player(player), renderer(renderer)
 	styphBirdSprite = new C_Texture("Assets/Images/stymphalianBird.png", renderer);
 	stormCloudSprite = new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer);
 	coinSprite = new C_Texture("Assets/Images/coin.png", renderer);
+	healthSprite = new C_Texture("Assets/Images/health300x299.png", renderer),
 
 	//Initialise the particle effect textures
 	deathEffectTextures["styphBird"] = new C_Texture(renderer, 255, 193, 3);
@@ -16,12 +17,14 @@ dimensions(dimensions), player(player), renderer(renderer)
 	styphBirdDimensions = dimensions * 0.06f;
 	stormCloudsDimensions = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
 	coinDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	healthDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 
 	//Initialise sounds
 	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg", false);
 	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg", false);
 	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg", false);
 	coinCollectSound = new C_Audio("Assets/Audio/powerUp2.ogg", false);
+	healthCollectSound = new C_Audio("Assets/Audio/healthUp.ogg", false);
 }
 
 E_EntityManager::~E_EntityManager()
@@ -59,12 +62,20 @@ E_EntityManager::~E_EntityManager()
 	}
 	delete coinSprite;
 
+	//Delete health
+	for (auto healthPickup : health)
+	{
+		delete healthPickup;
+	}
+	delete healthSprite;
+
 	//Delete audio
 	for (auto healthLossSound : healthLossSounds)
 	{
 		delete healthLossSound;
 	}
 	delete coinCollectSound;
+	delete healthCollectSound;
 }
 
 //TMP
@@ -89,6 +100,11 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 			coins.push_back(new E_Coin(coinSprite,
 				C_Vec2(dimensions.x + (dimensions.y * 0.05f), player->getPosition().y),
 				coinDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
+			break;
+		case SDLK_h:
+			health.push_back(new E_Health(healthSprite,
+				C_Vec2(dimensions.x + (dimensions.y * 0.05f), player->getPosition().y),
+				healthDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_k:
 			for (auto styphBird : styphBirds)
@@ -140,6 +156,12 @@ void E_EntityManager::update(float dt)
 		stormCloud->update(dt);
 	}
 
+	//Update health
+	for (auto healthPickup : health)
+	{
+		healthPickup->update(dt);
+	}
+
 	//Update Coins
 	for (auto coin : coins)
 	{
@@ -164,6 +186,12 @@ void E_EntityManager::draw()
 		coin->draw(renderer);
 	}
 
+	//Draw the health
+	for (auto healthPickup : health)
+	{
+		healthPickup->draw(renderer);
+	}
+
 	//Draw the Storm Clouds
 	for (auto stormCloud : stormClouds)
 	{
@@ -186,6 +214,11 @@ void E_EntityManager::draw()
 C_Texture* E_EntityManager::getCoinTexture()
 {
 	return coinSprite;
+}
+
+C_Texture* E_EntityManager::getHealthTexture()
+{
+	return healthSprite;
 }
 
 void E_EntityManager::removeDeadEntites()
@@ -237,6 +270,18 @@ void E_EntityManager::removeDeadEntites()
 			delete coins[i];
 			//erase from array
 			coins.erase(coins.begin() + i);
+		}
+	}
+
+	//Remove dead Health
+	for (unsigned int i = 0; i < health.size(); i++)
+	{
+		if (health[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete health[i];
+			//erase from array
+			health.erase(health.begin() + i);
 		}
 	}
 }
@@ -343,6 +388,19 @@ void E_EntityManager::playerEntityCollisionDetection()
 			player->increaseCoins();
 			coinCollectSound->playEffect();
 		}
+	}
 
+	//Collision between the player and the health
+	for (auto healthPickup : health)
+	{
+		if (healthPickup->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
+			&& healthPickup->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
+			&& player->getPosition().x <= (healthPickup->getPosition().x + healthPickup->getDimensions().x)
+			&& player->getPosition().y <= (healthPickup->getPosition().y + healthPickup->getDimensions().y))
+		{
+			healthPickup->setDeadStatus(true);
+			player->increaseHealth();
+			healthCollectSound->playEffect();
+		}
 	}
 }

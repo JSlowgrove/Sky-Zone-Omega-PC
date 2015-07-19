@@ -5,10 +5,10 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	mousePos(C_Vec2()), 
 	background(new B_BackgroundManager(renderer, dimensions)),
 	playerSprite(new C_Texture("Assets/Images/player699x436.png", renderer)), 
-	scroll(new C_Texture("Assets/Images/scroll.png", renderer)), 
+	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
+	healthScroll(new C_Texture("Assets/Images/healthScroll.png", renderer)),
 	backgroundMusic(new C_Audio("Assets/Audio/Firebrand.ogg", true)),
-	healthTexture(new C_Texture("Assets/Images/health300x299.png", renderer)),
-	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf",(int)(dimensions.y * 0.075f), renderer, 255, 255, 255))
+	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf",(int)(dimensions.y * 0.06f), renderer, 255, 255, 255))
 {
 	//Initialise random seed
 	srand((unsigned int)time(NULL));
@@ -31,7 +31,8 @@ S_Game::~S_Game()
 	delete entityManager;
 	delete player;
 	delete playerSprite;
-	delete scroll;
+	delete scoreScroll;
+	delete healthScroll;
 }
 
 bool S_Game::input()
@@ -126,17 +127,19 @@ void S_Game::draw()
 	player->draw(renderer);
 
 	//Draw the scroll behind the number of coins and player health
-	scroll->pushToScreen(renderer, dimensions * 0.01f, C_Vec2(dimensions.x * 0.25f, dimensions.y * 0.15f));
-	scroll->pushToScreen(renderer, C_Vec2(dimensions.x * 0.50f, dimensions.y * 0.01f), C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.15f));
+	scoreScroll->pushToScreen(renderer, 
+		dimensions * 0.01f, C_Vec2(dimensions.x * 0.25f, dimensions.y * 0.075f));
+	healthScroll->pushToScreen(renderer, 
+		C_Vec2(dimensions.x * 0.50f, dimensions.y * 0.01f), C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.075f));
 
 	//Draw the coin next to the number of coins
 	entityManager->getCoinTexture()
 		->pushToScreen(renderer, 
-		C_Vec2(dimensions.x * 0.045f, dimensions.y * 0.0575f), 
+		C_Vec2(dimensions.x * 0.045f, dimensions.y * 0.02f), 
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f));
 
 	//Draw the Number of Coins
-	numOfCoins->pushToScreen(C_Vec2(dimensions.x * 0.08f, dimensions.y * 0.05f));
+	numOfCoins->pushToScreen(C_Vec2(dimensions.x * 0.08f, dimensions.y * 0.022f));
 
 	//Work out the health sprites to display from the player health
 	C_Vec2 healthOneSprite(0, 0), healthTwoSprite(0, 0), healthThreeSprite(0, 0);
@@ -157,13 +160,13 @@ void S_Game::draw()
 	}
 
 	//Draw the player health
-	healthTexture->pushSpriteToScreen(renderer,
-		C_Vec2(dimensions.x * 0.53f, dimensions.y * 0.0575f),
+	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
+		C_Vec2(dimensions.x * 0.53f, dimensions.y * 0.021f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthOneSprite, C_Vec2(300, 299));
-	healthTexture->pushSpriteToScreen(renderer,
-		C_Vec2(dimensions.x * 0.565f, dimensions.y * 0.0575f),
+	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
+		C_Vec2(dimensions.x * 0.565f, dimensions.y * 0.0235f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthTwoSprite, C_Vec2(300, 299));
-	healthTexture->pushSpriteToScreen(renderer,
-		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.0575f),
+	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
+		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.026f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthThreeSprite, C_Vec2(300, 299));
 }
