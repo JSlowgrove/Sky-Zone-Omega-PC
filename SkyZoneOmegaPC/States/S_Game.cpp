@@ -135,7 +135,7 @@ void S_Game::draw()
 	//Draw the coin next to the number of coins
 	entityManager->getCoinTexture()
 		->pushToScreen(renderer, 
-		C_Vec2(dimensions.x * 0.045f, dimensions.y * 0.02f), 
+		C_Vec2(dimensions.x * 0.045f, dimensions.y * 0.022f), 
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f));
 
 	//Draw the Number of Coins
@@ -161,12 +161,12 @@ void S_Game::draw()
 
 	//Draw the player health
 	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
-		C_Vec2(dimensions.x * 0.53f, dimensions.y * 0.021f),
+		C_Vec2(dimensions.x * 0.52f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthOneSprite, C_Vec2(300, 299));
 	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
-		C_Vec2(dimensions.x * 0.565f, dimensions.y * 0.0235f),
+		C_Vec2(dimensions.x * 0.56f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthTwoSprite, C_Vec2(300, 299));
 	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
-		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.026f),
+		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthThreeSprite, C_Vec2(300, 299));
 }

@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
 	//Set the window and target resolutions
 	C_Vec2 targetRes = C_Vec2(1920, 1080);
-	C_Vec2 windowRes = C_Vec2(850, 480);
+	C_Vec2 windowRes = C_Vec2(1920, 1080);
 
 	//Initialise SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	SDL_Window *window = SDL_CreateWindow(title.c_str(),
 		(int)windowPos.x, (int)windowPos.y,
 		(int)windowRes.x, (int)windowRes.y,
-		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+		SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
 	//Create Renderer from the window
 	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
