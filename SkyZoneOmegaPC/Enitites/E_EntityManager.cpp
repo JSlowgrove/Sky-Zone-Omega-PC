@@ -7,7 +7,8 @@ dimensions(dimensions), player(player), renderer(renderer)
 	styphBirdSprite = new C_Texture("Assets/Images/stymphalianBird.png", renderer);
 	stormCloudSprite = new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer);
 	coinSprite = new C_Texture("Assets/Images/coin.png", renderer);
-	healthSprite = new C_Texture("Assets/Images/health300x299.png", renderer),
+	healthSprite = new C_Texture("Assets/Images/health300x299.png", renderer);
+	arrowSprite = new C_Texture("Assets/Images/arrow.png", renderer);
 
 	//Initialise the particle effect textures
 	deathEffectTextures["styphBird"] = new C_Texture(renderer, 255, 193, 3);
@@ -18,6 +19,7 @@ dimensions(dimensions), player(player), renderer(renderer)
 	stormCloudsDimensions = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
 	coinDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	healthDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	arrowDimensions = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
 
 	//Initialise sounds
 	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg", false);
@@ -69,6 +71,13 @@ E_EntityManager::~E_EntityManager()
 	}
 	delete healthSprite;
 
+	//Delete arrows
+	for (auto arrow : arrows)
+	{
+		delete arrow;
+	}
+	delete arrowSprite;
+
 	//Delete audio
 	for (auto healthLossSound : healthLossSounds)
 	{
@@ -105,6 +114,11 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 			health.push_back(new E_Health(healthSprite,
 				C_Vec2(dimensions.x + (dimensions.y * 0.05f), player->getPosition().y),
 				healthDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
+			break;
+		case SDLK_a:
+			arrows.push_back(new E_Arrow(arrowSprite,
+				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
+				arrowDimensions));
 			break;
 		case SDLK_k:
 			for (auto styphBird : styphBirds)
@@ -168,8 +182,14 @@ void E_EntityManager::update(float dt)
 		coin->update(dt);
 	}
 
-	//Collision detection between the player and the entities
-	playerEntityCollisionDetection();
+	//Update Arrows
+	for (auto arrow : arrows)
+	{
+		arrow->update(dt);
+	}
+
+	//Collision detection for the entities
+	entityCollisionDetection();
 
 	//remove entities flagged as dead.
 	removeDeadEntites();
@@ -190,6 +210,12 @@ void E_EntityManager::draw()
 	for (auto healthPickup : health)
 	{
 		healthPickup->draw(renderer);
+	}
+
+	//Draw the arrows
+	for (auto arrow : arrows)
+	{
+		arrow->draw(renderer);
 	}
 
 	//Draw the Storm Clouds
@@ -284,6 +310,18 @@ void E_EntityManager::removeDeadEntites()
 			health.erase(health.begin() + i);
 		}
 	}
+
+	//Remove dead Arrows
+	for (unsigned int i = 0; i < arrows.size(); i++)
+	{
+		if (arrows[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete arrows[i];
+			//erase from array
+			arrows.erase(arrows.begin() + i);
+		}
+	}
 }
 
 void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 entityDimensions, 
@@ -344,11 +382,12 @@ void E_EntityManager::removeCompletedEffects()
 	}
 }
 
-void E_EntityManager::playerEntityCollisionDetection()
+void E_EntityManager::entityCollisionDetection()
 {
-	//Collision between the player and StyphBirds
+	//Collision for the StyphBirds
 	for (auto styphBird : styphBirds)
 	{
+		//Collision between the player and StyphBirds
 		if (styphBird->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
 			&& styphBird->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
 			&& player->getPosition().x <= (styphBird->getPosition().x + styphBird->getDimensions().x)
@@ -358,6 +397,21 @@ void E_EntityManager::playerEntityCollisionDetection()
 			styphBird->setDeadStatus(true);
 			player->decreaseHealth();
 			healthLossSounds[player->getHealth()]->playEffect();
+		}
+
+		//Collision between the arrows and StyphBirds
+		for (auto arrow : arrows)
+		{
+			if (styphBird->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
+				&& styphBird->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y)
+				&& arrow->getPosition().x <= (styphBird->getPosition().x + styphBird->getDimensions().x)
+				&& arrow->getPosition().y <= (styphBird->getPosition().y + styphBird->getDimensions().y))
+			{
+				styphBird->setDeathParticles(true);
+				styphBird->setDeadStatus(true);
+				styphBird->setCoinSpawn(true);
+				arrow->setDeadStatus(true);
+			}
 		}
 	}
 

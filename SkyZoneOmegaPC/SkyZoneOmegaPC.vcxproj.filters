@@ -117,6 +117,9 @@
     <ClCompile Include="Enitites\E_Pickup.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Enitites\E_Arrow.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -189,6 +192,9 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Enitites\E_Pickup.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\E_Arrow.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

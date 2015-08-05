@@ -89,6 +89,7 @@
     <ClCompile Include="Core\C_Timer.cpp" />
     <ClCompile Include="Core\C_Utilities.cpp" />
     <ClCompile Include="Enitites\E_Animated.cpp" />
+    <ClCompile Include="Enitites\E_Arrow.cpp" />
     <ClCompile Include="Enitites\E_Coin.cpp" />
     <ClCompile Include="Enitites\E_EntityManager.cpp" />
     <ClCompile Include="Enitites\E_Entity.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="Core\C_Utilities.h" />
     <ClInclude Include="Core\C_Vec2.h" />
     <ClInclude Include="Enitites\E_Animated.h" />
+    <ClInclude Include="Enitites\E_Arrow.h" />
     <ClInclude Include="Enitites\E_Coin.h" />
     <ClInclude Include="Enitites\E_EntityManager.h" />
     <ClInclude Include="Enitites\E_Entity.h" />

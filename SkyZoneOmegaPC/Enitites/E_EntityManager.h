@@ -7,6 +7,7 @@
 #include "E_Coin.h"
 #include "E_StormCloud.h"
 #include "E_Health.h"
+#include "E_Arrow.h"
 #include "../Core/C_Audio.h"
 #include "../ParticleSystem/PS_ParticleEffect.h"
 
@@ -96,6 +97,13 @@ private:
 	///The vector array of Storm Clouds.
 	std::vector<E_StormCloud*> stormClouds;
 
+	///The Arrow texture.
+	C_Texture* arrowSprite;
+	///The dimensions of the Arrows.
+	C_Vec2 arrowDimensions;
+	///The vector array of Arrows.
+	std::vector<E_Arrow*> arrows;
+
 	///An unordered map of textures for use with the death particle effects.
 	std::unordered_map<std::string, C_Texture*> deathEffectTextures;
 	///The vector array of particle effects for use with entity death.
@@ -135,5 +143,5 @@ private:
 	/**
 	@brief A function that handles all of the collision detection between the player and the entities.
 	*/
-	void playerEntityCollisionDetection();
+	void entityCollisionDetection();
 };
