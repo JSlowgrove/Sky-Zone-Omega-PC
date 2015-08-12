@@ -477,10 +477,8 @@ void E_EntityManager::entityCollisionDetection()
 	for (auto styphBird : styphBirds)
 	{
 		//Collision between the player and StyphBirds
-		if (styphBird->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
-			&& styphBird->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
-			&& player->getPosition().x <= (styphBird->getPosition().x + styphBird->getDimensions().x)
-			&& player->getPosition().y <= (styphBird->getPosition().y + styphBird->getDimensions().y))
+		if (C_Utilities::rectRectIntersect(styphBird->getPosition(), styphBird->getDimensions(),
+			player->getPosition(), player->getDimensions()))
 		{
 			styphBird->setDeathParticles(true);
 			styphBird->setDeadStatus(true);
@@ -491,10 +489,8 @@ void E_EntityManager::entityCollisionDetection()
 		//Collision between the arrows and StyphBirds
 		for (auto arrow : playerArrows)
 		{
-			if (styphBird->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
-				&& styphBird->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y)
-				&& arrow->getPosition().x <= (styphBird->getPosition().x + styphBird->getDimensions().x)
-				&& arrow->getPosition().y <= (styphBird->getPosition().y + styphBird->getDimensions().y))
+			if (C_Utilities::rectRectIntersect(styphBird->getPosition(), styphBird->getDimensions(),
+				arrow->getPosition(), arrow->getDimensions()))
 			{
 				styphBird->setDeathParticles(true);
 				styphBird->setDeadStatus(true);
@@ -510,10 +506,8 @@ void E_EntityManager::entityCollisionDetection()
 		//Collision between the arrows and StyphBirds
 		for (auto arrow : playerArrows)
 		{
-			if (archer->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
-				&& archer->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y)
-				&& arrow->getPosition().x <= (archer->getPosition().x + archer->getDimensions().x)
-				&& arrow->getPosition().y <= (archer->getPosition().y + archer->getDimensions().y))
+			if (C_Utilities::rectRectIntersect(archer->getPosition(), archer->getDimensions(),
+				arrow->getPosition(), arrow->getDimensions()))
 			{
 				archer->decreaseHealth(arrow->getDamage());
 				arrow->setDeadStatus(true);
@@ -538,10 +532,8 @@ void E_EntityManager::entityCollisionDetection()
 	//Collision between the player and storm clouds
 	for (auto stormCloud : stormClouds)
 	{
-		if (stormCloud->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
-			&& stormCloud->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
-			&& player->getPosition().x <= (stormCloud->getPosition().x + stormCloud->getDimensions().x)
-			&& player->getPosition().y <= (stormCloud->getPosition().y + stormCloud->getDimensions().y))
+		if (C_Utilities::rectRectIntersect(stormCloud->getPosition(), stormCloud->getDimensions(),
+			player->getPosition(), player->getDimensions()))
 		{
 			stormCloud->setDeathParticles(true);
 			stormCloud->setDeadStatus(true);
@@ -553,10 +545,8 @@ void E_EntityManager::entityCollisionDetection()
 	//Collision between the player and the coins
 	for (auto coin : coins)
 	{
-		if (coin->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
-			&& coin->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
-			&& player->getPosition().x <= (coin->getPosition().x + coin->getDimensions().x)
-			&& player->getPosition().y <= (coin->getPosition().y + coin->getDimensions().y))
+		if (C_Utilities::rectRectIntersect(coin->getPosition(), coin->getDimensions(),
+			player->getPosition(), player->getDimensions()))
 		{
 			coin->setDeadStatus(true);
 			player->increaseCoins();
@@ -567,10 +557,8 @@ void E_EntityManager::entityCollisionDetection()
 	//Collision between the player and the health
 	for (auto healthPickup : health)
 	{
-		if (healthPickup->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
-			&& healthPickup->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
-			&& player->getPosition().x <= (healthPickup->getPosition().x + healthPickup->getDimensions().x)
-			&& player->getPosition().y <= (healthPickup->getPosition().y + healthPickup->getDimensions().y))
+		if (C_Utilities::rectRectIntersect(healthPickup->getPosition(), healthPickup->getDimensions(),
+			player->getPosition(), player->getDimensions()))
 		{
 			healthPickup->setDeadStatus(true);
 			player->increaseHealth();
@@ -581,13 +569,11 @@ void E_EntityManager::entityCollisionDetection()
 	//Collision between the player and the archer arrows
 	for (auto arrow : archerArrows)
 	{
-		if (arrow->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
-			&& arrow->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
-			&& player->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
-			&& player->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y))
+		if (C_Utilities::rectRectIntersect(arrow->getPosition(), arrow->getDimensions(), player->getPosition(),
+			player->getDimensions()))
 		{
 			player->decreaseHealth();
-			healthLossSounds[player->getHealth()]->playEffect(); 
+			healthLossSounds[player->getHealth()]->playEffect();
 			arrow->setDeadStatus(true);
 		}
 	}
