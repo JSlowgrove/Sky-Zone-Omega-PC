@@ -113,3 +113,13 @@ int E_Player::getCoins()
 {
 	return coins;
 }
+
+bool E_Player::entityCollisionTest(C_Vec2 entityPos, C_Vec2 entityDimensions)
+{
+	//Collision check between the player chariot or Pegasus and the entity
+	if (C_Utilities::rectRectIntersect(pos, dimensions, entityPos, entityDimensions))
+	{
+		return true;
+	}
+	return false;
+}

@@ -4,6 +4,7 @@
 #include "E_Animated.h"
 #include "../Core/C_Vec2.h"
 #include "../Core/C_Timer.h"
+#include "../Core/C_Utilities.h"
 
 /**
 @brief Contains the data and functions for the player.
@@ -65,6 +66,14 @@ public:
 	@returns The Player coins.
 	*/
 	int getCoins();
+
+	/**
+	@brief A function to test if the player has collided with an Entity.
+	@param entityPos The position of the Entity.
+	@param entityDimensions The dimensions of the Entity.
+	@return True if there is a collision.
+	*/
+	bool entityCollisionTest(C_Vec2 entityPos, C_Vec2 entityDimensions);
 
 private:
 	///The user commands for the Player.
