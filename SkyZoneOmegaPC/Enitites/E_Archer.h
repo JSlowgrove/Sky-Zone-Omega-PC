@@ -67,6 +67,18 @@ public:
 	*/
 	bool getCoinSpawn();
 
+	/**
+	@brief Sets the value of the fireArrow boolean.
+	@param coinSpawn The new value of fireArrow.
+	*/
+	void setFireArrow(bool fireArrow);
+
+	/**
+	@brief Gets the value of the fireArrow boolean.
+	@returns The value of fireArrow.
+	*/
+	bool getFireArrow();
+
 private:
 	///A boolean for if the Archer is dead and to be deleted.
 	bool dead;
@@ -74,4 +86,12 @@ private:
 	bool coinSpawn;
 	///A boolean for if the Archer should spawn particles upon death.
 	bool deathParticles;
+	///A boolean for if the Archer should fire an arrow.
+	bool fireArrow;
+
+	/**
+	@brief Animates the sprite of the Archer.
+	@param dt The delta time.
+	*/
+	void animate(float dt);
 };

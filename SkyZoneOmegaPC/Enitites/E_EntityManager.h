@@ -7,7 +7,8 @@
 #include "E_Coin.h"
 #include "E_StormCloud.h"
 #include "E_Health.h"
-#include "E_Arrow.h"
+#include "E_PlayerArrow.h"
+#include "E_ArcherArrow.h"
 #include "E_Archer.h"
 #include "../Core/C_Audio.h"
 #include "../ParticleSystem/PS_ParticleEffect.h"
@@ -98,12 +99,16 @@ private:
 	///The vector array of Storm Clouds.
 	std::vector<E_StormCloud*> stormClouds;
 
-	///The Arrow texture.
-	C_Texture* arrowSprite;
+	///The Player Arrow texture.
+	C_Texture* playerArrowSprite;
+	///The Archer Arrow texture.
+	C_Texture* archerArrowSprite;
 	///The dimensions of the Arrows.
 	C_Vec2 arrowDimensions;
-	///The vector array of Arrows.
-	std::vector<E_Arrow*> arrows;
+	///The vector array of Player Arrows.
+	std::vector<E_PlayerArrow*> playerArrows;
+	///The vector array of Archer Arrows.
+	std::vector<E_ArcherArrow*> archerArrows;
 
 	///The Archer texture
 	C_Texture* archerSprite;

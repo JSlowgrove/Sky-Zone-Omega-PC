@@ -8,7 +8,8 @@ dimensions(dimensions), player(player), renderer(renderer)
 	stormCloudSprite = new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer);
 	coinSprite = new C_Texture("Assets/Images/coin.png", renderer);
 	healthSprite = new C_Texture("Assets/Images/health300x299.png", renderer);
-	arrowSprite = new C_Texture("Assets/Images/arrow.png", renderer);
+	playerArrowSprite = new C_Texture("Assets/Images/playerArrow.png", renderer);
+	archerArrowSprite = new C_Texture("Assets/Images/archerArrow.png", renderer);
 	archerSprite = new C_Texture("Assets/Images/archer.png", renderer);
 
 	//Initialise the particle effect textures
@@ -75,11 +76,17 @@ E_EntityManager::~E_EntityManager()
 	delete healthSprite;
 
 	//Delete arrows
-	for (auto arrow : arrows)
+	for (auto arrow : playerArrows)
 	{
 		delete arrow;
 	}
-	delete arrowSprite;
+	//Delete arrows
+	for (auto arrow : archerArrows)
+	{
+		delete arrow;
+	}
+	delete playerArrowSprite;
+	delete archerArrowSprite;
 
 	//Delete archers
 	for (auto archer : archers)
@@ -126,9 +133,9 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 				healthDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_SPACE:
-			arrows.push_back(new E_Arrow(arrowSprite,
+			playerArrows.push_back(new E_PlayerArrow(playerArrowSprite,
 				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
-				arrowDimensions));
+				arrowDimensions, dimensions));
 			break;
 		case SDLK_a:
 			archers.push_back(new E_Archer(archerSprite,
@@ -200,6 +207,13 @@ void E_EntityManager::update(float dt)
 	for (auto archer : archers)
 	{
 		archer->update(dt);
+		//If the archer should fire an arrow
+		if (archer->getFireArrow())
+		{
+			//Fire an arrow
+			archerArrows.push_back(new E_ArcherArrow(archerArrowSprite, archer->getPosition(), arrowDimensions));
+			archer->setFireArrow(false);
+		}
 	}
 
 	//Update health
@@ -215,7 +229,11 @@ void E_EntityManager::update(float dt)
 	}
 
 	//Update Arrows
-	for (auto arrow : arrows)
+	for (auto arrow : playerArrows)
+	{
+		arrow->update(dt);
+	}
+	for (auto arrow : archerArrows)
 	{
 		arrow->update(dt);
 	}
@@ -245,7 +263,11 @@ void E_EntityManager::draw()
 	}
 
 	//Draw the arrows
-	for (auto arrow : arrows)
+	for (auto arrow : playerArrows)
+	{
+		arrow->draw(renderer);
+	}
+	for (auto arrow : archerArrows)
 	{
 		arrow->draw(renderer);
 	}
@@ -369,14 +391,24 @@ void E_EntityManager::removeDeadEntites()
 	}
 
 	//Remove dead Arrows
-	for (unsigned int i = 0; i < arrows.size(); i++)
+	for (unsigned int i = 0; i < playerArrows.size(); i++)
 	{
-		if (arrows[i]->getDeadStatus())
+		if (playerArrows[i]->getDeadStatus())
 		{
 			//delete pointer
-			delete arrows[i];
+			delete playerArrows[i];
 			//erase from array
-			arrows.erase(arrows.begin() + i);
+			playerArrows.erase(playerArrows.begin() + i);
+		}
+	}
+	for (unsigned int i = 0; i < archerArrows.size(); i++)
+	{
+		if (archerArrows[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete archerArrows[i];
+			//erase from array
+			archerArrows.erase(archerArrows.begin() + i);
 		}
 	}
 }
@@ -457,7 +489,7 @@ void E_EntityManager::entityCollisionDetection()
 		}
 
 		//Collision between the arrows and StyphBirds
-		for (auto arrow : arrows)
+		for (auto arrow : playerArrows)
 		{
 			if (styphBird->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
 				&& styphBird->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y)
@@ -476,7 +508,7 @@ void E_EntityManager::entityCollisionDetection()
 	for (auto archer : archers)
 	{
 		//Collision between the arrows and StyphBirds
-		for (auto arrow : arrows)
+		for (auto arrow : playerArrows)
 		{
 			if (archer->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
 				&& archer->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y)
@@ -531,6 +563,20 @@ void E_EntityManager::entityCollisionDetection()
 			healthPickup->setDeadStatus(true);
 			player->increaseHealth();
 			healthCollectSound->playEffect();
+		}
+	}
+
+	//Collision between the player and the archer arrows
+	for (auto arrow : archerArrows)
+	{
+		if (arrow->getPosition().x <= (player->getPosition().x + player->getDimensions().x)
+			&& arrow->getPosition().y <= (player->getPosition().y + player->getDimensions().y)
+			&& player->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
+			&& player->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y))
+		{
+			player->decreaseHealth();
+			healthLossSounds[player->getHealth()]->playEffect(); 
+			arrow->setDeadStatus(true);
 		}
 	}
 }
