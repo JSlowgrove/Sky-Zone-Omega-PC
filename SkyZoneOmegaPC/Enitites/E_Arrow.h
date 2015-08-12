@@ -37,7 +37,21 @@ public:
 	*/
 	bool getDeadStatus();
 
+	/**
+	@brief Sets the value of deathParticles.
+	@param deathParticles The new value of deathParticles.
+	*/
+	void setDeathParticles(bool deathParticles);
+
+	/**
+	@brief Returns the value of deathParticles.
+	@returns The value of deathParticles.
+	*/
+	bool getDeathParticles();
+
 protected:
 	///A boolean for if the Arrow is dead and to be deleted.
 	bool dead;
+	///A boolean for if the Arrow should spawn particles upon death.
+	bool deathParticles;
 };

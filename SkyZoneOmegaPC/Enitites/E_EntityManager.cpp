@@ -15,7 +15,9 @@ dimensions(dimensions), player(player), renderer(renderer)
 	//Initialise the particle effect textures
 	deathEffectTextures["styphBird"] = new C_Texture(renderer, 255, 193, 3);
 	deathEffectTextures["stormCloud"] = new C_Texture(renderer, 0, 0, 0);
-	deathEffectTextures["archer"] = new C_Texture(renderer, 255, 0, 0);
+	deathEffectTextures["archer"] = new C_Texture(renderer, 133, 0, 0);
+	deathEffectTextures["archerArrow"] = new C_Texture(renderer, 255, 0, 0);
+	deathEffectTextures["playerArrow"] = new C_Texture(renderer, 0, 0, 255);
 
 	//Initialise the entity dimensions
 	styphBirdDimensions = dimensions * 0.06f;
@@ -352,7 +354,7 @@ void E_EntityManager::removeDeadEntites()
 	{
 		if (archers[i]->getDeadStatus())
 		{
-			//Check if the bird will have death particles
+			//Check if the cloud will have death particles
 			if (archers[i]->getDeathParticles())
 			{
 				//Handle the death particle effects.
@@ -395,6 +397,13 @@ void E_EntityManager::removeDeadEntites()
 	{
 		if (playerArrows[i]->getDeadStatus())
 		{
+			//Check if the arrow will have death particles
+			if (playerArrows[i]->getDeathParticles())
+			{
+				//Handle the death particle effects.
+				createDeathEffects(playerArrows[i]->getPosition(), playerArrows[i]->getVelocities(),
+					playerArrows[i]->getDimensions(), false, 5, "playerArrow");
+			}
 			//delete pointer
 			delete playerArrows[i];
 			//erase from array
@@ -405,6 +414,13 @@ void E_EntityManager::removeDeadEntites()
 	{
 		if (archerArrows[i]->getDeadStatus())
 		{
+			//Check if the arrow will have death particles
+			if (archerArrows[i]->getDeathParticles())
+			{
+				//Handle the death particle effects.
+				createDeathEffects(archerArrows[i]->getPosition(), archerArrows[i]->getVelocities(),
+					archerArrows[i]->getDimensions(), false, 5, "archerArrow");
+			}
 			//delete pointer
 			delete archerArrows[i];
 			//erase from array
@@ -496,6 +512,7 @@ void E_EntityManager::entityCollisionDetection()
 				styphBird->setDeadStatus(true);
 				styphBird->setCoinSpawn(true);
 				arrow->setDeadStatus(true);
+				arrow->setDeathParticles(true);
 			}
 		}
 	}
@@ -511,19 +528,13 @@ void E_EntityManager::entityCollisionDetection()
 			{
 				archer->decreaseHealth(arrow->getDamage());
 				arrow->setDeadStatus(true);
+				arrow->setDeathParticles(true);
 
 				//If the arrow killed the archer
 				if (archer->getDeadStatus())
 				{
 					archer->setDeathParticles(true);
 					archer->setCoinSpawn(true);
-				}
-				else
-				{
-					//push back a damage effect for the entity.
-					deathEffects.push_back(new PS_ParticleEffect(deathEffectTextures["archer"],
-						arrow->getPosition() + (C_Vec2(arrow->getDimensions().x, 0.0f)),
-						true, 50.0f, 10.0f, 0.1f));
 				}
 			}
 		}
@@ -575,6 +586,7 @@ void E_EntityManager::entityCollisionDetection()
 			player->decreaseHealth();
 			healthLossSounds[player->getHealth()]->playEffect();
 			arrow->setDeadStatus(true);
+			arrow->setDeathParticles(true);
 		}
 	}
 }

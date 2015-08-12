@@ -45,12 +45,25 @@ int main(int argc, char *argv[])
 	//Time Check
 	unsigned int lastTime = SDL_GetTicks();
 
+#if !defined(_DEBUG)
+
 	//Create Window
 	C_Vec2 windowPos = C_Vec2(100, 100);
 	SDL_Window *window = SDL_CreateWindow(title.c_str(),
 		(int)windowPos.x, (int)windowPos.y,
 		(int)windowRes.x, (int)windowRes.y,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
+
+#else
+
+	//Create Window
+	C_Vec2 windowPos = C_Vec2(100, 100);
+	SDL_Window *window = SDL_CreateWindow(title.c_str(),
+		(int)windowPos.x, (int)windowPos.y,
+		1080, 640,
+		SDL_WINDOW_SHOWN);
+
+#endif	
 
 	//Create Renderer from the window
 	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
