@@ -22,11 +22,11 @@ dimensions(dimensions), player(player), renderer(renderer)
 	arrowDimensions = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
 
 	//Initialise sounds
-	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg", false);
-	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg", false);
-	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg", false);
-	coinCollectSound = new C_Audio("Assets/Audio/powerUp2.ogg", false);
-	healthCollectSound = new C_Audio("Assets/Audio/healthUp.ogg", false);
+	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
+	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg");
+	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg");
+	coinCollectSound = new C_Audio("Assets/Audio/powerUp2.ogg");
+	healthCollectSound = new C_Audio("Assets/Audio/healthUp.ogg");
 }
 
 E_EntityManager::~E_EntityManager()

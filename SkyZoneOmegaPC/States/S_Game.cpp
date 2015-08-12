@@ -7,7 +7,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	playerSprite(new C_Texture("Assets/Images/player699x436.png", renderer)), 
 	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
 	healthScroll(new C_Texture("Assets/Images/healthScroll.png", renderer)),
-	backgroundMusic(new C_Audio("Assets/Audio/Firebrand.ogg", true)),
+	backgroundMusic(new C_Music("Assets/Audio/Firebrand.ogg")),
 	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf",(int)(dimensions.y * 0.06f), renderer, 255, 255, 255))
 {
 	//Initialise random seed
@@ -23,7 +23,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 S_Game::~S_Game()
 {	
 	//Stop music
-	backgroundMusic->stopAudio();
+	backgroundMusic->stopMusic();
 	//Delete audio pointers
 	delete backgroundMusic;
 	//Delete pointers
@@ -57,8 +57,14 @@ bool S_Game::input()
 				break;
 
 				//TMP
-			case SDLK_m:
+			case SDLK_i:
 				player->increaseCoins();
+				break;
+			case SDLK_m:
+				backgroundMusic->muteMusic();
+				break;
+			case SDLK_u:
+				backgroundMusic->unmuteMusic();
 				break;
 			}
 			break;
@@ -100,7 +106,7 @@ bool S_Game::input()
 void S_Game::update(float dt)
 {
 	//Keep the music playing
-	backgroundMusic->startAudio();
+	backgroundMusic->startMusic();
 
 	//Update background
 	background->update(dt);

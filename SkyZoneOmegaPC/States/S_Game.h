@@ -8,6 +8,7 @@
 #include "S_StateManager.h"
 #include "../Core/C_Texture.h"
 #include "../Core/C_Audio.h"
+#include "../Core/C_Music.h"
 #include "../Core/C_Text.h"
 #include "../BackgroundSystem/B_BackgroundManager.h"
 #include "../Enitites/E_Player.h"
@@ -54,7 +55,7 @@ private:
 	///The mouse position.
 	C_Vec2 mousePos;
 	///The background music.
-	C_Audio* backgroundMusic;
+	C_Music* backgroundMusic;
 	///The Background.
 	B_BackgroundManager* background;
 	///The Player.
