@@ -79,6 +79,12 @@ public:
 	*/
 	bool getFireArrow();
 
+	/**
+	@brief Decreases the health of the Archer.
+	@brief damage The amount the health should decrease by.
+	*/
+	void decreaseHealth(int damage);
+
 private:
 	///A boolean for if the Archer is dead and to be deleted.
 	bool dead;
@@ -88,6 +94,8 @@ private:
 	bool deathParticles;
 	///A boolean for if the Archer should fire an arrow.
 	bool fireArrow;
+	///The health of the Archer.
+	int health;
 
 	/**
 	@brief Animates the sprite of the Archer.

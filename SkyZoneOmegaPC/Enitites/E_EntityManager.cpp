@@ -515,10 +515,15 @@ void E_EntityManager::entityCollisionDetection()
 				&& arrow->getPosition().x <= (archer->getPosition().x + archer->getDimensions().x)
 				&& arrow->getPosition().y <= (archer->getPosition().y + archer->getDimensions().y))
 			{
-				archer->setDeathParticles(true);
-				archer->setDeadStatus(true);
-				archer->setCoinSpawn(true);
+				archer->decreaseHealth(arrow->getDamage());
 				arrow->setDeadStatus(true);
+
+				//If the arrow killed the archer
+				if (archer->getDeadStatus())
+				{
+					archer->setDeathParticles(true);
+					archer->setCoinSpawn(true);
+				}
 			}
 		}
 	}

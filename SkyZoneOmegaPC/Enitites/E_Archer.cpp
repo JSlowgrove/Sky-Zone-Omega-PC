@@ -1,8 +1,8 @@
 #include "E_Archer.h"
 
 E_Archer::E_Archer(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: E_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-350.0f, 0.0f), 5, C_Vec2(1, 1), 0.075f), 
-	dead(false), coinSpawn(false), deathParticles(false), fireArrow(false)
+	: E_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-350.0f, 0.0f), 6, C_Vec2(218, 320), 0.075f), 
+	dead(false), coinSpawn(false), deathParticles(false), fireArrow(false), health(3)
 {
 }
 
@@ -64,6 +64,17 @@ void E_Archer::setFireArrow(bool fireArrow)
 bool E_Archer::getFireArrow()
 {
 	return fireArrow;
+}
+
+void E_Archer::decreaseHealth(int damage)
+{
+	health -= damage;
+
+	//if the archer has no health left set as dead
+	if (health <= 0)
+	{
+		setDeadStatus(true);
+	}
 }
 
 void E_Archer::animate(float dt)
