@@ -23,7 +23,7 @@ void E_StormCloud::update(float dt)
 	//check if the cloud has gone off the screen
 	if (pos.x < -dimensions.x)
 	{
-		//set the bird to dead
+		//set the cloud to dead
 		dead = true;
 	}
 }

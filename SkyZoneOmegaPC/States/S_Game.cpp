@@ -18,6 +18,9 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 
 	//Initialise entity manager
 	entityManager = new E_EntityManager(dimensions, player, renderer);
+
+	//TMP
+	backgroundMusic->muteMusic();
 }
 
 S_Game::~S_Game()

@@ -8,6 +8,7 @@
 #include "E_StormCloud.h"
 #include "E_Health.h"
 #include "E_Arrow.h"
+#include "E_Archer.h"
 #include "../Core/C_Audio.h"
 #include "../ParticleSystem/PS_ParticleEffect.h"
 
@@ -103,6 +104,13 @@ private:
 	C_Vec2 arrowDimensions;
 	///The vector array of Arrows.
 	std::vector<E_Arrow*> arrows;
+
+	///The Archer texture
+	C_Texture* archerSprite;
+	///The dimensions of the Archer.
+	C_Vec2 archerDimensions;
+	///The vector array of Archers.
+	std::vector<E_Archer*> archers;
 
 	///An unordered map of textures for use with the death particle effects.
 	std::unordered_map<std::string, C_Texture*> deathEffectTextures;

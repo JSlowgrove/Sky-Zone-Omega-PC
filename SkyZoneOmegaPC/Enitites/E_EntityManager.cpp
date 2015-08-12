@@ -9,10 +9,12 @@ dimensions(dimensions), player(player), renderer(renderer)
 	coinSprite = new C_Texture("Assets/Images/coin.png", renderer);
 	healthSprite = new C_Texture("Assets/Images/health300x299.png", renderer);
 	arrowSprite = new C_Texture("Assets/Images/arrow.png", renderer);
+	archerSprite = new C_Texture("Assets/Images/archer.png", renderer);
 
 	//Initialise the particle effect textures
 	deathEffectTextures["styphBird"] = new C_Texture(renderer, 255, 193, 3);
 	deathEffectTextures["stormCloud"] = new C_Texture(renderer, 0, 0, 0);
+	deathEffectTextures["archer"] = new C_Texture(renderer, 255, 0, 0);
 
 	//Initialise the entity dimensions
 	styphBirdDimensions = dimensions * 0.06f;
@@ -20,6 +22,7 @@ dimensions(dimensions), player(player), renderer(renderer)
 	coinDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	healthDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	arrowDimensions = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
+	archerDimensions = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);
 
 	//Initialise sounds
 	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
@@ -78,6 +81,13 @@ E_EntityManager::~E_EntityManager()
 	}
 	delete arrowSprite;
 
+	//Delete archers
+	for (auto archer : archers)
+	{
+		delete archer;
+	}
+	delete archerSprite;
+
 	//Delete audio
 	for (auto healthLossSound : healthLossSounds)
 	{
@@ -95,30 +105,35 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 	case SDL_KEYDOWN:
 		switch (incomingEvent.key.keysym.sym)
 		{
-		case SDLK_SPACE:
+		case SDLK_z:
 			styphBirds.push_back(new E_StyphBird(styphBirdSprite,
-				C_Vec2(dimensions.x + (dimensions.x * 0.06f), player->getPosition().y),
+				C_Vec2(dimensions.x + styphBirdDimensions.x, player->getPosition().y),
 				styphBirdDimensions));
 			break;
 		case SDLK_s:
 			stormClouds.push_back(new E_StormCloud(stormCloudSprite,
-				C_Vec2(dimensions.x + (dimensions.x * 0.15f), player->getPosition().y),
+				C_Vec2(dimensions.x + stormCloudsDimensions.x, player->getPosition().y),
 				stormCloudsDimensions));
 			break;
 		case SDLK_c:
 			coins.push_back(new E_Coin(coinSprite,
-				C_Vec2(dimensions.x + (dimensions.y * 0.05f), player->getPosition().y),
+				C_Vec2(dimensions.x + coinDimensions.x, player->getPosition().y),
 				coinDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_h:
 			health.push_back(new E_Health(healthSprite,
-				C_Vec2(dimensions.x + (dimensions.y * 0.05f), player->getPosition().y),
+				C_Vec2(dimensions.x + arrowDimensions.x, player->getPosition().y),
 				healthDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
-		case SDLK_a:
+		case SDLK_SPACE:
 			arrows.push_back(new E_Arrow(arrowSprite,
 				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
 				arrowDimensions));
+			break;
+		case SDLK_a:
+			archers.push_back(new E_Archer(archerSprite,
+				C_Vec2(dimensions.x + archerDimensions.x, player->getPosition().y),
+				archerDimensions));
 			break;
 		case SDLK_k:
 			for (auto styphBird : styphBirds)
@@ -126,6 +141,12 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 				styphBird->setDeathParticles(true);
 				styphBird->setCoinSpawn(true);
 				styphBird->setDeadStatus(true);
+			}
+			for (auto archer : archers)
+			{
+				archer->setDeathParticles(true);
+				archer->setCoinSpawn(true);
+				archer->setDeadStatus(true);
 			}
 			for (auto stormCloud : stormClouds)
 			{
@@ -138,6 +159,11 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 			{
 				styphBird->setDeathParticles(true);
 				styphBird->setDeadStatus(true);
+			}
+			for (auto archer : archers)
+			{
+				archer->setDeathParticles(true);
+				archer->setDeadStatus(true);
 			}
 			for (auto stormCloud : stormClouds)
 			{
@@ -168,6 +194,12 @@ void E_EntityManager::update(float dt)
 	for (auto stormCloud : stormClouds)
 	{
 		stormCloud->update(dt);
+	}
+
+	//Update Archers
+	for (auto archer : archers)
+	{
+		archer->update(dt);
 	}
 
 	//Update health
@@ -230,6 +262,12 @@ void E_EntityManager::draw()
 		styphBird->draw(renderer);
 	}
 
+	//Draw the Archers
+	for (auto archer : archers)
+	{
+		archer->draw(renderer);
+	}
+
 	//Draw the particle effects
 	for (auto deathEffect : deathEffects)
 	{
@@ -287,6 +325,25 @@ void E_EntityManager::removeDeadEntites()
 		}
 	}
 
+	//Remove dead Archers
+	for (unsigned int i = 0; i < archers.size(); i++)
+	{
+		if (archers[i]->getDeadStatus())
+		{
+			//Check if the bird will have death particles
+			if (archers[i]->getDeathParticles())
+			{
+				//Handle the death particle effects.
+				createDeathEffects(archers[i]->getPosition(), archers[i]->getVelocities(),
+					archers[i]->getDimensions(), archers[i]->getCoinSpawn(), 10, "archer");
+			}
+			//delete pointer
+			delete archers[i];
+			//erase from array
+			archers.erase(archers.begin() + i);
+		}
+	}
+
 	//Remove dead Coins
 	for (unsigned int i = 0; i < coins.size(); i++)
 	{
@@ -330,7 +387,7 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 	if (coinSpawn)
 	{
 		//push back a coin effect for the entity.
-		deathEffects.push_back(new PS_ParticleEffect(coinSprite, entityPos, true, 50.0f, 25.0f, 0.1f));
+		deathEffects.push_back(new PS_ParticleEffect(coinSprite, entityPos + (entityDimensions * 0.5f), true, 50.0f, 25.0f, 0.1f));
 
 		//create a random number of coins to spawn
 		int numOfCoins = (rand() % maxCoins) + 1;
@@ -338,7 +395,7 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 		for (int i = 0; i <= numOfCoins; i++)
 		{
 			//generate a new random position for the coin
-			C_Vec2 coinPos = entityPos + coinDimensions * 0.5f;
+			C_Vec2 coinPos = entityPos + (entityDimensions * 0.5f) - (coinDimensions * 0.5f);
 			coinPos += C_Vec2((rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y, 
 				(rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y);
 
@@ -410,6 +467,25 @@ void E_EntityManager::entityCollisionDetection()
 				styphBird->setDeathParticles(true);
 				styphBird->setDeadStatus(true);
 				styphBird->setCoinSpawn(true);
+				arrow->setDeadStatus(true);
+			}
+		}
+	}
+
+	//Collision between the arrows and archers
+	for (auto archer : archers)
+	{
+		//Collision between the arrows and StyphBirds
+		for (auto arrow : arrows)
+		{
+			if (archer->getPosition().x <= (arrow->getPosition().x + arrow->getDimensions().x)
+				&& archer->getPosition().y <= (arrow->getPosition().y + arrow->getDimensions().y)
+				&& arrow->getPosition().x <= (archer->getPosition().x + archer->getDimensions().x)
+				&& arrow->getPosition().y <= (archer->getPosition().y + archer->getDimensions().y))
+			{
+				archer->setDeathParticles(true);
+				archer->setDeadStatus(true);
+				archer->setCoinSpawn(true);
 				arrow->setDeadStatus(true);
 			}
 		}

@@ -58,7 +58,7 @@ public:
 private:
 	///A boolean for if the StormCloud is dead and to be deleted.
 	bool dead;
-	///A boolean for if the StyphBird should spawn particles upon death.
+	///A boolean for if the StormCloud should spawn particles upon death.
 	bool deathParticles;
 	
 	/**
