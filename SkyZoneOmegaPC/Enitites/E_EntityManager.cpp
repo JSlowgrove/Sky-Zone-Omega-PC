@@ -524,6 +524,13 @@ void E_EntityManager::entityCollisionDetection()
 					archer->setDeathParticles(true);
 					archer->setCoinSpawn(true);
 				}
+				else
+				{
+					//push back a damage effect for the entity.
+					deathEffects.push_back(new PS_ParticleEffect(deathEffectTextures["archer"],
+						arrow->getPosition() + (C_Vec2(arrow->getDimensions().x, 0.0f)),
+						true, 50.0f, 10.0f, 0.1f));
+				}
 			}
 		}
 	}
