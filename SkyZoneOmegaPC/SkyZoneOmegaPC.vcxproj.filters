@@ -138,6 +138,9 @@
     <ClCompile Include="Enitites\E_PlayerArcher.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Enitites\E_FirePowerUp.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -231,6 +234,9 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Enitites\E_PlayerArcher.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\E_FirePowerUp.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

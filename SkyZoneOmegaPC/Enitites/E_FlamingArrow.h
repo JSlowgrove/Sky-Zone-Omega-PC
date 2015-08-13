@@ -53,8 +53,6 @@ private:
 	C_Vec2 screenDimensions;
 	///The amount of damage the arrow does.
 	int damage;
-	///The particle effect sprite.
-	C_Texture* fireSprite;
 	///The fire particle effect.
 	PS_ParticleEffect* fireEffect;
 };

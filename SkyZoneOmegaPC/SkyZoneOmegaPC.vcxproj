@@ -96,6 +96,7 @@
     <ClCompile Include="Enitites\E_Coin.cpp" />
     <ClCompile Include="Enitites\E_EntityManager.cpp" />
     <ClCompile Include="Enitites\E_Entity.cpp" />
+    <ClCompile Include="Enitites\E_FirePowerUp.cpp" />
     <ClCompile Include="Enitites\E_FlamingArrow.cpp" />
     <ClCompile Include="Enitites\E_Health.cpp" />
     <ClCompile Include="Enitites\E_Pickup.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Enitites\E_Coin.h" />
     <ClInclude Include="Enitites\E_EntityManager.h" />
     <ClInclude Include="Enitites\E_Entity.h" />
+    <ClInclude Include="Enitites\E_FirePowerUp.h" />
     <ClInclude Include="Enitites\E_FlamingArrow.h" />
     <ClInclude Include="Enitites\E_Health.h" />
     <ClInclude Include="Enitites\E_Pickup.h" />

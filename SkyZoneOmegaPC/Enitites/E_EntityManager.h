@@ -7,6 +7,7 @@
 #include "E_Coin.h"
 #include "E_StormCloud.h"
 #include "E_Health.h"
+#include "E_FirePowerUp.h"
 #include "E_PlayerArrow.h"
 #include "E_FlamingArrow.h"
 #include "E_ArcherArrow.h"
@@ -92,6 +93,13 @@ private:
 	C_Vec2 healthDimensions;
 	///The vector array of Health.
 	std::vector<E_Health*> health;
+
+	///The FirePowerUp texture.
+	C_Texture* firePowerUpSprite;
+	///The dimensions of the FirePowerUp.
+	C_Vec2 firePowerUpDimensions;
+	///The vector array of FirePowerUp.
+	std::vector<E_FirePowerUp*> firePowerUps;
 
 	///The Storm Cloud texture
 	C_Texture* stormCloudSprite;

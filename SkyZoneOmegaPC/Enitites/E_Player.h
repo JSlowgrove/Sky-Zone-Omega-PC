@@ -6,6 +6,7 @@
 #include "../Core/C_Vec2.h"
 #include "../Core/C_Timer.h"
 #include "../Core/C_Utilities.h"
+#include "../ParticleSystem/PS_ParticleEffect.h"
 
 /**
 @brief Contains the data and functions for the player.
@@ -110,6 +111,26 @@ public:
 	*/
 	bool getFiring();
 
+	/**
+	@brief Sets the value of the flamingPowerUp boolean.
+	@param flamingPowerUp The new value of flamingPowerUp.
+	*/
+	void setFlaming(bool flamingPowerUp);
+
+	/**
+	@brief Gets the value of the archer firing boolean.
+	@returns The value of flamingPowerUp.
+	*/
+	bool getFlaming();
+
+	/**
+	@brief Stores the variables for the fire effects.
+	@param fireSprite A pointer to the particles Texture.
+	@param minTint The minimum tint for the fire particles.
+	@param maxTint The maximum tint for the fire particles.
+	*/
+	void initialiseFire(C_Texture* fireSprite, SDL_Colour minTint, SDL_Colour maxTint);
+
 private:
 	///The user commands for the Player.
 	bool pressed;
@@ -130,4 +151,12 @@ private:
 	E_PlayerArcher* archer;
 	///An offset for the position of the player archer from the position the player.
 	C_Vec2 archerOffset;
+	///A boolean for if the player has the flaming power up active.
+	bool flamingPowerUp;
+	///The flamingPowerUp timer.
+	C_Timer flamingPowerUpTimer;
+	///The fire particle effect.
+	PS_ParticleEffect* fireEffect;
+	///An offset for the position of the fire effect from the position the player.
+	C_Vec2 fireEffectOffset;
 };

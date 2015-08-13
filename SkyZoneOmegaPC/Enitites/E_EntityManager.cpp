@@ -8,6 +8,8 @@ dimensions(dimensions), player(player), renderer(renderer)
 	stormCloudSprite = new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer);
 	coinSprite = new C_Texture("Assets/Images/coin.png", renderer);
 	healthSprite = new C_Texture("Assets/Images/health300x299.png", renderer);
+	firePowerUpSprite = new C_Texture("Assets/Images/coin.png", renderer); //tmp
+	firePowerUpSprite->setColourTint(255, 0, 0);//tmp
 	playerArrowSprite = new C_Texture("Assets/Images/playerArrow.png", renderer);
 	archerArrowSprite = new C_Texture("Assets/Images/archerArrow.png", renderer);
 	archerSprite = new C_Texture("Assets/Images/archer.png", renderer);
@@ -30,11 +32,13 @@ dimensions(dimensions), player(player), renderer(renderer)
 	minColourTints["fire"] = { (Uint8)255, (Uint8)0, (Uint8)0 };
 	maxColourTints["fire"] = { (Uint8)255, (Uint8)255, (Uint8)0 };
 
+	//Initialise player fire effect
+	player->initialiseFire(fireSprite, minColourTints["fire"], maxColourTints["fire"]);
+
 	//Initialise the entity dimensions
 	styphBirdDimensions = dimensions * 0.06f;
 	stormCloudsDimensions = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
-	coinDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
-	healthDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	coinDimensions = healthDimensions =  firePowerUpDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	arrowDimensions = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
 	archerDimensions = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);
 
@@ -83,6 +87,13 @@ E_EntityManager::~E_EntityManager()
 	}
 	delete healthSprite;
 
+	//Delete fire power ups
+	for (auto firePowerUp : firePowerUps)
+	{
+		delete firePowerUp;
+	}
+	delete firePowerUpSprite;
+
 	//Delete arrows
 	for (auto arrow : playerArrows)
 	{
@@ -124,7 +135,7 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 	case SDL_KEYDOWN:
 		switch (incomingEvent.key.keysym.sym)
 		{
-		case SDLK_z:
+		case SDLK_b:
 			styphBirds.push_back(new E_StyphBird(styphBirdSprite,
 				C_Vec2(dimensions.x + styphBirdDimensions.x, player->getPosition().y),
 				styphBirdDimensions));
@@ -139,15 +150,15 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 				C_Vec2(dimensions.x + coinDimensions.x, player->getPosition().y),
 				coinDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
+		case SDLK_f:
+			firePowerUps.push_back(new E_FirePowerUp(firePowerUpSprite,
+				C_Vec2(dimensions.x + firePowerUpDimensions.x, player->getPosition().y),
+				firePowerUpDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
+			break;
 		case SDLK_h:
 			health.push_back(new E_Health(healthSprite,
 				C_Vec2(dimensions.x + arrowDimensions.x, player->getPosition().y),
 				healthDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
-			break;
-		case SDLK_f:
-			flamingArrows.push_back(new E_FlamingArrow(playerArrowSprite, fireSprite,
-				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
-				arrowDimensions, dimensions, minColourTints["fire"], maxColourTints["fire"]));
 			break;
 		case SDLK_a:
 			archers.push_back(new E_Archer(archerSprite,
@@ -190,18 +201,6 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 				stormCloud->setDeadStatus(true);
 			}
 			break;
-		case SDLK_r:
-			healthSprite->setColourTint(255, 0, 0);
-			break;
-		case SDLK_g:
-			healthSprite->setColourTint(0, 255, 0);
-			break;
-		case SDLK_b:
-			healthSprite->setColourTint(0, 0, 255);
-			break;
-		case SDLK_w:
-			healthSprite->setColourTint(255, 255, 255);
-			break;
 		}
 		break;
 	}
@@ -209,8 +208,17 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 
 void E_EntityManager::update(float dt)
 {
-	//check if the player should fire an arrow
-	if (player->getFireArrow())
+	//check if the player should fire an flaming arrow
+	if (player->getFireArrow() && player->getFlaming())
+	{
+		flamingArrows.push_back(new E_FlamingArrow(playerArrowSprite, fireSprite,
+			C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
+			arrowDimensions, dimensions, minColourTints["fire"], maxColourTints["fire"]));
+		player->setFireArrow(false);
+	}
+
+	//check if the player should fire a normal arrow
+	if (player->getFireArrow() && !player->getFlaming())
 	{
 		playerArrows.push_back(new E_PlayerArrow(playerArrowSprite,
 			C_Vec2(player->getPosition().x + dimensions.x * 0.08f, player->getPosition().y),
@@ -261,6 +269,12 @@ void E_EntityManager::update(float dt)
 		coin->update(dt);
 	}
 
+	//Update fire power ups
+	for (auto firePowerUp : firePowerUps)
+	{
+		firePowerUp->update(dt);
+	}
+
 	//Update Arrows
 	for (auto arrow : playerArrows)
 	{
@@ -297,6 +311,12 @@ void E_EntityManager::draw()
 	for (auto healthPickup : health)
 	{
 		healthPickup->draw(renderer);
+	}
+
+	//Draw the fire power ups
+	for (auto firePowerUp : firePowerUps)
+	{
+		firePowerUp->draw(renderer);
 	}
 
 	//Draw the arrows
@@ -428,6 +448,18 @@ void E_EntityManager::removeDeadEntites()
 			delete health[i];
 			//erase from array
 			health.erase(health.begin() + i);
+		}
+	}
+
+	//Remove dead fire power ups
+	for (unsigned int i = 0; i < firePowerUps.size(); i++)
+	{
+		if (firePowerUps[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete firePowerUps[i];
+			//erase from array
+			firePowerUps.erase(firePowerUps.begin() + i);
 		}
 	}
 
@@ -655,6 +687,16 @@ void E_EntityManager::entityCollisionDetection()
 			healthPickup->setDeadStatus(true);
 			player->increaseHealth();
 			healthCollectSound->playEffect();
+		}
+	}
+
+	//Collision between the player and the fire power ups
+	for (auto firePowerUp : firePowerUps)
+	{
+		if (player->entityCollisionTest(firePowerUp->getPosition(), firePowerUp->getDimensions()))
+		{
+			firePowerUp->setDeadStatus(true);
+			player->setFlaming(true);
 		}
 	}
 

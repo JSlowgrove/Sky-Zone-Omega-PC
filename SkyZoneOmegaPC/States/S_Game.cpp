@@ -5,7 +5,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	mousePos(C_Vec2()), 
 	background(new B_BackgroundManager(renderer, dimensions)),
 	playerSprite(new C_Texture("Assets/Images/player699x436.png", renderer)),
-	playerArcherSprite(new C_Texture("Assets/Images/tmp.png", renderer)),
+	playerArcherSprite(new C_Texture("Assets/Images/tmp.png", renderer)),//tmp
 	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
 	healthScroll(new C_Texture("Assets/Images/healthScroll.png", renderer)),
 	backgroundMusic(new C_Music("Assets/Audio/Firebrand.ogg")),
