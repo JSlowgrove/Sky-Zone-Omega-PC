@@ -144,11 +144,6 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 				C_Vec2(dimensions.x + arrowDimensions.x, player->getPosition().y),
 				healthDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
-		case SDLK_SPACE:
-			playerArrows.push_back(new E_PlayerArrow(playerArrowSprite,
-				C_Vec2(player->getPosition().x + dimensions.x * 0.08f, player->getPosition().y),
-				arrowDimensions, dimensions));
-			break;
 		case SDLK_f:
 			flamingArrows.push_back(new E_FlamingArrow(playerArrowSprite, fireSprite,
 				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
@@ -214,6 +209,15 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 
 void E_EntityManager::update(float dt)
 {
+	//check if the player should fire an arrow
+	if (player->getFireArrow())
+	{
+		playerArrows.push_back(new E_PlayerArrow(playerArrowSprite,
+			C_Vec2(player->getPosition().x + dimensions.x * 0.08f, player->getPosition().y),
+			arrowDimensions, dimensions));
+		player->setFireArrow(false);
+	}
+	
 	//Update particle effects
 	for (auto deathEffect : deathEffects)
 	{

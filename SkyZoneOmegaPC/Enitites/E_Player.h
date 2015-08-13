@@ -98,6 +98,18 @@ public:
 	*/
 	bool getFireArrow();
 
+	/**
+	@brief Sets the value of the archer firing boolean.
+	@param coinSpawn The new value of firing.
+	*/
+	void setFiring(bool firing);
+
+	/**
+	@brief Gets the value of the archer firing boolean.
+	@returns The value of firing.
+	*/
+	bool getFiring();
+
 private:
 	///The user commands for the Player.
 	bool pressed;

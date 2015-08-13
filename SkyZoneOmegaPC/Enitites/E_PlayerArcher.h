@@ -43,9 +43,23 @@ public:
 	*/
 	bool getFireArrow();
 
+	/**
+	@brief Sets the value of the firing boolean.
+	@param coinSpawn The new value of firing.
+	*/
+	void setFiring(bool firing);
+
+	/**
+	@brief Gets the value of the firing boolean.
+	@returns The value of firing.
+	*/
+	bool getFiring();
+
 private:
 	///A boolean for if the Player Archer should fire an arrow.
 	bool fireArrow;
+	///A boolean for if the Player Archer is firing an arrow.
+	bool firing;
 
 	/**
 	@brief Animates the sprite of the Archer.

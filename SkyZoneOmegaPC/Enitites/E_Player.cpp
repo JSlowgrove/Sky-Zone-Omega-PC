@@ -55,6 +55,20 @@ void E_Player::input(SDL_Event& incomingEvent, C_Vec2 mousePos)
 {
 	switch (incomingEvent.type)
 	{
+	case SDL_KEYDOWN: //If a key is pressed
+		switch (incomingEvent.key.keysym.sym)
+		{
+		case SDLK_SPACE:
+			//If the player is not already firing an arrow
+			if (!getFiring())
+			{
+				//Set the player to fire an arrow
+				setFiring(true);
+			}
+			break;
+		}
+		break;
+
 	case SDL_MOUSEBUTTONDOWN: //If a mouse button is pressed
 
 		//Left Mouse Button
@@ -157,4 +171,14 @@ void E_Player::setFireArrow(bool fireArrow)
 bool E_Player::getFireArrow()
 {
 	return archer->getFireArrow();
+}
+
+void E_Player::setFiring(bool firing)
+{
+	archer->setFiring(firing); 
+}
+
+bool E_Player::getFiring()
+{
+	return archer->getFiring();
 }
