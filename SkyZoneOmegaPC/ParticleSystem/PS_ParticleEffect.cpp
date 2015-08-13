@@ -1,7 +1,8 @@
 #include "PS_ParticleEffect.h"
 
 PS_ParticleEffect::PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale)
-	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(0.0f)), dead(false)
+	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(0.0f)), 
+	dead(false), tint(false), minTint({ (Uint8)0, (Uint8)0, (Uint8)0 }), maxTint({ (Uint8)0, (Uint8)0, (Uint8)0 })
 {
 	//Initialize random seed
 	srand((unsigned int)time(NULL));
@@ -11,7 +12,32 @@ PS_ParticleEffect::PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool em
 }
 
 PS_ParticleEffect::PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale, float timerLength)
-	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(timerLength)), dead(false)
+	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(timerLength)), 
+	dead(false), tint(false), minTint({ (Uint8)0, (Uint8)0, (Uint8)0 }), maxTint({ (Uint8)0, (Uint8)0, (Uint8)0 })
+{
+	//Initialize random seed
+	srand((unsigned int)time(NULL));
+
+	//Generate the new particles
+	makeNewParticles();
+}
+
+PS_ParticleEffect::PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale,
+	SDL_Colour minTint, SDL_Colour maxTint)
+	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(0.0f)),
+	dead(false), tint(true), minTint(minTint), maxTint(maxTint)
+{
+	//Initialize random seed
+	srand((unsigned int)time(NULL));
+
+	//Generate the new particles
+	makeNewParticles();
+}
+
+PS_ParticleEffect::PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale, float timerLength,
+	SDL_Colour minTint, SDL_Colour maxTint)
+	: emitter(emitter), moveSpeed(moveSpeed), emit(emit), texture(texture), scale(scale), lifeSpan(new C_Timer(timerLength)),
+	dead(false), tint(true), minTint(minTint), maxTint(maxTint)
 {
 	//Initialize random seed
 	srand((unsigned int)time(NULL));
@@ -130,8 +156,43 @@ void PS_ParticleEffect::makeNewParticles()
 			direction.x = (float)((rand() % 30) + 1) - 15.0f;
 			direction.y = (float)((rand() % 30) + 1) - 15.0f;
 
-			//Push a new particle to the vector
-			particles.push_back(new PS_Particle(texture, scale, direction, moveSpeed, emitter));
+			//If the particle is to be tinted
+			if (tint)
+			{
+				//Get the colour tint of the particle from the max and min tint
+				int r, g, b;
+				r = g = b = 0;
+
+				//if the difference is greater than 0 make a random colour value
+				if (maxTint.r - minTint.r > 0)
+				{
+					r = (rand() % (int)(maxTint.r - minTint.r)) + (int)minTint.r;
+				}
+
+				//if the difference is greater than 0 make a random colour value
+				if (maxTint.g - minTint.g > 0)
+				{
+					g = (rand() % (int)(maxTint.g - minTint.g)) + (int)minTint.g;
+				}
+
+				//if the difference is greater than 0 make a random colour value
+				if (maxTint.b - minTint.b > 0)
+				{
+					b = (rand() % (int)(maxTint.b - minTint.b)) + (int)minTint.b;
+				}
+
+				//Form the new colour
+				SDL_Colour tintColour = { (Uint8)r, (Uint8)g, (Uint8)b};
+
+				//Push a new particle to the vector
+				particles.push_back(new PS_Particle(texture, scale, direction, moveSpeed, emitter, tintColour));
+			}
+			else
+			{
+				//Push a new particle to the vector
+				particles.push_back(new PS_Particle(texture, scale, direction, moveSpeed, emitter));
+			}
+			
 		}
 	}
 }

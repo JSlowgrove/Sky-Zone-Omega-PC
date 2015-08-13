@@ -12,12 +12,20 @@ dimensions(dimensions), player(player), renderer(renderer)
 	archerArrowSprite = new C_Texture("Assets/Images/archerArrow.png", renderer);
 	archerSprite = new C_Texture("Assets/Images/archer.png", renderer);
 
-	//Initialise the particle effect textures
-	deathEffectTextures["styphBird"] = new C_Texture(renderer, 255, 193, 3);
-	deathEffectTextures["stormCloud"] = new C_Texture(renderer, 0, 0, 0);
-	deathEffectTextures["archer"] = new C_Texture(renderer, 133, 0, 0);
-	deathEffectTextures["archerArrow"] = new C_Texture(renderer, 255, 0, 0);
-	deathEffectTextures["playerArrow"] = new C_Texture(renderer, 0, 0, 255);
+	//Initialise the particle effect texture
+	particleEffectTexture = new C_Texture(renderer, 255, 255, 255);
+
+	//Initialise the min and max tint colours for the particle effects
+	minDeathTints["styphBird"] = { (Uint8)155, (Uint8)100, (Uint8)0 };
+	maxDeathTints["styphBird"] = { (Uint8)255, (Uint8)200, (Uint8)20 };
+	minDeathTints["stormCloud"] = { (Uint8)0, (Uint8)0, (Uint8)0 };
+	maxDeathTints["stormCloud"] = { (Uint8)45, (Uint8)45, (Uint8)45 };
+	minDeathTints["archer"] = { (Uint8)0, (Uint8)0, (Uint8)0 };
+	maxDeathTints["archer"] = { (Uint8)155, (Uint8)0, (Uint8)0 };
+	minDeathTints["archerArrow"] = { (Uint8)55, (Uint8)0, (Uint8)0 };
+	maxDeathTints["archerArrow"] = { (Uint8)255, (Uint8)0, (Uint8)0 };
+	minDeathTints["playerArrow"] = { (Uint8)0, (Uint8)0, (Uint8)155 };
+	maxDeathTints["playerArrow"] = { (Uint8)0, (Uint8)155, (Uint8)255 };;
 
 	//Initialise the entity dimensions
 	styphBirdDimensions = dimensions * 0.06f;
@@ -42,12 +50,7 @@ E_EntityManager::~E_EntityManager()
 	{
 		delete deathEffect;
 	}
-
-	//Delete particle effect textures
-	for (auto i = deathEffectTextures.begin(); i != deathEffectTextures.end(); ++i)
-	{
-		delete i->second;
-	}
+	delete particleEffectTexture;
 
 	//Delete StyphBirds
 	for (auto styphBird : styphBirds)
@@ -467,8 +470,8 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 	else
 	{
 		//push back a death effect for the entity.
-		deathEffects.push_back(	new PS_ParticleEffect(deathEffectTextures[entityType], 
-			entityPos + (entityDimensions * 0.5f), true, 50.0f, 15.0f, 0.1f));
+		deathEffects.push_back(new PS_ParticleEffect(particleEffectTexture,
+			entityPos + (entityDimensions * 0.5f), true, 50.0f, 15.0f, 0.1f, minDeathTints[entityType], maxDeathTints[entityType]));
 	}
 }
 

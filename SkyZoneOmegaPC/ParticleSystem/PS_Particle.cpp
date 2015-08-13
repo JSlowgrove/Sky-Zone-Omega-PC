@@ -2,6 +2,12 @@
 
 PS_Particle::PS_Particle(C_Texture* texture, float scaleValue, C_Vec2 direction, float moveSpeed, C_Vec2 pos)
 	: texture(texture), scaleValue(scaleValue), direction(direction), moveSpeed(moveSpeed), pos(pos)
+	, tintColour({ (Uint8)255, (Uint8)255, (Uint8)255 }), tint(false)
+{
+}
+
+PS_Particle::PS_Particle(C_Texture* texture, float scaleValue, C_Vec2 direction, float moveSpeed, C_Vec2 pos, SDL_Colour tintColour)
+	: texture(texture), scaleValue(scaleValue), direction(direction), moveSpeed(moveSpeed), pos(pos), tintColour(tintColour), tint(true)
 {
 }
 
@@ -17,6 +23,13 @@ void PS_Particle::update(float dt)
 
 void PS_Particle::draw(SDL_Renderer* renderer)
 {
+	//If the texture should be tinted
+	if (tint)
+	{
+		//Tint the texture
+		texture->setColourTint(tintColour);
+	}	
+
 	//Draw the texture to the screen
 	texture->pushToScreen(renderer, pos, C_Vec2(scaleValue, scaleValue));
 }

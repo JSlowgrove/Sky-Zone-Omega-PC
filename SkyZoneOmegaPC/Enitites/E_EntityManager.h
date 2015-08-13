@@ -117,8 +117,12 @@ private:
 	///The vector array of Archers.
 	std::vector<E_Archer*> archers;
 
-	///An unordered map of textures for use with the death particle effects.
-	std::unordered_map<std::string, C_Texture*> deathEffectTextures;
+	///A white square texture for use with the particle effects.
+	C_Texture* particleEffectTexture;
+	///An unordered map of min tint colours for use with the particle effects.
+	std::unordered_map<std::string, SDL_Colour> minDeathTints;
+	///An unordered map of max tint colours for use with the particle effects.
+	std::unordered_map<std::string, SDL_Colour> maxDeathTints;
 	///The vector array of particle effects for use with entity death.
 	std::vector<PS_ParticleEffect*> deathEffects;
 

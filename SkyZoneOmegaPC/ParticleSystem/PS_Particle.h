@@ -22,6 +22,18 @@ public:
 	PS_Particle(C_Texture* texture, float scaleValue, C_Vec2 direction, float moveSpeed, C_Vec2 pos);
 
 	/**
+	@brief Constructs the Particle Object.
+	@param square A pointer to the Texture.
+	@param scaleValue The scale of the Particle.
+	@param direction The direction of the Particle.
+	@param moveSpeed The move speed of the Particle.
+	@param pos The position of the Particle.
+	@param tintColour The tint colour of the Particle.
+	*/
+	PS_Particle(C_Texture* texture, float scaleValue, C_Vec2 direction, float moveSpeed, 
+		C_Vec2 pos, SDL_Colour tintColour);
+
+	/**
 	@brief Destructs the Particle Object deleting the Particle Object from memory.
 	*/
 	~PS_Particle();
@@ -103,4 +115,8 @@ private:
 	float scaleValue;
 	///The movement speed of the Particle.
 	float moveSpeed;
+	///A boolean for if the Particle should be tinted.
+	bool tint;
+	///The Tint colour of the Particle.
+	SDL_Colour tintColour;
 };

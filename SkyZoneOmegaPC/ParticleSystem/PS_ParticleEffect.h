@@ -41,6 +41,33 @@ public:
 	PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale, float timerLength);
 
 	/**
+	@brief Constructs the ParticleEffect Object.
+	@param texture A pointer to the particle texture.
+	@param emitter The position that the particle effect emits from.
+	@param emit The new value of the emit boolean.
+	@param moveSpeed The speed of the particle effect movement.
+	@param scale The scale of the particles.
+	@param minTint The minimum tint for the particles.
+	@param maxTint The maximum tint for the particles.
+	*/
+	PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale, 
+		SDL_Colour minTint, SDL_Colour maxTint);
+
+	/**
+	@brief Constructs the ParticleEffect Object.
+	@param texture A pointer to the particle texture.
+	@param emitter The position that the particle effect emits from.
+	@param emit The new value of the emit boolean.
+	@param moveSpeed The speed of the particle effect movement.
+	@param scale The scale of the particles.
+	@param timerLength The length of the lifespan timer for the particle effect.
+	@param minTint The minimum tint for the particles.
+	@param maxTint The maximum tint for the particles.
+	*/
+	PS_ParticleEffect(C_Texture* texture, C_Vec2 emitter, bool emit, float moveSpeed, float scale, float timerLength,
+		SDL_Colour minTint, SDL_Colour maxTint);
+
+	/**
 	@brief Destructs the ParticleEffect Object deleting the Particle Object from memory.
 	*/
 	~PS_ParticleEffect();
@@ -116,6 +143,12 @@ private:
 	C_Timer* lifeSpan;
 	///A boolean for if the particle effect should be deleted.
 	bool dead;
+	///A boolean for if the texture will be tinted.
+	bool tint;
+	///The max colour tint.
+	SDL_Colour maxTint;
+	///The min colour tint.
+	SDL_Colour minTint;
 
 	/**
 	@brief Creates the new Particle objects.
