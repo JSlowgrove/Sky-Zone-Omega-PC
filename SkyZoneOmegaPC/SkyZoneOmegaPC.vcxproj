@@ -100,6 +100,7 @@
     <ClCompile Include="Enitites\E_Health.cpp" />
     <ClCompile Include="Enitites\E_Pickup.cpp" />
     <ClCompile Include="Enitites\E_Player.cpp" />
+    <ClCompile Include="Enitites\E_PlayerArcher.cpp" />
     <ClCompile Include="Enitites\E_PlayerArrow.cpp" />
     <ClCompile Include="Enitites\E_StormCloud.cpp" />
     <ClCompile Include="Enitites\E_StyphBird.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Enitites\E_Health.h" />
     <ClInclude Include="Enitites\E_Pickup.h" />
     <ClInclude Include="Enitites\E_Player.h" />
+    <ClInclude Include="Enitites\E_PlayerArcher.h" />
     <ClInclude Include="Enitites\E_PlayerArrow.h" />
     <ClInclude Include="Enitites\E_StormCloud.h" />
     <ClInclude Include="Enitites\E_StyphBird.h" />

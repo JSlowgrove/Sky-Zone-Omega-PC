@@ -146,7 +146,7 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 			break;
 		case SDLK_SPACE:
 			playerArrows.push_back(new E_PlayerArrow(playerArrowSprite,
-				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
+				C_Vec2(player->getPosition().x + dimensions.x * 0.08f, player->getPosition().y),
 				arrowDimensions, dimensions));
 			break;
 		case SDLK_f:
@@ -298,7 +298,7 @@ void E_EntityManager::draw()
 	//Draw the arrows
 	for (auto arrow : playerArrows)
 	{
-		arrow->draw(renderer);
+ 		arrow->draw(renderer);
 	}
 	for (auto arrow : archerArrows)
 	{

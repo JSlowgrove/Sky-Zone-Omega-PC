@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include "E_Animated.h"
+#include "E_PlayerArcher.h"
 #include "../Core/C_Vec2.h"
 #include "../Core/C_Timer.h"
 #include "../Core/C_Utilities.h"
@@ -18,9 +19,13 @@ public:
 	@param sprite A pointer to the objects Texture.
 	@param pos The position of the Player.
 	@param dimensions The dimensions of the Player.
+	@param archerSprite A pointer to the Player Archer Texture.
+	@param archerPos The position of the Player Archer.
+	@param archerDimensions The dimensions of the Player Archer.
 	@param screenDimensions The dimensions of the screen.
 	*/
-	E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions);
+	E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture* archerSprite, C_Vec2 archerPos, 
+		C_Vec2 archerDimensions, C_Vec2 screenDimensions);
 
 	/**
 	@brief Destructs the Player object.
@@ -39,6 +44,12 @@ public:
 	@param mousePos the position of the mouse.
 	*/
 	void input(SDL_Event& incomingEvent, C_Vec2 mousePos);
+	
+	/**
+	@brief A function that draws the Player to the screen.
+	@param renderer A pointer to the SDL renderer.
+	*/
+	void draw(SDL_Renderer* renderer);
 
 	/**
 	@brief A function that increases the Player health by 1.
@@ -75,6 +86,18 @@ public:
 	*/
 	bool entityCollisionTest(C_Vec2 entityPos, C_Vec2 entityDimensions);
 
+	/**
+	@brief Sets the value of the archer fireArrow boolean.
+	@param coinSpawn The new value of fireArrow.
+	*/
+	void setFireArrow(bool fireArrow);
+
+	/**
+	@brief Gets the value of the archer fireArrow boolean.
+	@returns The value of fireArrow.
+	*/
+	bool getFireArrow();
+
 private:
 	///The user commands for the Player.
 	bool pressed;
@@ -91,4 +114,8 @@ private:
 	/**The maximum number of coins that the player can get.
 	This is mainly to make sure that the number does not leave its boundaries on the screen*/
 	int maxCoins;
+	///The Player Archer
+	E_PlayerArcher* archer;
+	///An offset for the position of the player archer from the position the player.
+	C_Vec2 archerOffset;
 };

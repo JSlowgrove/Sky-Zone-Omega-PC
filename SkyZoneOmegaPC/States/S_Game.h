@@ -60,8 +60,9 @@ private:
 	B_BackgroundManager* background;
 	///The Player.
 	E_Player* player;
-	///The Player texture.
+	///The Player textures.
 	C_Texture* playerSprite;
+	C_Texture* playerArcherSprite;
 	///The EntityManager.
 	E_EntityManager* entityManager;
 	///The texture for the scoreScroll.
