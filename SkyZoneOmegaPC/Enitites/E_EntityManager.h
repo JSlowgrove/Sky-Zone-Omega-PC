@@ -8,6 +8,7 @@
 #include "E_StormCloud.h"
 #include "E_Health.h"
 #include "E_PlayerArrow.h"
+#include "E_FlamingArrow.h"
 #include "E_ArcherArrow.h"
 #include "E_Archer.h"
 #include "../Core/C_Audio.h"
@@ -103,10 +104,14 @@ private:
 	C_Texture* playerArrowSprite;
 	///The Archer Arrow texture.
 	C_Texture* archerArrowSprite;
+	///The Fire Effect texture.
+	C_Texture* fireSprite;
 	///The dimensions of the Arrows.
 	C_Vec2 arrowDimensions;
 	///The vector array of Player Arrows.
 	std::vector<E_PlayerArrow*> playerArrows;
+	///The vector array of Flaming Arrows.
+	std::vector<E_FlamingArrow*> flamingArrows;
 	///The vector array of Archer Arrows.
 	std::vector<E_ArcherArrow*> archerArrows;
 
@@ -117,12 +122,12 @@ private:
 	///The vector array of Archers.
 	std::vector<E_Archer*> archers;
 
-	///A white square texture for use with the particle effects.
+	///A texture for use with the particle effects.
 	C_Texture* particleEffectTexture;
 	///An unordered map of min tint colours for use with the particle effects.
-	std::unordered_map<std::string, SDL_Colour> minDeathTints;
+	std::unordered_map<std::string, SDL_Colour> minColourTints;
 	///An unordered map of max tint colours for use with the particle effects.
-	std::unordered_map<std::string, SDL_Colour> maxDeathTints;
+	std::unordered_map<std::string, SDL_Colour> maxColourTints;
 	///The vector array of particle effects for use with entity death.
 	std::vector<PS_ParticleEffect*> deathEffects;
 

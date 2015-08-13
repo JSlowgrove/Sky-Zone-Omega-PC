@@ -166,20 +166,23 @@ void PS_ParticleEffect::makeNewParticles()
 				//if the difference is greater than 0 make a random colour value
 				if (maxTint.r - minTint.r > 0)
 				{
-					r = (rand() % (int)(maxTint.r - minTint.r)) + (int)minTint.r;
+					r = (rand() % (int)(maxTint.r - minTint.r));
 				}
+				r += (int)minTint.r;
 
 				//if the difference is greater than 0 make a random colour value
 				if (maxTint.g - minTint.g > 0)
 				{
-					g = (rand() % (int)(maxTint.g - minTint.g)) + (int)minTint.g;
+					g = (rand() % (int)(maxTint.g - minTint.g));
 				}
+				g += (int)minTint.g;
 
 				//if the difference is greater than 0 make a random colour value
 				if (maxTint.b - minTint.b > 0)
 				{
-					b = (rand() % (int)(maxTint.b - minTint.b)) + (int)minTint.b;
+					b = (rand() % (int)(maxTint.b - minTint.b));
 				}
+				b += (int)minTint.b;
 
 				//Form the new colour
 				SDL_Colour tintColour = { (Uint8)r, (Uint8)g, (Uint8)b};

@@ -132,6 +132,9 @@
     <ClCompile Include="Enitites\E_ArcherArrow.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Enitites\E_FlamingArrow.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -219,6 +222,9 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Enitites\E_ArcherArrow.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\E_FlamingArrow.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

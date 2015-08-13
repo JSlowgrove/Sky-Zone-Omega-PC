@@ -12,20 +12,23 @@ dimensions(dimensions), player(player), renderer(renderer)
 	archerArrowSprite = new C_Texture("Assets/Images/archerArrow.png", renderer);
 	archerSprite = new C_Texture("Assets/Images/archer.png", renderer);
 
-	//Initialise the particle effect texture
-	particleEffectTexture = new C_Texture(renderer, 255, 255, 255);
+	//Initialise the particle effect textures
+	particleEffectTexture = new C_Texture("Assets/Images/particle.png", renderer);
+	fireSprite = new C_Texture("Assets/Images/fireParticle.png", renderer);
 
 	//Initialise the min and max tint colours for the particle effects
-	minDeathTints["styphBird"] = { (Uint8)155, (Uint8)100, (Uint8)0 };
-	maxDeathTints["styphBird"] = { (Uint8)255, (Uint8)200, (Uint8)20 };
-	minDeathTints["stormCloud"] = { (Uint8)0, (Uint8)0, (Uint8)0 };
-	maxDeathTints["stormCloud"] = { (Uint8)45, (Uint8)45, (Uint8)45 };
-	minDeathTints["archer"] = { (Uint8)0, (Uint8)0, (Uint8)0 };
-	maxDeathTints["archer"] = { (Uint8)155, (Uint8)0, (Uint8)0 };
-	minDeathTints["archerArrow"] = { (Uint8)55, (Uint8)0, (Uint8)0 };
-	maxDeathTints["archerArrow"] = { (Uint8)255, (Uint8)0, (Uint8)0 };
-	minDeathTints["playerArrow"] = { (Uint8)0, (Uint8)0, (Uint8)155 };
-	maxDeathTints["playerArrow"] = { (Uint8)0, (Uint8)155, (Uint8)255 };;
+	minColourTints["styphBird"] = { (Uint8)155, (Uint8)100, (Uint8)0 };
+	maxColourTints["styphBird"] = { (Uint8)255, (Uint8)200, (Uint8)20 };
+	minColourTints["stormCloud"] = { (Uint8)0, (Uint8)0, (Uint8)0 };
+	maxColourTints["stormCloud"] = { (Uint8)45, (Uint8)45, (Uint8)45 };
+	minColourTints["archer"] = { (Uint8)0, (Uint8)0, (Uint8)0 };
+	maxColourTints["archer"] = { (Uint8)155, (Uint8)0, (Uint8)0 };
+	minColourTints["archerArrow"] = { (Uint8)55, (Uint8)0, (Uint8)0 };
+	maxColourTints["archerArrow"] = { (Uint8)255, (Uint8)0, (Uint8)0 };
+	minColourTints["playerArrow"] = { (Uint8)0, (Uint8)0, (Uint8)155 };
+	maxColourTints["playerArrow"] = { (Uint8)0, (Uint8)155, (Uint8)255 };
+	minColourTints["fire"] = { (Uint8)255, (Uint8)0, (Uint8)0 };
+	maxColourTints["fire"] = { (Uint8)255, (Uint8)255, (Uint8)0 };
 
 	//Initialise the entity dimensions
 	styphBirdDimensions = dimensions * 0.06f;
@@ -85,13 +88,17 @@ E_EntityManager::~E_EntityManager()
 	{
 		delete arrow;
 	}
-	//Delete arrows
 	for (auto arrow : archerArrows)
+	{
+		delete arrow;
+	}
+	for (auto arrow : flamingArrows)
 	{
 		delete arrow;
 	}
 	delete playerArrowSprite;
 	delete archerArrowSprite;
+	delete fireSprite;
 
 	//Delete archers
 	for (auto archer : archers)
@@ -141,6 +148,11 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 			playerArrows.push_back(new E_PlayerArrow(playerArrowSprite,
 				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
 				arrowDimensions, dimensions));
+			break;
+		case SDLK_f:
+			flamingArrows.push_back(new E_FlamingArrow(playerArrowSprite, fireSprite,
+				C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
+				arrowDimensions, dimensions, minColourTints["fire"], maxColourTints["fire"]));
 			break;
 		case SDLK_a:
 			archers.push_back(new E_Archer(archerSprite,
@@ -254,6 +266,10 @@ void E_EntityManager::update(float dt)
 	{
 		arrow->update(dt);
 	}
+	for (auto arrow : flamingArrows)
+	{
+		arrow->update(dt);
+	}
 
 	//Collision detection for the entities
 	entityCollisionDetection();
@@ -285,6 +301,10 @@ void E_EntityManager::draw()
 		arrow->draw(renderer);
 	}
 	for (auto arrow : archerArrows)
+	{
+		arrow->draw(renderer);
+	}
+	for (auto arrow : flamingArrows)
 	{
 		arrow->draw(renderer);
 	}
@@ -417,7 +437,7 @@ void E_EntityManager::removeDeadEntites()
 			{
 				//Handle the death particle effects.
 				createDeathEffects(playerArrows[i]->getPosition(), playerArrows[i]->getVelocities(),
-					playerArrows[i]->getDimensions(), false, 5, "playerArrow");
+					playerArrows[i]->getDimensions(), false, 0, "playerArrow");
 			}
 			//delete pointer
 			delete playerArrows[i];
@@ -434,12 +454,29 @@ void E_EntityManager::removeDeadEntites()
 			{
 				//Handle the death particle effects.
 				createDeathEffects(archerArrows[i]->getPosition(), archerArrows[i]->getVelocities(),
-					archerArrows[i]->getDimensions(), false, 5, "archerArrow");
+					archerArrows[i]->getDimensions(), false, 0, "archerArrow");
 			}
 			//delete pointer
 			delete archerArrows[i];
 			//erase from array
 			archerArrows.erase(archerArrows.begin() + i);
+		}
+	}
+	for (unsigned int i = 0; i < flamingArrows.size(); i++)
+	{
+		if (flamingArrows[i]->getDeadStatus())
+		{
+			//Check if the arrow will have death particles
+			if (flamingArrows[i]->getDeathParticles())
+			{
+				//Handle the death particle effects.
+				createDeathEffects(flamingArrows[i]->getPosition(), flamingArrows[i]->getVelocities(),
+					flamingArrows[i]->getDimensions(), false, 0, "fire");
+			}
+			//delete pointer
+			delete flamingArrows[i];
+			//erase from array
+			flamingArrows.erase(flamingArrows.begin() + i);
 		}
 	}
 }
@@ -471,7 +508,7 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 	{
 		//push back a death effect for the entity.
 		deathEffects.push_back(new PS_ParticleEffect(particleEffectTexture,
-			entityPos + (entityDimensions * 0.5f), true, 50.0f, 15.0f, 0.1f, minDeathTints[entityType], maxDeathTints[entityType]));
+			entityPos + (entityDimensions * 0.5f), true, 50.0f, 25.0f, 0.1f, minColourTints[entityType], maxColourTints[entityType]));
 	}
 }
 
@@ -529,6 +566,18 @@ void E_EntityManager::entityCollisionDetection()
 				arrow->setDeathParticles(true);
 			}
 		}
+		for (auto arrow : flamingArrows)
+		{
+			if (C_Utilities::rectRectIntersect(styphBird->getPosition(), styphBird->getDimensions(),
+				arrow->getPosition(), arrow->getDimensions()))
+			{
+				styphBird->setDeathParticles(true);
+				styphBird->setDeadStatus(true);
+				styphBird->setCoinSpawn(true);
+				arrow->setDeadStatus(true);
+				arrow->setDeathParticles(true);
+			}
+		}
 	}
 
 	//Collision between the arrows and archers
@@ -536,6 +585,23 @@ void E_EntityManager::entityCollisionDetection()
 	{
 		//Collision between the arrows and archers
 		for (auto arrow : playerArrows)
+		{
+			if (C_Utilities::rectRectIntersect(archer->getPosition(), archer->getDimensions(),
+				arrow->getPosition(), arrow->getDimensions()))
+			{
+				archer->decreaseHealth(arrow->getDamage());
+				arrow->setDeadStatus(true);
+				arrow->setDeathParticles(true);
+
+				//If the arrow killed the archer
+				if (archer->getDeadStatus())
+				{
+					archer->setDeathParticles(true);
+					archer->setCoinSpawn(true);
+				}
+			}
+		}
+		for (auto arrow : flamingArrows)
 		{
 			if (C_Utilities::rectRectIntersect(archer->getPosition(), archer->getDimensions(),
 				arrow->getPosition(), arrow->getDimensions()))
