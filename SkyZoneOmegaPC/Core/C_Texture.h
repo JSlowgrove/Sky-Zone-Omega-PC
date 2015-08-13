@@ -99,6 +99,20 @@ public:
 	*/
 	void pushSpriteToScreen(SDL_Renderer* renderer, C_Vec2 pos, C_Vec2 scale, C_Vec2 spritePos, C_Vec2 spriteDimensions);
 
+	/**
+	@brief Tints the texture with the inputed colour.
+	@param r The red value.
+	@param g The green value.
+	@param b The blue value.
+	*/
+	void setColourTint(int r, int g, int b);
+
+	/**
+	@brief Tints the texture with the inputed colour.
+	@param colour The colour.
+	*/
+	void setColourTint(SDL_Colour colour);
+
 private:
 	///The Texture data
 	SDL_Texture* textureData;

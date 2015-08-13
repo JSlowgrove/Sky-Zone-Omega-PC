@@ -172,3 +172,15 @@ void C_Texture::pushSpriteToScreen(SDL_Renderer* renderer, C_Vec2 pos, C_Vec2 sc
 	//Copy the texture to the renderer at the destination rectangle
 	SDL_RenderCopy(renderer, textureData, &srcRect, &destRect);
 }
+
+void C_Texture::setColourTint(int r, int g, int b)
+{
+	//Tint the texture with the colour
+	SDL_SetTextureColorMod(textureData, (Uint8)r, (Uint8)g, (Uint8)b);
+}
+
+void C_Texture::setColourTint(SDL_Colour colour)
+{
+	//Tint the texture with the colour
+	SDL_SetTextureColorMod(textureData, colour.r, colour.g, colour.b);
+}

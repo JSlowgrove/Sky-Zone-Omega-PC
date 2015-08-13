@@ -180,6 +180,18 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 				stormCloud->setDeadStatus(true);
 			}
 			break;
+		case SDLK_r:
+			healthSprite->setColourTint(255, 0, 0);
+			break;
+		case SDLK_g:
+			healthSprite->setColourTint(0, 255, 0);
+			break;
+		case SDLK_b:
+			healthSprite->setColourTint(0, 0, 255);
+			break;
+		case SDLK_w:
+			healthSprite->setColourTint(255, 255, 255);
+			break;
 		}
 		break;
 	}
