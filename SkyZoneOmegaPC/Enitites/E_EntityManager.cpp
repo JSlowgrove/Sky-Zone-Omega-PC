@@ -20,7 +20,8 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	arrowDimensions(C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f)),
 	archerDimensions(C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f)),
 	coinCollectSound(new C_Audio("Assets/Audio/powerUp2.ogg")),
-	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg"))
+	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg")),
+	spawnTimer(1.0f)
 {	
 	//tmp
 	firePowerUpSprite->setColourTint(255, 0, 0);
@@ -203,6 +204,15 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 
 void E_EntityManager::update(float dt)
 {
+	//Update the spawn timer
+	spawnTimer.upadateTimer(dt);
+	//check if a new wave of entities should be spawned
+	if (spawnTimer.checkTimer())
+	{
+		spawnEntites();
+		spawnTimer.resetTimer();
+	}
+
 	//check if the player should fire an flaming arrow
 	if (player->getFireArrow() && player->getFlaming())
 	{
@@ -706,4 +716,12 @@ void E_EntityManager::entityCollisionDetection()
 			arrow->setDeathParticles(true);
 		}
 	}
+}
+
+void E_EntityManager::spawnEntites()
+{
+	//tmp
+	coins.push_back(new E_Coin(coinSprite,
+		C_Vec2(dimensions.x + coinDimensions.x, player->getPosition().y),
+		coinDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
 }

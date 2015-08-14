@@ -13,6 +13,7 @@
 #include "E_ArcherArrow.h"
 #include "E_Archer.h"
 #include "../Core/C_Audio.h"
+#include "../Core/C_Timer.h"
 #include "../ParticleSystem/PS_ParticleEffect.h"
 
 /**
@@ -152,6 +153,9 @@ private:
 	///The coin collect sound effect.
 	C_Audio* coinCollectSound;
 
+	///A timer for the entity spawner.
+	C_Timer spawnTimer;
+
 	/**
 	@brief A function that deletes all of the entities flagged as dead.
 	*/
@@ -178,4 +182,10 @@ private:
 	@brief A function that handles all of the collision detection between the player and the entities.
 	*/
 	void entityCollisionDetection();
+
+	/**
+	@brief A function to spawn a new wave of Entities.
+	*/
+	void spawnEntites();
+
 };
