@@ -9,7 +9,10 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
 	healthScroll(new C_Texture("Assets/Images/healthScroll.png", renderer)),
 	backgroundMusic(new C_Music("Assets/Audio/Firebrand.ogg")),
-	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf",(int)(dimensions.y * 0.06f), renderer, 255, 255, 255))
+	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf", (int)(dimensions.y * 0.06f), renderer, 255, 255, 255)),
+	minFireTint({ (Uint8)255, (Uint8)0, (Uint8)0 }),
+	maxFireTint({ (Uint8)255, (Uint8)255, (Uint8)0 }),
+	fireSprite(new C_Texture("Assets/Images/fireParticle.png", renderer))
 {
 	//Initialise random seed
 	srand((unsigned int)time(NULL));
@@ -17,10 +20,10 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	//Initialise player
 	player = new E_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.2f, 
 		playerArcherSprite, C_Vec2(dimensions.x * 0.125f, dimensions.y * 0.36f), 
-		C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f), dimensions);
+		C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f), dimensions, fireSprite, minFireTint, maxFireTint);
 
 	//Initialise entity manager
-	entityManager = new E_EntityManager(dimensions, player, renderer);
+	entityManager = new E_EntityManager(dimensions, player, renderer, fireSprite, minFireTint, maxFireTint);
 
 	//TMP
 	backgroundMusic->muteMusic();

@@ -2,10 +2,9 @@
 
 E_FlamingArrow::E_FlamingArrow(C_Texture* sprite, C_Texture* fireSprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions,
 	SDL_Colour minTint, SDL_Colour maxTint)
-	: E_Arrow(sprite, pos, dimensions, C_Vec2(1500.0f, 0.0f)), screenDimensions(screenDimensions), damage(3)
+	: E_Arrow(sprite, pos, dimensions, C_Vec2(1500.0f, 0.0f)), screenDimensions(screenDimensions), damage(3),
+	fireEffect(new PS_ParticleEffect(fireSprite, pos + C_Vec2(dimensions.x, dimensions.y * 0.5f), true, 5.0f, 15.0f, 0.1f, minTint, maxTint))
 {
-	//Initialise the particle effect
-	fireEffect = new PS_ParticleEffect(fireSprite, pos + C_Vec2(dimensions.x, dimensions.y * 0.5f), true, 5.0f, 10.0f, 0.1f, minTint, maxTint);
 }
 
 E_FlamingArrow::~E_FlamingArrow()

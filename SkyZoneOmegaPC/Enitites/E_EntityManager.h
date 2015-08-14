@@ -27,8 +27,12 @@ public:
 	@param dimensions The screen dimensions.
 	@param player A pointer to the player.
 	@param renderer A pointer to the renderer.
+	@param fireSprite A pointer to the particles Texture.
+	@param minTint The minimum tint for the fire particles.
+	@param maxTint The maximum tint for the fire particles.
 	*/
-	E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer);
+	E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer, C_Texture* fireSprite, 
+		SDL_Colour minFireTint, SDL_Colour maxFireTint);
 
 	/**
 	@brief Destructs the Entity Manager.

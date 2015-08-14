@@ -1,22 +1,29 @@
 #include "E_EntityManager.h"
 
-E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer) : 
-dimensions(dimensions), player(player), renderer(renderer)
+E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer, 
+	C_Texture* fireSprite, SDL_Colour minFireTint, SDL_Colour maxFireTint) :
+	dimensions(dimensions), player(player), renderer(renderer), fireSprite(fireSprite),
+	styphBirdSprite(new C_Texture("Assets/Images/stymphalianBird.png", renderer)),
+	stormCloudSprite(new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer)),
+	coinSprite(new C_Texture("Assets/Images/coin.png", renderer)),
+	healthSprite(new C_Texture("Assets/Images/health300x299.png", renderer)),
+	firePowerUpSprite(new C_Texture("Assets/Images/coin.png", renderer)), //tmp
+	playerArrowSprite(new C_Texture("Assets/Images/playerArrow.png", renderer)),
+	archerArrowSprite(new C_Texture("Assets/Images/archerArrow.png", renderer)),
+	archerSprite(new C_Texture("Assets/Images/archer.png", renderer)),
+	particleEffectTexture(new C_Texture("Assets/Images/particle.png", renderer)),
+	styphBirdDimensions(dimensions * 0.06f),
+	stormCloudsDimensions(C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f)),
+	coinDimensions(C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f)), 
+	healthDimensions(C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f)), 
+	firePowerUpDimensions(C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f)),
+	arrowDimensions(C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f)),
+	archerDimensions(C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f)),
+	coinCollectSound(new C_Audio("Assets/Audio/powerUp2.ogg")),
+	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg"))
 {	
-	//Initialise entity textures
-	styphBirdSprite = new C_Texture("Assets/Images/stymphalianBird.png", renderer);
-	stormCloudSprite = new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer);
-	coinSprite = new C_Texture("Assets/Images/coin.png", renderer);
-	healthSprite = new C_Texture("Assets/Images/health300x299.png", renderer);
-	firePowerUpSprite = new C_Texture("Assets/Images/coin.png", renderer); //tmp
-	firePowerUpSprite->setColourTint(255, 0, 0);//tmp
-	playerArrowSprite = new C_Texture("Assets/Images/playerArrow.png", renderer);
-	archerArrowSprite = new C_Texture("Assets/Images/archerArrow.png", renderer);
-	archerSprite = new C_Texture("Assets/Images/archer.png", renderer);
-
-	//Initialise the particle effect textures
-	particleEffectTexture = new C_Texture("Assets/Images/particle.png", renderer);
-	fireSprite = new C_Texture("Assets/Images/fireParticle.png", renderer);
+	//tmp
+	firePowerUpSprite->setColourTint(255, 0, 0);
 
 	//Initialise the min and max tint colours for the particle effects
 	minColourTints["styphBird"] = { (Uint8)155, (Uint8)100, (Uint8)0 };
@@ -29,25 +36,13 @@ dimensions(dimensions), player(player), renderer(renderer)
 	maxColourTints["archerArrow"] = { (Uint8)255, (Uint8)0, (Uint8)0 };
 	minColourTints["playerArrow"] = { (Uint8)0, (Uint8)0, (Uint8)155 };
 	maxColourTints["playerArrow"] = { (Uint8)0, (Uint8)155, (Uint8)255 };
-	minColourTints["fire"] = { (Uint8)255, (Uint8)0, (Uint8)0 };
-	maxColourTints["fire"] = { (Uint8)255, (Uint8)255, (Uint8)0 };
+	minColourTints["fire"] = minFireTint;
+	maxColourTints["fire"] = maxFireTint;
 
-	//Initialise player fire effect
-	player->initialiseFire(fireSprite, minColourTints["fire"], maxColourTints["fire"]);
-
-	//Initialise the entity dimensions
-	styphBirdDimensions = dimensions * 0.06f;
-	stormCloudsDimensions = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
-	coinDimensions = healthDimensions =  firePowerUpDimensions = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
-	arrowDimensions = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
-	archerDimensions = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);
-
-	//Initialise sounds
+	//Initialise array sounds
 	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
 	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg");
 	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg");
-	coinCollectSound = new C_Audio("Assets/Audio/powerUp2.ogg");
-	healthCollectSound = new C_Audio("Assets/Audio/healthUp.ogg");
 }
 
 E_EntityManager::~E_EntityManager()

@@ -24,9 +24,13 @@ public:
 	@param archerPos The position of the Player Archer.
 	@param archerDimensions The dimensions of the Player Archer.
 	@param screenDimensions The dimensions of the screen.
+	@param fireSprite A pointer to the particles Texture.
+	@param minTint The minimum tint for the fire particles.
+	@param maxTint The maximum tint for the fire particles.
 	*/
 	E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture* archerSprite, C_Vec2 archerPos, 
-		C_Vec2 archerDimensions, C_Vec2 screenDimensions);
+		C_Vec2 archerDimensions, C_Vec2 screenDimensions, C_Texture* fireSprite, SDL_Colour minTint, 
+		SDL_Colour maxTint);
 
 	/**
 	@brief Destructs the Player object.
@@ -122,14 +126,6 @@ public:
 	@returns The value of flamingPowerUp.
 	*/
 	bool getFlaming();
-
-	/**
-	@brief Stores the variables for the fire effects.
-	@param fireSprite A pointer to the particles Texture.
-	@param minTint The minimum tint for the fire particles.
-	@param maxTint The maximum tint for the fire particles.
-	*/
-	void initialiseFire(C_Texture* fireSprite, SDL_Colour minTint, SDL_Colour maxTint);
 
 private:
 	///The user commands for the Player.

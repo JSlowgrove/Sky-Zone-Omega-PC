@@ -71,4 +71,10 @@ private:
 	C_Texture* healthScroll;
 	///The number of coins text to be displayed.
 	C_Text* numOfCoins;
+	///The Fire Effect texture.
+	C_Texture* fireSprite;
+	///The min tint colour for use with the fire effect.
+	SDL_Colour minFireTint;
+	///The max tint colour for use with the fire effect.
+	SDL_Colour maxFireTint;
 };

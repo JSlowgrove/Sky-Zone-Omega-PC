@@ -1,13 +1,16 @@
 #include "E_Player.h"
 
 E_Player::E_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture* archerSprite, C_Vec2 archerPos, 
-	C_Vec2 archerDimensions, C_Vec2 screenDimensions)
+	C_Vec2 archerDimensions, C_Vec2 screenDimensions, C_Texture* fireSprite, SDL_Colour minTint, SDL_Colour maxTint)
 	: E_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f), screenDimensions(screenDimensions), 
 	pressed(false), health(3), maxHealth(3), coins(0), maxCoins(999999999),
 	archer(new E_PlayerArcher(archerSprite, archerPos, archerDimensions)), 
 	archerOffset(archerPos - pos), flamingPowerUp(false), flamingPowerUpTimer(30), 
-	fireEffectOffset(C_Vec2(screenDimensions.x * 0.022f, screenDimensions.y * 0.05f))
+	fireEffectOffset(C_Vec2(screenDimensions.x * 0.022f, screenDimensions.y * 0.05f)),
+	fireEffect(new PS_ParticleEffect(fireSprite, pos + fireEffectOffset, true, 5.0f, 15.0f, 0.1f, minTint, maxTint))
 {
+	//set the fire effect to not be emitting
+	fireEffect->setEmitting(false);
 }
 
 E_Player::~E_Player()
@@ -219,12 +222,4 @@ void E_Player::setFlaming(bool flamingPowerUp)
 bool E_Player::getFlaming()
 {
 	return flamingPowerUp;
-}
-
-void E_Player::initialiseFire(C_Texture* fireSprite, SDL_Colour minTint, SDL_Colour maxTint)
-{
-	//Initialise the particle effect
-	fireEffect = new PS_ParticleEffect(fireSprite, pos + fireEffectOffset, true, 5.0f, 10.0f, 0.1f, minTint, maxTint);
-	//set the fire effect to not be emitting
-	fireEffect->setEmitting(false);
 }
