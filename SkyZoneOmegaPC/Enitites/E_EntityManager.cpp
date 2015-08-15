@@ -133,35 +133,8 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 	case SDL_KEYDOWN:
 		switch (incomingEvent.key.keysym.sym)
 		{
-		case SDLK_b:
-			styphBirds.push_back(new E_StyphBird(styphBirdSprite,
-				C_Vec2(dimensions.x + entityDimensions[0].x, player->getPosition().y),
-				entityDimensions[0]));
-			break;
-		case SDLK_s:
-			stormClouds.push_back(new E_StormCloud(stormCloudSprite,
-				C_Vec2(dimensions.x + entityDimensions[1].x, player->getPosition().y),
-				entityDimensions[1]));
-			break;
-		case SDLK_c:
-			coins.push_back(new E_Coin(coinSprite,
-				C_Vec2(dimensions.x + entityDimensions[2].x, player->getPosition().y),
-				entityDimensions[2], dimensions, C_Vec2(-500.0f, 0.0f)));
-			break;
-		case SDLK_f:
-			firePowerUps.push_back(new E_FirePowerUp(firePowerUpSprite,
-				C_Vec2(dimensions.x + entityDimensions[4].x, player->getPosition().y),
-				entityDimensions[4], dimensions, C_Vec2(-500.0f, 0.0f)));
-			break;
 		case SDLK_h:
-			health.push_back(new E_Health(healthSprite,
-				C_Vec2(dimensions.x + entityDimensions[3].x, player->getPosition().y),
-				entityDimensions[3], dimensions, C_Vec2(-500.0f, 0.0f)));
-			break;
-		case SDLK_a:
-			archers.push_back(new E_Archer(archerSprite,
-				C_Vec2(dimensions.x + entityDimensions[5].x, player->getPosition().y),
-				entityDimensions[5]));
+			player->increaseHealth();
 			break;
 		case SDLK_k:
 			for (auto styphBird : styphBirds)
@@ -728,10 +701,10 @@ void E_EntityManager::spawnEntityWave()
 	//Divide the screen height into the number of things to spawn
 	float zoneHeight = dimensions.y / numberToSpawn;
 		
-	for (int i = 0; i < numberToSpawn; i++)
+	for (int i = 0; i <= numberToSpawn; i++)
 	{
 		//Get a number between 0 and 5 for max 6 thing to spawn
-		int entityToSpawn = (rand() % 6);
+		int entityToSpawn = pickEntity();
 
 		//initialise the new spawn position
 		float spawnY = 0.0f;
@@ -740,8 +713,8 @@ void E_EntityManager::spawnEntityWave()
 		float minimumY = i * zoneHeight;
 
 		//work out the maximum spawn y position within its heights zone
-		float maximumY = (i+1) * zoneHeight;
-		maximumY -= (entityDimensions[entityToSpawn].y + 1);
+		float maximumY = ((i+1) * zoneHeight) - 1;
+		maximumY -= entityDimensions[entityToSpawn].y;
 
 		//make a random y spawn within the min and max height
 		spawnY = (float)(rand() % (int)(maximumY - minimumY)) + minimumY;
@@ -750,6 +723,74 @@ void E_EntityManager::spawnEntityWave()
 		spawnEntity(spawnY, entityToSpawn);
 	}
 	
+}
+
+int E_EntityManager::pickEntity()
+{
+	//generate a new number between 1 and 200
+	int spawnNumber = (rand() % 201) + 1;
+
+	//work out the coin and health spawn % depending on lives left
+	switch (player->getHealth())
+	{
+	case 3://3 lives left - 50% coin, 0% health
+		if (spawnNumber <= 100) //50% chance
+		{
+			//entity is a coin
+			return 2;
+		}
+		break;
+
+	case 2://2 lives left - 40% coin, 10% health
+		if (spawnNumber <= 80) //40% chance
+		{
+			//entity is a coin
+			return 2;
+		}
+		else if (spawnNumber >= 81 && spawnNumber <= 100) //10% chance
+		{
+			//entity is a health
+			return 3;
+		}
+		break;
+
+	case 1://1 life left - 30% coin, 20% health
+		if (spawnNumber <= 60) //30% chance
+		{
+			//entity is a coin
+			return 2;
+		}
+		else if (spawnNumber >= 61 && spawnNumber <= 100) //20% chance
+		{
+			//entity is a health
+			return 3;
+		}
+		break;
+	}
+		
+	if (spawnNumber >= 101 && spawnNumber <= 140) // 20% chance
+	{
+		//entity is a cloud
+		return 1;
+	}
+	else if (spawnNumber >= 141 && spawnNumber <= 170) // 15% chance
+	{
+		//entity is a styphBird
+		return 0;
+	}
+	else if (spawnNumber >= 171 && spawnNumber <= 190) // 19% chance
+	{
+		//entity is a archer
+		return 5;
+	}
+	else if (spawnNumber >= 191 && spawnNumber <= 200) // 5% chance
+	{
+		//entity is a firePowerUp
+		return 4;
+	}
+
+	//something has gone wrong
+	return -1;
 }
 
 void E_EntityManager::spawnEntity(float spawnY, int entityToSpawn)
@@ -789,3 +830,16 @@ void E_EntityManager::spawnEntity(float spawnY, int entityToSpawn)
 		break;
 	}
 }
+
+
+////Notes
+//-problem with clouds bounding boxes including the lighting effects which throws off the 
+//positioning, need to redo bounding boxes of clouds so that it does not include them.
+//-player needs to be shrunk to 1/8th of the screen size so that it can fit in a zone.
+//-Player also needs to possibly change where the arrows are fired on as at the moment 
+//things can be spawned out of arrow range at the bottom and possibly at the top.
+//-Possibly change to oval oval collision detection to improve it.
+//-Add two kill power ups, on that spawns coins and one that does not.
+//-possibly make the power ups be stored by the player and the player should activate them.
+//-possibly make the amount of time between waves of entities decrease as the score increases.
+//-OO the HELL out of the entity manager!!!!!

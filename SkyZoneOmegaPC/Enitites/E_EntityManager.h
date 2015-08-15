@@ -180,6 +180,12 @@ private:
 	void spawnEntityWave();
 
 	/**
+	@brief A function to pick a new Entity type.
+	@returns The type of the new Entity to spawn.
+	*/
+	int pickEntity();
+
+	/**
 	@brief A function to spawn a new Entity.
 	@param spawnY The generated y position for the Entity to spawn at.
 	@param entityToSpawn The type of the new Entity to spawn.
