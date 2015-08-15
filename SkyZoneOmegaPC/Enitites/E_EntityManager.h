@@ -78,38 +78,31 @@ private:
 	///A pointer to the Player.
 	E_Player* player;
 
+	///The dimensions of the spawn-able entities.
+	C_Vec2 entityDimensions[6];
+
 	///The StyphBird texture
 	C_Texture* styphBirdSprite;
-	///The dimensions of the StyphBirds.
-	C_Vec2 styphBirdDimensions;
 	///The vector array of StyphBirds
 	std::vector<E_StyphBird*> styphBirds;
 
 	///The Coin texture.
 	C_Texture* coinSprite;
-	///The dimensions of the coins.
-	C_Vec2 coinDimensions;
 	///The vector array of Coins.
 	std::vector<E_Coin*> coins;
 
 	///The Health texture.
 	C_Texture* healthSprite;
-	///The dimensions of the Health.
-	C_Vec2 healthDimensions;
 	///The vector array of Health.
 	std::vector<E_Health*> health;
 
 	///The FirePowerUp texture.
 	C_Texture* firePowerUpSprite;
-	///The dimensions of the FirePowerUp.
-	C_Vec2 firePowerUpDimensions;
 	///The vector array of FirePowerUp.
 	std::vector<E_FirePowerUp*> firePowerUps;
 
 	///The Storm Cloud texture
 	C_Texture* stormCloudSprite;
-	///The dimensions of the storm clouds.
-	C_Vec2 stormCloudsDimensions;
 	///The vector array of Storm Clouds.
 	std::vector<E_StormCloud*> stormClouds;
 
@@ -130,8 +123,6 @@ private:
 
 	///The Archer texture
 	C_Texture* archerSprite;
-	///The dimensions of the Archer.
-	C_Vec2 archerDimensions;
 	///The vector array of Archers.
 	std::vector<E_Archer*> archers;
 
@@ -165,12 +156,12 @@ private:
 	@brief A function that creates the particle effects for if the entities are killed.
 	@param entityPos The position of the entity.
 	@param entityVelocity The Velocity of the entity.
-	@param entityDimensions The dimensions of the Entity.
+	@param deadEntityDimensions The dimensions of the Entity.
 	@param coinSpawn A boolean for if the entity should spawn coins.
 	@param maxCoins The max number of coins to spawn.
 	@param entityType The name of the type of entity that is killed.
 	*/
-	void createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 entityDimensions, 
+	void createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 deadEntityDimensions,
 		bool coinSpawn, int maxCoins, std::string entityType);
 	
 	/**
@@ -186,6 +177,12 @@ private:
 	/**
 	@brief A function to spawn a new wave of Entities.
 	*/
-	void spawnEntites();
+	void spawnEntityWave();
 
+	/**
+	@brief A function to spawn a new Entity.
+	@param spawnY The generated y position for the Entity to spawn at.
+	@param entityToSpawn The type of the new Entity to spawn.
+	*/
+	void spawnEntity(float spawnY, int entityToSpawn);
 };

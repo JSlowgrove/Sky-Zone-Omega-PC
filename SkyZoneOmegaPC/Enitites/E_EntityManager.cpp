@@ -12,13 +12,7 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	archerArrowSprite(new C_Texture("Assets/Images/archerArrow.png", renderer)),
 	archerSprite(new C_Texture("Assets/Images/archer.png", renderer)),
 	particleEffectTexture(new C_Texture("Assets/Images/particle.png", renderer)),
-	styphBirdDimensions(dimensions * 0.06f),
-	stormCloudsDimensions(C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f)),
-	coinDimensions(C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f)), 
-	healthDimensions(C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f)), 
-	firePowerUpDimensions(C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f)),
 	arrowDimensions(C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f)),
-	archerDimensions(C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f)),
 	coinCollectSound(new C_Audio("Assets/Audio/powerUp2.ogg")),
 	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg")),
 	spawnTimer(1.0f)
@@ -44,6 +38,14 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
 	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg");
 	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg");
+
+	//Initialise spawn-able entity dimensions
+	entityDimensions[0] = C_Vec2(dimensions * 0.06f);//styphBirdDimensions
+	entityDimensions[1] = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);//stormCloudsDimensions
+	entityDimensions[2] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//coinDimensions
+	entityDimensions[3] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f); //healthDimensions
+	entityDimensions[4] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//firePowerUpDimensions
+	entityDimensions[5] = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);//archerDimensions
 }
 
 E_EntityManager::~E_EntityManager()
@@ -133,33 +135,33 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 		{
 		case SDLK_b:
 			styphBirds.push_back(new E_StyphBird(styphBirdSprite,
-				C_Vec2(dimensions.x + styphBirdDimensions.x, player->getPosition().y),
-				styphBirdDimensions));
+				C_Vec2(dimensions.x + entityDimensions[0].x, player->getPosition().y),
+				entityDimensions[0]));
 			break;
 		case SDLK_s:
 			stormClouds.push_back(new E_StormCloud(stormCloudSprite,
-				C_Vec2(dimensions.x + stormCloudsDimensions.x, player->getPosition().y),
-				stormCloudsDimensions));
+				C_Vec2(dimensions.x + entityDimensions[1].x, player->getPosition().y),
+				entityDimensions[1]));
 			break;
 		case SDLK_c:
 			coins.push_back(new E_Coin(coinSprite,
-				C_Vec2(dimensions.x + coinDimensions.x, player->getPosition().y),
-				coinDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
+				C_Vec2(dimensions.x + entityDimensions[2].x, player->getPosition().y),
+				entityDimensions[2], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_f:
 			firePowerUps.push_back(new E_FirePowerUp(firePowerUpSprite,
-				C_Vec2(dimensions.x + firePowerUpDimensions.x, player->getPosition().y),
-				firePowerUpDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
+				C_Vec2(dimensions.x + entityDimensions[4].x, player->getPosition().y),
+				entityDimensions[4], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_h:
 			health.push_back(new E_Health(healthSprite,
-				C_Vec2(dimensions.x + arrowDimensions.x, player->getPosition().y),
-				healthDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
+				C_Vec2(dimensions.x + entityDimensions[3].x, player->getPosition().y),
+				entityDimensions[3], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_a:
 			archers.push_back(new E_Archer(archerSprite,
-				C_Vec2(dimensions.x + archerDimensions.x, player->getPosition().y),
-				archerDimensions));
+				C_Vec2(dimensions.x + entityDimensions[5].x, player->getPosition().y),
+				entityDimensions[5]));
 			break;
 		case SDLK_k:
 			for (auto styphBird : styphBirds)
@@ -209,7 +211,7 @@ void E_EntityManager::update(float dt)
 	//check if a new wave of entities should be spawned
 	if (spawnTimer.checkTimer())
 	{
-		spawnEntites();
+		spawnEntityWave();
 		spawnTimer.resetTimer();
 	}
 
@@ -522,13 +524,13 @@ void E_EntityManager::removeDeadEntites()
 	}
 }
 
-void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 entityDimensions, 
+void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 deadEntityDimensions, 
 	bool coinSpawn, int maxCoins, std::string entityType)
 {
 	if (coinSpawn)
 	{
 		//push back a coin effect for the entity.
-		deathEffects.push_back(new PS_ParticleEffect(coinSprite, entityPos + (entityDimensions * 0.5f), true, 50.0f, 25.0f, 0.1f));
+		deathEffects.push_back(new PS_ParticleEffect(coinSprite, entityPos + (deadEntityDimensions * 0.5f), true, 50.0f, 25.0f, 0.1f));
 
 		//create a random number of coins to spawn
 		int numOfCoins = (rand() % maxCoins) + 1;
@@ -536,12 +538,12 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 		for (int i = 0; i <= numOfCoins; i++)
 		{
 			//generate a new random position for the coin
-			C_Vec2 coinPos = entityPos + (entityDimensions * 0.5f) - (coinDimensions * 0.5f);
-			coinPos += C_Vec2((rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y, 
-				(rand() % (int)(dimensions.y * 0.1f)) - coinDimensions.y);
+			C_Vec2 coinPos = entityPos + (deadEntityDimensions * 0.5f) - (entityDimensions[2] * 0.5f);
+			coinPos += C_Vec2((rand() % (int)(dimensions.y * 0.1f)) - entityDimensions[2].y,
+				(rand() % (int)(dimensions.y * 0.1f)) - entityDimensions[2].y);
 
 			//spawn the coin
-			coins.push_back(new E_Coin(coinSprite, coinPos, coinDimensions, dimensions, entityVelocity));
+			coins.push_back(new E_Coin(coinSprite, coinPos, entityDimensions[2], dimensions, entityVelocity));
 		}
 		
 	}
@@ -549,7 +551,7 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 	{
 		//push back a death effect for the entity.
 		deathEffects.push_back(new PS_ParticleEffect(particleEffectTexture,
-			entityPos + (entityDimensions * 0.5f), true, 50.0f, 25.0f, 0.1f, minColourTints[entityType], maxColourTints[entityType]));
+			entityPos + (deadEntityDimensions * 0.5f), true, 50.0f, 25.0f, 0.1f, minColourTints[entityType], maxColourTints[entityType]));
 	}
 }
 
@@ -718,10 +720,72 @@ void E_EntityManager::entityCollisionDetection()
 	}
 }
 
-void E_EntityManager::spawnEntites()
+void E_EntityManager::spawnEntityWave()
 {
-	//tmp
-	coins.push_back(new E_Coin(coinSprite,
-		C_Vec2(dimensions.x + coinDimensions.x, player->getPosition().y),
-		coinDimensions, dimensions, C_Vec2(-500.0f, 0.0f)));
+	//Get a number between 0 and 5 for max 6 number of things to spawn
+	int numberToSpawn = (rand() % 6);
+
+	//Divide the screen height into the number of things to spawn
+	float zoneHeight = dimensions.y / numberToSpawn;
+		
+	for (int i = 0; i < numberToSpawn; i++)
+	{
+		//Get a number between 0 and 5 for max 6 thing to spawn
+		int entityToSpawn = (rand() % 6);
+
+		//initialise the new spawn position
+		float spawnY = 0.0f;
+
+		//work out the minimum spawn y position within its heights zone
+		float minimumY = i * zoneHeight;
+
+		//work out the maximum spawn y position within its heights zone
+		float maximumY = (i+1) * zoneHeight;
+		maximumY -= (entityDimensions[entityToSpawn].y + 1);
+
+		//make a random y spawn within the min and max height
+		spawnY = (float)(rand() % (int)(maximumY - minimumY)) + minimumY;
+
+		//spawn the entity
+		spawnEntity(spawnY, entityToSpawn);
+	}
+	
+}
+
+void E_EntityManager::spawnEntity(float spawnY, int entityToSpawn)
+{
+	//Spawn the new entity
+	switch (entityToSpawn)
+	{
+	case 0: //StyphBird
+		styphBirds.push_back(new E_StyphBird(styphBirdSprite,
+			C_Vec2(dimensions.x + entityDimensions[0].x, spawnY),
+			entityDimensions[0]));
+		break;
+	case 1: //StormCloud
+		stormClouds.push_back(new E_StormCloud(stormCloudSprite,
+			C_Vec2(dimensions.x + entityDimensions[1].x, spawnY),
+			entityDimensions[1]));
+		break;
+	case 2: //Coin
+		coins.push_back(new E_Coin(coinSprite,
+			C_Vec2(dimensions.x + entityDimensions[2].x, spawnY),
+			entityDimensions[2], dimensions, C_Vec2(-500.0f, 0.0f)));
+		break;
+	case 3: //Health
+		health.push_back(new E_Health(healthSprite,
+			C_Vec2(dimensions.x + entityDimensions[3].x, spawnY),
+			entityDimensions[3], dimensions, C_Vec2(-500.0f, 0.0f)));
+		break;
+	case 4: //FirePowerUp
+		firePowerUps.push_back(new E_FirePowerUp(firePowerUpSprite,
+			C_Vec2(dimensions.x + entityDimensions[4].x, spawnY),
+			entityDimensions[4], dimensions, C_Vec2(-500.0f, 0.0f)));
+		break;
+	case 5: //Archer
+		archers.push_back(new E_Archer(archerSprite,
+			C_Vec2(dimensions.x + entityDimensions[5].x, spawnY),
+			entityDimensions[5]));
+		break;
+	}
 }
