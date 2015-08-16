@@ -8,6 +8,9 @@
 #include "E_StormCloud.h"
 #include "E_Health.h"
 #include "E_FirePowerUp.h"
+#include "E_CoinAllPowerUp.h"
+#include "E_KillAllPowerUp.h"
+#include "E_Shield.h"
 #include "E_PlayerArrow.h"
 #include "E_FlamingArrow.h"
 #include "E_ArcherArrow.h"
@@ -79,7 +82,7 @@ private:
 	E_Player* player;
 
 	///The dimensions of the spawn-able entities.
-	C_Vec2 entityDimensions[6];
+	C_Vec2 entityDimensions[9];
 
 	///The StyphBird texture
 	C_Texture* styphBirdSprite;
@@ -146,6 +149,21 @@ private:
 
 	///A timer for the entity spawner.
 	C_Timer spawnTimer;
+
+	///The killAllPowerUp texture.
+	C_Texture* killAllPowerUpSprite;
+	///The vector array of killAllPowerUp.
+	std::vector<E_KillAllPowerUp*> killAllPowerUps;
+
+	///The coinAllPowerUp texture.
+	C_Texture* coinAllPowerUpSprite;
+	///The vector array of coinAllPowerUp.
+	std::vector<E_CoinAllPowerUp*> coinAllPowerUps;
+
+	///The shield texture.
+	C_Texture* shieldSprite;
+	///The vector array of shield.
+	std::vector<E_Shield*> shields;
 
 	/**
 	@brief A function that deletes all of the entities flagged as dead.

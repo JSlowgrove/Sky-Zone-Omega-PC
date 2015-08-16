@@ -7,7 +7,10 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	stormCloudSprite(new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer)),
 	coinSprite(new C_Texture("Assets/Images/coin.png", renderer)),
 	healthSprite(new C_Texture("Assets/Images/health300x299.png", renderer)),
-	firePowerUpSprite(new C_Texture("Assets/Images/coin.png", renderer)), //tmp
+	firePowerUpSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
+	killAllPowerUpSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
+	coinAllPowerUpSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
+	shieldSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
 	playerArrowSprite(new C_Texture("Assets/Images/playerArrow.png", renderer)),
 	archerArrowSprite(new C_Texture("Assets/Images/archerArrow.png", renderer)),
 	archerSprite(new C_Texture("Assets/Images/archer.png", renderer)),
@@ -19,6 +22,9 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 {	
 	//tmp
 	firePowerUpSprite->setColourTint(255, 0, 0);
+	coinAllPowerUpSprite->setColourTint(255, 255, 0);
+	killAllPowerUpSprite->setColourTint(0, 0, 0);
+	shieldSprite->setColourTint(0, 255, 255);
 
 	//Initialise the min and max tint colours for the particle effects
 	minColourTints["styphBird"] = { (Uint8)155, (Uint8)100, (Uint8)0 };
@@ -46,6 +52,9 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	entityDimensions[3] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f); //healthDimensions
 	entityDimensions[4] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//firePowerUpDimensions
 	entityDimensions[5] = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);//archerDimensions
+	entityDimensions[6] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f); //coinAllPowerUpDimensions
+	entityDimensions[7] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f); //killAllPowerDimensions
+	entityDimensions[8] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f); //shieldDimensions
 }
 
 E_EntityManager::~E_EntityManager()
@@ -92,6 +101,27 @@ E_EntityManager::~E_EntityManager()
 	}
 	delete firePowerUpSprite;
 
+	//Delete kill all power ups
+	for (auto killAllPowerUp : killAllPowerUps)
+	{
+		delete killAllPowerUp;
+	}
+	delete killAllPowerUpSprite;
+
+	//Delete coin all power ups
+	for (auto coinAllPowerUp : coinAllPowerUps)
+	{
+		delete coinAllPowerUp;
+	}
+	delete coinAllPowerUpSprite;
+
+	//Delete shields
+	for (auto shield : shields)
+	{
+		delete shield;
+	}
+	delete shieldSprite;
+
 	//Delete arrows
 	for (auto arrow : playerArrows)
 	{
@@ -135,42 +165,21 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 		{
 		case SDLK_h:
 			player->increaseHealth();
-			break;
+			break;			
 		case SDLK_k:
-			for (auto styphBird : styphBirds)
-			{
-				styphBird->setDeathParticles(true);
-				styphBird->setCoinSpawn(true);
-				styphBird->setDeadStatus(true);
-			}
-			for (auto archer : archers)
-			{
-				archer->setDeathParticles(true);
-				archer->setCoinSpawn(true);
-				archer->setDeadStatus(true);
-			}
-			for (auto stormCloud : stormClouds)
-			{
-				stormCloud->setDeathParticles(true);
-				stormCloud->setDeadStatus(true);
-			}
+			coinAllPowerUps.push_back(new E_CoinAllPowerUp(coinAllPowerUpSprite,
+				C_Vec2(dimensions.x + entityDimensions[6].x, player->getPosition().y),
+				entityDimensions[6], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
-		case SDLK_d:
-			for (auto styphBird : styphBirds)
-			{
-				styphBird->setDeathParticles(true);
-				styphBird->setDeadStatus(true);
-			}
-			for (auto archer : archers)
-			{
-				archer->setDeathParticles(true);
-				archer->setDeadStatus(true);
-			}
-			for (auto stormCloud : stormClouds)
-			{
-				stormCloud->setDeathParticles(true);
-				stormCloud->setDeadStatus(true);
-			}
+		case SDLK_d:  //KillAllPowerUp
+			killAllPowerUps.push_back(new E_KillAllPowerUp(killAllPowerUpSprite,
+				C_Vec2(dimensions.x + entityDimensions[7].x, player->getPosition().y),
+				entityDimensions[7], dimensions, C_Vec2(-500.0f, 0.0f)));
+			break;
+		case SDLK_s: //Shields
+			shields.push_back(new E_Shield(shieldSprite,
+				C_Vec2(dimensions.x + entityDimensions[8].x, player->getPosition().y),
+				entityDimensions[8], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		}
 		break;
@@ -255,6 +264,24 @@ void E_EntityManager::update(float dt)
 		firePowerUp->update(dt);
 	}
 
+	//Update coin all power ups
+	for (auto coinAllPowerUp : coinAllPowerUps)
+	{
+		coinAllPowerUp->update(dt);
+	}
+
+	//Update kill all power ups
+	for (auto killAllPowerUp : killAllPowerUps)
+	{
+		killAllPowerUp->update(dt);
+	}
+
+	//Update shields
+	for (auto shield : shields)
+	{
+		shield->update(dt);
+	}
+
 	//Update Arrows
 	for (auto arrow : playerArrows)
 	{
@@ -297,6 +324,24 @@ void E_EntityManager::draw()
 	for (auto firePowerUp : firePowerUps)
 	{
 		firePowerUp->draw(renderer);
+	}
+
+	//Draw the kill all power ups
+	for (auto killAllPowerUp : killAllPowerUps)
+	{
+		killAllPowerUp->draw(renderer);
+	}
+
+	//Draw the coin all power ups
+	for (auto coinAllPowerUp : coinAllPowerUps)
+	{
+		coinAllPowerUp->draw(renderer);
+	}
+
+	//Draw the shields
+	for (auto shield : shields)
+	{
+		shield->draw(renderer);
 	}
 
 	//Draw the arrows
@@ -440,6 +485,42 @@ void E_EntityManager::removeDeadEntites()
 			delete firePowerUps[i];
 			//erase from array
 			firePowerUps.erase(firePowerUps.begin() + i);
+		}
+	}
+
+	//Remove dead kill all power ups
+	for (unsigned int i = 0; i < killAllPowerUps.size(); i++)
+	{
+		if (killAllPowerUps[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete killAllPowerUps[i];
+			//erase from array
+			killAllPowerUps.erase(killAllPowerUps.begin() + i);
+		}
+	}
+
+	//Remove dead coin all power ups
+	for (unsigned int i = 0; i < coinAllPowerUps.size(); i++)
+	{
+		if (coinAllPowerUps[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete coinAllPowerUps[i];
+			//erase from array
+			coinAllPowerUps.erase(coinAllPowerUps.begin() + i);
+		}
+	}
+
+	//Remove dead shields
+	for (unsigned int i = 0; i < shields.size(); i++)
+	{
+		if (shields[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete shields[i];
+			//erase from array
+			shields.erase(shields.begin() + i);
 		}
 	}
 
@@ -680,6 +761,66 @@ void E_EntityManager::entityCollisionDetection()
 		}
 	}
 
+	//Collision between the player and the kill all power ups
+	for (auto killAllPowerUp : killAllPowerUps)
+	{
+		if (player->entityCollisionTest(killAllPowerUp->getPosition(), killAllPowerUp->getDimensions()))
+		{
+			killAllPowerUp->setDeadStatus(true);
+			for (auto styphBird : styphBirds)
+			{
+				styphBird->setDeathParticles(true);
+				styphBird->setDeadStatus(true);
+			}
+			for (auto archer : archers)
+			{
+				archer->setDeathParticles(true);
+				archer->setDeadStatus(true);
+			}
+			for (auto stormCloud : stormClouds)
+			{
+				stormCloud->setDeathParticles(true);
+				stormCloud->setDeadStatus(true);
+			}
+		}
+	}
+
+	//Collision between the player and the coin all power ups
+	for (auto coinAllPowerUp : coinAllPowerUps)
+	{
+		if (player->entityCollisionTest(coinAllPowerUp->getPosition(), coinAllPowerUp->getDimensions()))
+		{
+			coinAllPowerUp->setDeadStatus(true);
+			for (auto styphBird : styphBirds)
+			{
+				styphBird->setDeathParticles(true);
+				styphBird->setCoinSpawn(true);
+				styphBird->setDeadStatus(true);
+			}
+			for (auto archer : archers)
+			{
+				archer->setDeathParticles(true);
+				archer->setCoinSpawn(true);
+				archer->setDeadStatus(true);
+			}
+			for (auto stormCloud : stormClouds)
+			{
+				stormCloud->setDeathParticles(true);
+				stormCloud->setDeadStatus(true);
+			}
+		}
+	}
+
+	//Collision between the player and the shields
+	for (auto shield : shields)
+	{
+		if (player->entityCollisionTest(shield->getPosition(), shield->getDimensions()))
+		{
+			shield->setDeadStatus(true);
+			//TODO
+		}
+	}
+
 	//Collision between the player and the archer arrows
 	for (auto arrow : archerArrows)
 	{
@@ -783,10 +924,25 @@ int E_EntityManager::pickEntity()
 		//entity is a archer
 		return 5;
 	}
-	else if (spawnNumber >= 191 && spawnNumber <= 200) // 5% chance
+	else if (spawnNumber >= 191 && spawnNumber <= 194) // 2% chance
 	{
 		//entity is a firePowerUp
 		return 4;
+	}
+	else if (spawnNumber >= 195 && spawnNumber <= 197) // 1.5% chance
+	{
+		//entity is a Shield
+		return 8;
+	}
+	else if (spawnNumber >= 198 && spawnNumber <= 199) // 1% chance
+	{
+		//entity is a killAllPowerUp
+		return 7;
+	}
+	else if (spawnNumber == 200) // 0.5% chance
+	{
+		//entity is a coinAllPowerUp
+		return 6;
 	}
 
 	//something has gone wrong
@@ -828,6 +984,21 @@ void E_EntityManager::spawnEntity(float spawnY, int entityToSpawn)
 			C_Vec2(dimensions.x + entityDimensions[5].x, spawnY),
 			entityDimensions[5]));
 		break;
+	case 6: //CoinAllPowerUp
+		coinAllPowerUps.push_back(new E_CoinAllPowerUp(coinAllPowerUpSprite,
+			C_Vec2(dimensions.x + entityDimensions[6].x, spawnY),
+			entityDimensions[6], dimensions, C_Vec2(-500.0f, 0.0f)));
+		break;
+	case 7:  //KillAllPowerUp
+		killAllPowerUps.push_back(new E_KillAllPowerUp(killAllPowerUpSprite,
+			C_Vec2(dimensions.x + entityDimensions[7].x, spawnY),
+			entityDimensions[7], dimensions, C_Vec2(-500.0f, 0.0f)));
+		break;
+	case 8: //Shields
+		shields.push_back(new E_Shield(shieldSprite,
+			C_Vec2(dimensions.x + entityDimensions[8].x, spawnY),
+			entityDimensions[8], dimensions, C_Vec2(-500.0f, 0.0f)));
+		break;
 	}
 }
 
@@ -839,7 +1010,8 @@ void E_EntityManager::spawnEntity(float spawnY, int entityToSpawn)
 //-Player also needs to possibly change where the arrows are fired on as at the moment 
 //things can be spawned out of arrow range at the bottom and possibly at the top.
 //-Possibly change to oval oval collision detection to improve it.
-//-Add two kill power ups, on that spawns coins and one that does not.
+//-Make the shield pickup do something.
+//-Add slow down power up?
 //-possibly make the power ups be stored by the player and the player should activate them.
 //-possibly make the amount of time between waves of entities decrease as the score increases.
 //-OO the HELL out of the entity manager!!!!!
