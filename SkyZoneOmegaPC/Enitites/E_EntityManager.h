@@ -2,19 +2,19 @@
 
 #include <vector>
 #include <unordered_map>
-#include "E_Player.h"
-#include "E_StyphBird.h"
-#include "E_Coin.h"
-#include "E_StormCloud.h"
-#include "E_Health.h"
-#include "E_FirePowerUp.h"
-#include "E_CoinAllPowerUp.h"
-#include "E_KillAllPowerUp.h"
-#include "E_Shield.h"
-#include "E_PlayerArrow.h"
-#include "E_FlamingArrow.h"
-#include "E_ArcherArrow.h"
-#include "E_Archer.h"
+#include "Player/EP_Player.h"
+#include "Enemies/EE_StyphBird.h"
+#include "Enemies/EE_StormCloud.h"
+#include "Enemies/EE_Archer.h"
+#include "Pickups/EPU_Coin.h"
+#include "Pickups/EPU_Health.h"
+#include "Pickups/EPU_Flaming.h"
+#include "Pickups/EPU_CoinAll.h"
+#include "Pickups/EPU_KillAll.h"
+#include "Pickups/EPU_Shield.h"
+#include "Arrows/EA_PlayerArrow.h"
+#include "Arrows/EA_FlamingArrow.h"
+#include "Arrows/EA_ArcherArrow.h"
 #include "../Core/C_Audio.h"
 #include "../Core/C_Timer.h"
 #include "../ParticleSystem/PS_ParticleEffect.h"
@@ -35,7 +35,7 @@ public:
 	@param minTint The minimum tint for the fire particles.
 	@param maxTint The maximum tint for the fire particles.
 	*/
-	E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer, C_Texture* fireSprite, 
+	E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, C_Texture* fireSprite, 
 		SDL_Colour minFireTint, SDL_Colour maxFireTint);
 
 	/**
@@ -79,7 +79,7 @@ private:
 	SDL_Renderer* renderer;
 
 	///A pointer to the Player.
-	E_Player* player;
+	EP_Player* player;
 
 	///The dimensions of the spawn-able entities.
 	C_Vec2 entityDimensions[9];
@@ -87,27 +87,27 @@ private:
 	///The StyphBird texture
 	C_Texture* styphBirdSprite;
 	///The vector array of StyphBirds
-	std::vector<E_StyphBird*> styphBirds;
+	std::vector<EE_StyphBird*> styphBirds;
 
 	///The Coin texture.
 	C_Texture* coinSprite;
 	///The vector array of Coins.
-	std::vector<E_Coin*> coins;
+	std::vector<EPU_Coin*> coins;
 
 	///The Health texture.
 	C_Texture* healthSprite;
 	///The vector array of Health.
-	std::vector<E_Health*> health;
+	std::vector<EPU_Health*> healthPickups;
 
-	///The FirePowerUp texture.
-	C_Texture* firePowerUpSprite;
-	///The vector array of FirePowerUp.
-	std::vector<E_FirePowerUp*> firePowerUps;
+	///The Flaming power up texture.
+	C_Texture* flamingSprite;
+	///The vector array of Flaming power ups.
+	std::vector<EPU_Flaming*> flamingPickups;
 
 	///The Storm Cloud texture
 	C_Texture* stormCloudSprite;
 	///The vector array of Storm Clouds.
-	std::vector<E_StormCloud*> stormClouds;
+	std::vector<EE_StormCloud*> stormClouds;
 
 	///The Player Arrow texture.
 	C_Texture* playerArrowSprite;
@@ -118,16 +118,16 @@ private:
 	///The dimensions of the Arrows.
 	C_Vec2 arrowDimensions;
 	///The vector array of Player Arrows.
-	std::vector<E_PlayerArrow*> playerArrows;
+	std::vector<EA_PlayerArrow*> playerArrows;
 	///The vector array of Flaming Arrows.
-	std::vector<E_FlamingArrow*> flamingArrows;
+	std::vector<EA_FlamingArrow*> flamingArrows;
 	///The vector array of Archer Arrows.
-	std::vector<E_ArcherArrow*> archerArrows;
+	std::vector<EA_ArcherArrow*> archerArrows;
 
 	///The Archer texture
 	C_Texture* archerSprite;
 	///The vector array of Archers.
-	std::vector<E_Archer*> archers;
+	std::vector<EE_Archer*> archers;
 
 	///A texture for use with the particle effects.
 	C_Texture* particleEffectTexture;
@@ -150,20 +150,20 @@ private:
 	///A timer for the entity spawner.
 	C_Timer spawnTimer;
 
-	///The killAllPowerUp texture.
-	C_Texture* killAllPowerUpSprite;
-	///The vector array of killAllPowerUp.
-	std::vector<E_KillAllPowerUp*> killAllPowerUps;
+	///The killAll power up texture.
+	C_Texture* killAllSprite;
+	///The vector array of killAll power ups.
+	std::vector<EPU_KillAll*> killAllPickups;
 
-	///The coinAllPowerUp texture.
-	C_Texture* coinAllPowerUpSprite;
-	///The vector array of coinAllPowerUp.
-	std::vector<E_CoinAllPowerUp*> coinAllPowerUps;
+	///The coinAll power up texture.
+	C_Texture* coinAllSprite;
+	///The vector array of coinAll power ups.
+	std::vector<EPU_CoinAll*> coinAllPickups;
 
 	///The shield texture.
 	C_Texture* shieldSprite;
 	///The vector array of shield.
-	std::vector<E_Shield*> shields;
+	std::vector<EPU_Shield*> shieldPickups;
 
 	/**
 	@brief A function that deletes all of the entities flagged as dead.

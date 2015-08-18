@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../Enitites/E_Velocity.h"
+#include "../Enitites/Base/EB_Velocity.h"
 #include "../Core/C_Vec2.h"
 
 /**
 @brief An object for a background layer that inherits Velocity Entity.
 @author Jamie Slowgrove
 */
-class B_Background : public E_Velocity
+class B_Background : public EB_Velocity
 {
 public:
 	/**

@@ -43,6 +43,36 @@
     <Filter Include="Header Files\Background System">
       <UniqueIdentifier>{6ba44c28-dfbf-4a45-96db-5304e1a51526}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entities\Base">
+      <UniqueIdentifier>{964eb7f0-5f69-4ff4-840b-f6391ff277b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Arrows">
+      <UniqueIdentifier>{b50e0a04-f9b5-4682-a61d-90c9ce52a3dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Enemies">
+      <UniqueIdentifier>{86c59c43-ced8-4b32-b33a-f717022322a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Pickups">
+      <UniqueIdentifier>{c71a4779-3910-4f83-8ddd-0127474a7c1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Player">
+      <UniqueIdentifier>{b3a4d328-dcf0-47de-b8ad-a626f1a6ab5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Base">
+      <UniqueIdentifier>{83f4161f-54c9-4ae4-9881-b5ec7c21debb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Arrows">
+      <UniqueIdentifier>{cb34909d-cb83-4f78-b067-3b56bdf45b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Enemies">
+      <UniqueIdentifier>{46d7b1a9-ee0d-4617-b5be-fe110738d08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Pickups">
+      <UniqueIdentifier>{bad1add2-5495-4eee-947d-20c9c7bf29fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Player">
+      <UniqueIdentifier>{54297bf1-08ee-4c16-9b37-5109b378ec39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,9 +89,6 @@
     </ClCompile>
     <ClCompile Include="Core\C_Utilities.cpp">
       <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Enitites\E_Entity.cpp">
-      <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem\PS_Particle.cpp">
       <Filter>Source Files\Particle System</Filter>
@@ -87,68 +114,71 @@
     <ClCompile Include="BackgroundSystem\B_Background.cpp">
       <Filter>Source Files\Background System</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_Velocity.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Enitites\E_Player.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Enitites\E_StyphBird.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Enitites\E_StormCloud.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Enitites\E_Coin.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Enitites\E_VelocityAnimated.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Enitites\E_Animated.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Core\C_Music.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="Enitites\E_EntityManager.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_Health.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Base\EB_Animated.cpp">
+      <Filter>Source Files\Entities\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_Pickup.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Base\EB_Entity.cpp">
+      <Filter>Source Files\Entities\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_Arrow.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Base\EB_Velocity.cpp">
+      <Filter>Source Files\Entities\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_Archer.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Base\EB_VelocityAnimated.cpp">
+      <Filter>Source Files\Entities\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Core\C_Music.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="Enitites\Arrows\EA_ArcherArrow.cpp">
+      <Filter>Source Files\Entities\Arrows</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_PlayerArrow.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Arrows\EA_Arrow.cpp">
+      <Filter>Source Files\Entities\Arrows</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_ArcherArrow.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Arrows\EA_FlamingArrow.cpp">
+      <Filter>Source Files\Entities\Arrows</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_FlamingArrow.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Arrows\EA_PlayerArrow.cpp">
+      <Filter>Source Files\Entities\Arrows</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_PlayerArcher.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Enemies\EE_Archer.cpp">
+      <Filter>Source Files\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_FirePowerUp.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Enemies\EE_StormCloud.cpp">
+      <Filter>Source Files\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_CoinAllPowerUp.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Enemies\EE_StyphBird.cpp">
+      <Filter>Source Files\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_KillAllPowerUp.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Player\EP_Player.cpp">
+      <Filter>Source Files\Entities\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Enitites\E_Shield.cpp">
-      <Filter>Source Files\Entities</Filter>
+    <ClCompile Include="Enitites\Player\EP_PlayerArcher.cpp">
+      <Filter>Source Files\Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_Coin.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_CoinAll.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_Flaming.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_Health.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_KillAll.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_Pickup.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_Shield.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,71 +221,71 @@
     <ClInclude Include="BackgroundSystem\B_BackgroundManager.h">
       <Filter>Header Files\Background System</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_Player.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_StyphBird.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Coin.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_StormCloud.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Enitites\E_EntityManager.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Health.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Animated.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Entity.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Velocity.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_VelocityAnimated.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Pickup.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Arrow.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Enitites\E_Archer.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Core\C_Music.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_PlayerArrow.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Base\EB_Animated.h">
+      <Filter>Header Files\Entities\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_ArcherArrow.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Base\EB_Entity.h">
+      <Filter>Header Files\Entities\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_FlamingArrow.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Base\EB_Velocity.h">
+      <Filter>Header Files\Entities\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_PlayerArcher.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Base\EB_VelocityAnimated.h">
+      <Filter>Header Files\Entities\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_FirePowerUp.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Arrows\EA_ArcherArrow.h">
+      <Filter>Header Files\Entities\Arrows</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_CoinAllPowerUp.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Arrows\EA_Arrow.h">
+      <Filter>Header Files\Entities\Arrows</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_KillAllPowerUp.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Arrows\EA_FlamingArrow.h">
+      <Filter>Header Files\Entities\Arrows</Filter>
     </ClInclude>
-    <ClInclude Include="Enitites\E_Shield.h">
-      <Filter>Header Files\Entities</Filter>
+    <ClInclude Include="Enitites\Arrows\EA_PlayerArrow.h">
+      <Filter>Header Files\Entities\Arrows</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Enemies\EE_Archer.h">
+      <Filter>Header Files\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Enemies\EE_StormCloud.h">
+      <Filter>Header Files\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Enemies\EE_StyphBird.h">
+      <Filter>Header Files\Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Player\EP_Player.h">
+      <Filter>Header Files\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Player\EP_PlayerArcher.h">
+      <Filter>Header Files\Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_Coin.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_CoinAll.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_Flaming.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_Health.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_KillAll.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_Pickup.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_Shield.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

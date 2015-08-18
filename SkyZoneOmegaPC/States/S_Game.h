@@ -11,7 +11,7 @@
 #include "../Core/C_Music.h"
 #include "../Core/C_Text.h"
 #include "../BackgroundSystem/B_BackgroundManager.h"
-#include "../Enitites/E_Player.h"
+#include "../Enitites/Player/EP_Player.h"
 #include "../Enitites/E_EntityManager.h"
 
 /**
@@ -59,7 +59,7 @@ private:
 	///The Background.
 	B_BackgroundManager* background;
 	///The Player.
-	E_Player* player;
+	EP_Player* player;
 	///The Player textures.
 	C_Texture* playerSprite;
 	C_Texture* playerArcherSprite;

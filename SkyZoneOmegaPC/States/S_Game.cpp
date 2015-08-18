@@ -18,7 +18,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	srand((unsigned int)time(NULL));
 
 	//Initialise player
-	player = new E_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.2f, 
+	player = new EP_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.2f, 
 		playerArcherSprite, C_Vec2(dimensions.x * 0.125f, dimensions.y * 0.36f), 
 		C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f), dimensions, fireSprite, minFireTint, maxFireTint);
 

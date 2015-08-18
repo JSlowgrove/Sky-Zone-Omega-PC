@@ -1,15 +1,15 @@
 #include "E_EntityManager.h"
 
-E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Renderer* renderer, 
+E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, 
 	C_Texture* fireSprite, SDL_Colour minFireTint, SDL_Colour maxFireTint) :
 	dimensions(dimensions), player(player), renderer(renderer), fireSprite(fireSprite),
 	styphBirdSprite(new C_Texture("Assets/Images/stymphalianBird.png", renderer)),
 	stormCloudSprite(new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer)),
 	coinSprite(new C_Texture("Assets/Images/coin.png", renderer)),
 	healthSprite(new C_Texture("Assets/Images/health300x299.png", renderer)),
-	firePowerUpSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
-	killAllPowerUpSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
-	coinAllPowerUpSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
+	flamingSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
+	killAllSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
+	coinAllSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
 	shieldSprite(new C_Texture("Assets/Images/particle.png", renderer)), //tmp
 	playerArrowSprite(new C_Texture("Assets/Images/playerArrow.png", renderer)),
 	archerArrowSprite(new C_Texture("Assets/Images/archerArrow.png", renderer)),
@@ -21,9 +21,9 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, E_Player* player, SDL_Render
 	spawnTimer(1.0f)
 {	
 	//tmp
-	firePowerUpSprite->setColourTint(255, 0, 0);
-	coinAllPowerUpSprite->setColourTint(255, 255, 0);
-	killAllPowerUpSprite->setColourTint(0, 0, 0);
+	flamingSprite->setColourTint(255, 0, 0);
+	coinAllSprite->setColourTint(255, 255, 0);
+	killAllSprite->setColourTint(0, 0, 0);
 	shieldSprite->setColourTint(0, 255, 255);
 
 	//Initialise the min and max tint colours for the particle effects
@@ -88,35 +88,35 @@ E_EntityManager::~E_EntityManager()
 	delete coinSprite;
 
 	//Delete health
-	for (auto healthPickup : health)
+	for (auto healthPickup : healthPickups)
 	{
 		delete healthPickup;
 	}
 	delete healthSprite;
 
 	//Delete fire power ups
-	for (auto firePowerUp : firePowerUps)
+	for (auto firePowerUp : flamingPickups)
 	{
 		delete firePowerUp;
 	}
-	delete firePowerUpSprite;
+	delete flamingSprite;
 
 	//Delete kill all power ups
-	for (auto killAllPowerUp : killAllPowerUps)
+	for (auto killAllPowerUp : killAllPickups)
 	{
 		delete killAllPowerUp;
 	}
-	delete killAllPowerUpSprite;
+	delete killAllSprite;
 
 	//Delete coin all power ups
-	for (auto coinAllPowerUp : coinAllPowerUps)
+	for (auto coinAllPowerUp : coinAllPickups)
 	{
 		delete coinAllPowerUp;
 	}
-	delete coinAllPowerUpSprite;
+	delete coinAllSprite;
 
 	//Delete shields
-	for (auto shield : shields)
+	for (auto shield : shieldPickups)
 	{
 		delete shield;
 	}
@@ -166,18 +166,18 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 		case SDLK_h:
 			player->increaseHealth();
 			break;			
-		case SDLK_k:
-			coinAllPowerUps.push_back(new E_CoinAllPowerUp(coinAllPowerUpSprite,
+		case SDLK_c:
+			coinAllPickups.push_back(new EPU_CoinAll(coinAllSprite,
 				C_Vec2(dimensions.x + entityDimensions[6].x, player->getPosition().y),
 				entityDimensions[6], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_d:  //KillAllPowerUp
-			killAllPowerUps.push_back(new E_KillAllPowerUp(killAllPowerUpSprite,
+			killAllPickups.push_back(new EPU_KillAll(killAllSprite,
 				C_Vec2(dimensions.x + entityDimensions[7].x, player->getPosition().y),
 				entityDimensions[7], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
 		case SDLK_s: //Shields
-			shields.push_back(new E_Shield(shieldSprite,
+			shieldPickups.push_back(new EPU_Shield(shieldSprite,
 				C_Vec2(dimensions.x + entityDimensions[8].x, player->getPosition().y),
 				entityDimensions[8], dimensions, C_Vec2(-500.0f, 0.0f)));
 			break;
@@ -200,7 +200,7 @@ void E_EntityManager::update(float dt)
 	//check if the player should fire an flaming arrow
 	if (player->getFireArrow() && player->getFlaming())
 	{
-		flamingArrows.push_back(new E_FlamingArrow(playerArrowSprite, fireSprite,
+		flamingArrows.push_back(new EA_FlamingArrow(playerArrowSprite, fireSprite,
 			C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
 			arrowDimensions, dimensions, minColourTints["fire"], maxColourTints["fire"]));
 		player->setFireArrow(false);
@@ -209,7 +209,7 @@ void E_EntityManager::update(float dt)
 	//check if the player should fire a normal arrow
 	if (player->getFireArrow() && !player->getFlaming())
 	{
-		playerArrows.push_back(new E_PlayerArrow(playerArrowSprite,
+		playerArrows.push_back(new EA_PlayerArrow(playerArrowSprite,
 			C_Vec2(player->getPosition().x + dimensions.x * 0.08f, player->getPosition().y),
 			arrowDimensions, dimensions));
 		player->setFireArrow(false);
@@ -241,13 +241,13 @@ void E_EntityManager::update(float dt)
 		if (archer->getFireArrow())
 		{
 			//Fire an arrow
-			archerArrows.push_back(new E_ArcherArrow(archerArrowSprite, archer->getPosition(), arrowDimensions));
+			archerArrows.push_back(new EA_ArcherArrow(archerArrowSprite, archer->getPosition(), arrowDimensions));
 			archer->setFireArrow(false);
 		}
 	}
 
 	//Update health
-	for (auto healthPickup : health)
+	for (auto healthPickup : healthPickups)
 	{
 		healthPickup->update(dt);
 	}
@@ -259,25 +259,25 @@ void E_EntityManager::update(float dt)
 	}
 
 	//Update fire power ups
-	for (auto firePowerUp : firePowerUps)
+	for (auto firePowerUp : flamingPickups)
 	{
 		firePowerUp->update(dt);
 	}
 
 	//Update coin all power ups
-	for (auto coinAllPowerUp : coinAllPowerUps)
+	for (auto coinAllPowerUp : coinAllPickups)
 	{
 		coinAllPowerUp->update(dt);
 	}
 
 	//Update kill all power ups
-	for (auto killAllPowerUp : killAllPowerUps)
+	for (auto killAllPowerUp : killAllPickups)
 	{
 		killAllPowerUp->update(dt);
 	}
 
 	//Update shields
-	for (auto shield : shields)
+	for (auto shield : shieldPickups)
 	{
 		shield->update(dt);
 	}
@@ -315,31 +315,31 @@ void E_EntityManager::draw()
 	}
 
 	//Draw the health
-	for (auto healthPickup : health)
+	for (auto healthPickup : healthPickups)
 	{
 		healthPickup->draw(renderer);
 	}
 
 	//Draw the fire power ups
-	for (auto firePowerUp : firePowerUps)
+	for (auto firePowerUp : flamingPickups)
 	{
 		firePowerUp->draw(renderer);
 	}
 
 	//Draw the kill all power ups
-	for (auto killAllPowerUp : killAllPowerUps)
+	for (auto killAllPowerUp : killAllPickups)
 	{
 		killAllPowerUp->draw(renderer);
 	}
 
 	//Draw the coin all power ups
-	for (auto coinAllPowerUp : coinAllPowerUps)
+	for (auto coinAllPowerUp : coinAllPickups)
 	{
 		coinAllPowerUp->draw(renderer);
 	}
 
 	//Draw the shields
-	for (auto shield : shields)
+	for (auto shield : shieldPickups)
 	{
 		shield->draw(renderer);
 	}
@@ -465,62 +465,62 @@ void E_EntityManager::removeDeadEntites()
 	}
 
 	//Remove dead Health
-	for (unsigned int i = 0; i < health.size(); i++)
+	for (unsigned int i = 0; i < healthPickups.size(); i++)
 	{
-		if (health[i]->getDeadStatus())
+		if (healthPickups[i]->getDeadStatus())
 		{
 			//delete pointer
-			delete health[i];
+			delete healthPickups[i];
 			//erase from array
-			health.erase(health.begin() + i);
+			healthPickups.erase(healthPickups.begin() + i);
 		}
 	}
 
 	//Remove dead fire power ups
-	for (unsigned int i = 0; i < firePowerUps.size(); i++)
+	for (unsigned int i = 0; i < flamingPickups.size(); i++)
 	{
-		if (firePowerUps[i]->getDeadStatus())
+		if (flamingPickups[i]->getDeadStatus())
 		{
 			//delete pointer
-			delete firePowerUps[i];
+			delete flamingPickups[i];
 			//erase from array
-			firePowerUps.erase(firePowerUps.begin() + i);
+			flamingPickups.erase(flamingPickups.begin() + i);
 		}
 	}
 
 	//Remove dead kill all power ups
-	for (unsigned int i = 0; i < killAllPowerUps.size(); i++)
+	for (unsigned int i = 0; i < killAllPickups.size(); i++)
 	{
-		if (killAllPowerUps[i]->getDeadStatus())
+		if (killAllPickups[i]->getDeadStatus())
 		{
 			//delete pointer
-			delete killAllPowerUps[i];
+			delete killAllPickups[i];
 			//erase from array
-			killAllPowerUps.erase(killAllPowerUps.begin() + i);
+			killAllPickups.erase(killAllPickups.begin() + i);
 		}
 	}
 
 	//Remove dead coin all power ups
-	for (unsigned int i = 0; i < coinAllPowerUps.size(); i++)
+	for (unsigned int i = 0; i < coinAllPickups.size(); i++)
 	{
-		if (coinAllPowerUps[i]->getDeadStatus())
+		if (coinAllPickups[i]->getDeadStatus())
 		{
 			//delete pointer
-			delete coinAllPowerUps[i];
+			delete coinAllPickups[i];
 			//erase from array
-			coinAllPowerUps.erase(coinAllPowerUps.begin() + i);
+			coinAllPickups.erase(coinAllPickups.begin() + i);
 		}
 	}
 
 	//Remove dead shields
-	for (unsigned int i = 0; i < shields.size(); i++)
+	for (unsigned int i = 0; i < shieldPickups.size(); i++)
 	{
-		if (shields[i]->getDeadStatus())
+		if (shieldPickups[i]->getDeadStatus())
 		{
 			//delete pointer
-			delete shields[i];
+			delete shieldPickups[i];
 			//erase from array
-			shields.erase(shields.begin() + i);
+			shieldPickups.erase(shieldPickups.begin() + i);
 		}
 	}
 
@@ -597,7 +597,7 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 				(rand() % (int)(dimensions.y * 0.1f)) - entityDimensions[2].y);
 
 			//spawn the coin
-			coins.push_back(new E_Coin(coinSprite, coinPos, entityDimensions[2], dimensions, entityVelocity));
+			coins.push_back(new EPU_Coin(coinSprite, coinPos, entityDimensions[2], dimensions, entityVelocity));
 		}
 		
 	}
@@ -741,7 +741,7 @@ void E_EntityManager::entityCollisionDetection()
 	}
 
 	//Collision between the player and the health
-	for (auto healthPickup : health)
+	for (auto healthPickup : healthPickups)
 	{
 		if (player->entityCollisionTest(healthPickup->getPosition(), healthPickup->getDimensions()))
 		{
@@ -752,7 +752,7 @@ void E_EntityManager::entityCollisionDetection()
 	}
 
 	//Collision between the player and the fire power ups
-	for (auto firePowerUp : firePowerUps)
+	for (auto firePowerUp : flamingPickups)
 	{
 		if (player->entityCollisionTest(firePowerUp->getPosition(), firePowerUp->getDimensions()))
 		{
@@ -762,7 +762,7 @@ void E_EntityManager::entityCollisionDetection()
 	}
 
 	//Collision between the player and the kill all power ups
-	for (auto killAllPowerUp : killAllPowerUps)
+	for (auto killAllPowerUp : killAllPickups)
 	{
 		if (player->entityCollisionTest(killAllPowerUp->getPosition(), killAllPowerUp->getDimensions()))
 		{
@@ -786,7 +786,7 @@ void E_EntityManager::entityCollisionDetection()
 	}
 
 	//Collision between the player and the coin all power ups
-	for (auto coinAllPowerUp : coinAllPowerUps)
+	for (auto coinAllPowerUp : coinAllPickups)
 	{
 		if (player->entityCollisionTest(coinAllPowerUp->getPosition(), coinAllPowerUp->getDimensions()))
 		{
@@ -812,7 +812,7 @@ void E_EntityManager::entityCollisionDetection()
 	}
 
 	//Collision between the player and the shields
-	for (auto shield : shields)
+	for (auto shield : shieldPickups)
 	{
 		if (player->entityCollisionTest(shield->getPosition(), shield->getDimensions()))
 		{
@@ -955,47 +955,47 @@ void E_EntityManager::spawnEntity(float spawnY, int entityToSpawn)
 	switch (entityToSpawn)
 	{
 	case 0: //StyphBird
-		styphBirds.push_back(new E_StyphBird(styphBirdSprite,
+		styphBirds.push_back(new EE_StyphBird(styphBirdSprite,
 			C_Vec2(dimensions.x + entityDimensions[0].x, spawnY),
 			entityDimensions[0]));
 		break;
 	case 1: //StormCloud
-		stormClouds.push_back(new E_StormCloud(stormCloudSprite,
+		stormClouds.push_back(new EE_StormCloud(stormCloudSprite,
 			C_Vec2(dimensions.x + entityDimensions[1].x, spawnY),
 			entityDimensions[1]));
 		break;
 	case 2: //Coin
-		coins.push_back(new E_Coin(coinSprite,
+		coins.push_back(new EPU_Coin(coinSprite,
 			C_Vec2(dimensions.x + entityDimensions[2].x, spawnY),
 			entityDimensions[2], dimensions, C_Vec2(-500.0f, 0.0f)));
 		break;
 	case 3: //Health
-		health.push_back(new E_Health(healthSprite,
+		healthPickups.push_back(new EPU_Health(healthSprite,
 			C_Vec2(dimensions.x + entityDimensions[3].x, spawnY),
 			entityDimensions[3], dimensions, C_Vec2(-500.0f, 0.0f)));
 		break;
 	case 4: //FirePowerUp
-		firePowerUps.push_back(new E_FirePowerUp(firePowerUpSprite,
+		flamingPickups.push_back(new EPU_Flaming(flamingSprite,
 			C_Vec2(dimensions.x + entityDimensions[4].x, spawnY),
 			entityDimensions[4], dimensions, C_Vec2(-500.0f, 0.0f)));
 		break;
 	case 5: //Archer
-		archers.push_back(new E_Archer(archerSprite,
+		archers.push_back(new EE_Archer(archerSprite,
 			C_Vec2(dimensions.x + entityDimensions[5].x, spawnY),
 			entityDimensions[5]));
 		break;
 	case 6: //CoinAllPowerUp
-		coinAllPowerUps.push_back(new E_CoinAllPowerUp(coinAllPowerUpSprite,
+		coinAllPickups.push_back(new EPU_CoinAll(coinAllSprite,
 			C_Vec2(dimensions.x + entityDimensions[6].x, spawnY),
 			entityDimensions[6], dimensions, C_Vec2(-500.0f, 0.0f)));
 		break;
 	case 7:  //KillAllPowerUp
-		killAllPowerUps.push_back(new E_KillAllPowerUp(killAllPowerUpSprite,
+		killAllPickups.push_back(new EPU_KillAll(killAllSprite,
 			C_Vec2(dimensions.x + entityDimensions[7].x, spawnY),
 			entityDimensions[7], dimensions, C_Vec2(-500.0f, 0.0f)));
 		break;
 	case 8: //Shields
-		shields.push_back(new E_Shield(shieldSprite,
+		shieldPickups.push_back(new EPU_Shield(shieldSprite,
 			C_Vec2(dimensions.x + entityDimensions[8].x, spawnY),
 			entityDimensions[8], dimensions, C_Vec2(-500.0f, 0.0f)));
 		break;
