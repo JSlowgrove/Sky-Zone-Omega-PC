@@ -77,46 +77,43 @@ private:
 	C_Vec2 dimensions;
 	///A pointer to the renderer.
 	SDL_Renderer* renderer;
-
 	///A pointer to the Player.
 	EP_Player* player;
-
 	///The dimensions of the spawn-able entities.
 	C_Vec2 entityDimensions[9];
-
-	///The StyphBird texture
-	C_Texture* styphBirdSprite;
-	///The vector array of StyphBirds
-	std::vector<EE_StyphBird*> styphBirds;
-
-	///The Coin texture.
-	C_Texture* coinSprite;
-	///The vector array of Coins.
-	std::vector<EPU_Coin*> coins;
-
-	///The Health texture.
-	C_Texture* healthSprite;
-	///The vector array of Health.
-	std::vector<EPU_Health*> healthPickups;
-
-	///The Flaming power up texture.
-	C_Texture* flamingSprite;
-	///The vector array of Flaming power ups.
-	std::vector<EPU_Flaming*> flamingPickups;
-
-	///The Storm Cloud texture
-	C_Texture* stormCloudSprite;
-	///The vector array of Storm Clouds.
-	std::vector<EE_StormCloud*> stormClouds;
-
-	///The Player Arrow texture.
-	C_Texture* playerArrowSprite;
-	///The Archer Arrow texture.
-	C_Texture* archerArrowSprite;
-	///The Fire Effect texture.
-	C_Texture* fireSprite;
 	///The dimensions of the Arrows.
 	C_Vec2 arrowDimensions;
+	///A timer for the entity spawner.
+	C_Timer spawnTimer;
+	///An unordered map of the sprite textures.
+	std::unordered_map<std::string, C_Texture*> textures;
+
+	//Enemies
+
+	///The vector array of StyphBirds
+	std::vector<EE_StyphBird*> styphBirds;
+	///The vector array of Storm Clouds.
+	std::vector<EE_StormCloud*> stormClouds;
+	///The vector array of Archers.
+	std::vector<EE_Archer*> archers;
+
+	//Pickups
+
+	///The vector array of Coins.
+	std::vector<EPU_Coin*> coins;
+	///The vector array of Health.
+	std::vector<EPU_Health*> healthPickups;
+	///The vector array of Flaming power ups.
+	std::vector<EPU_Flaming*> flamingPickups;
+	///The vector array of killAll power ups.
+	std::vector<EPU_KillAll*> killAllPickups;
+	///The vector array of coinAll power ups.
+	std::vector<EPU_CoinAll*> coinAllPickups;
+	///The vector array of shield.
+	std::vector<EPU_Shield*> shieldPickups;
+
+	//Arrows
+
 	///The vector array of Player Arrows.
 	std::vector<EA_PlayerArrow*> playerArrows;
 	///The vector array of Flaming Arrows.
@@ -124,13 +121,8 @@ private:
 	///The vector array of Archer Arrows.
 	std::vector<EA_ArcherArrow*> archerArrows;
 
-	///The Archer texture
-	C_Texture* archerSprite;
-	///The vector array of Archers.
-	std::vector<EE_Archer*> archers;
+	//Particle Effects
 
-	///A texture for use with the particle effects.
-	C_Texture* particleEffectTexture;
 	///An unordered map of min tint colours for use with the particle effects.
 	std::unordered_map<std::string, SDL_Colour> minColourTints;
 	///An unordered map of max tint colours for use with the particle effects.
@@ -138,32 +130,15 @@ private:
 	///The vector array of particle effects for use with entity death.
 	std::vector<PS_ParticleEffect*> deathEffects;
 
+	//Audio
+
 	///The array of hit audio.
 	C_Audio* healthLossSounds[3];
-
 	///The health collect sound effect.
 	C_Audio* healthCollectSound;
-
 	///The coin collect sound effect.
 	C_Audio* coinCollectSound;
 
-	///A timer for the entity spawner.
-	C_Timer spawnTimer;
-
-	///The killAll power up texture.
-	C_Texture* killAllSprite;
-	///The vector array of killAll power ups.
-	std::vector<EPU_KillAll*> killAllPickups;
-
-	///The coinAll power up texture.
-	C_Texture* coinAllSprite;
-	///The vector array of coinAll power ups.
-	std::vector<EPU_CoinAll*> coinAllPickups;
-
-	///The shield texture.
-	C_Texture* shieldSprite;
-	///The vector array of shield.
-	std::vector<EPU_Shield*> shieldPickups;
 
 	/**
 	@brief A function that deletes all of the entities flagged as dead.
