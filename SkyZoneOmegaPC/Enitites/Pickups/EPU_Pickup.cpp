@@ -1,7 +1,7 @@
 #include "EPU_Pickup.h"
 
-EPU_Pickup::EPU_Pickup(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions, C_Vec2 velocities)
-	: EB_Velocity(sprite, pos, dimensions, velocities), dead(false)
+EPU_Pickup::EPU_Pickup(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions, C_Vec2 velocities, std::string iD)
+	: EB_Velocity(sprite, pos, dimensions, velocities, iD), dead(false)
 {
 }
 

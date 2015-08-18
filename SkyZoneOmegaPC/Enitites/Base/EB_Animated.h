@@ -19,9 +19,10 @@ public:
 	@param animationFrames The number of animation frames in the spritesheet.
 	@param spriteDimensions The dimensions of the sprite.
 	@param animationLength The length of each animation frame.
+	@param iD The ID of the Entity type.
 	*/
 	EB_Animated(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, int animationFrames, 
-		C_Vec2 spriteDimensions, float animationLength);
+		C_Vec2 spriteDimensions, float animationLength, std::string iD);
 
 	/**
 	@brief Destructs the Animated Entity object.

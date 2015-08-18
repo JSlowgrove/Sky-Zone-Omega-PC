@@ -1,7 +1,7 @@
 #include "B_Background.h"
 
 B_Background::B_Background(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities)
-	: EB_Velocity(sprite, pos, dimensions, velocities)
+	: EB_Velocity(sprite, pos, dimensions, velocities, "B_Background")
 {
 }
 

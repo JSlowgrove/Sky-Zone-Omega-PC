@@ -1,8 +1,8 @@
 #include "EB_VelocityAnimated.h"
 
 EB_VelocityAnimated::EB_VelocityAnimated(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities,
-	int animationFrames, C_Vec2 spriteDimensions, float animationLength)
-	: EB_Animated(sprite, pos, dimensions, animationFrames, spriteDimensions, animationLength), velocities(velocities)
+	int animationFrames, C_Vec2 spriteDimensions, float animationLength, std::string iD)
+	: EB_Animated(sprite, pos, dimensions, animationFrames, spriteDimensions, animationLength, iD), velocities(velocities)
 {
 }
 

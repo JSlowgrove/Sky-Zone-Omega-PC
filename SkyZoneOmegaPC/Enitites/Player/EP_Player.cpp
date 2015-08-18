@@ -2,7 +2,8 @@
 
 EP_Player::EP_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture* archerSprite, C_Vec2 archerPos,
 	C_Vec2 archerDimensions, C_Vec2 screenDimensions, C_Texture* fireSprite, SDL_Colour minTint, SDL_Colour maxTint)
-	: EB_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f), screenDimensions(screenDimensions), 
+	: EB_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f, "EP_Player"),
+	screenDimensions(screenDimensions), 
 	pressed(false), health(3), maxHealth(3), coins(0), maxCoins(999999999),
 	archer(new EP_PlayerArcher(archerSprite, archerPos, archerDimensions)), 
 	archerOffset(archerPos - pos), flamingPowerUp(false), flamingPowerUpTimer(30), 

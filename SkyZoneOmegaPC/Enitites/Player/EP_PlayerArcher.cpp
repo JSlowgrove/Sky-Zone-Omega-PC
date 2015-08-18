@@ -1,7 +1,7 @@
 #include "EP_PlayerArcher.h"
 
 EP_PlayerArcher::EP_PlayerArcher(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: EB_Animated(sprite, pos, dimensions, 6, C_Vec2(1, 1), 0.075f), fireArrow(false), firing(false)
+	: EB_Animated(sprite, pos, dimensions, 6, C_Vec2(1, 1), 0.075f, "EP_PlayerArcher"), fireArrow(false), firing(false)
 {
 }
 

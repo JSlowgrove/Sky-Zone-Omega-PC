@@ -17,8 +17,9 @@ public:
 	@param pos The position of the Arrow.
 	@param dimensions The dimensions of the Arrow.
 	@param velocity The velocity of the Arrow.
+	@param iD The ID of the Entity type.
 	*/
-	EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity);
+	EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity, std::string iD);
 
 	/**
 	@brief Destructs the Arrow object.

@@ -15,8 +15,9 @@ public:
 	@param sprite A pointer to the objects Texture.
 	@param pos The position of the Entity.
 	@param dimensions The dimensions of the Entity.
+	@param iD The ID of the Entity type.
 	*/
-	EB_Entity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions);
+	EB_Entity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, std::string iD);
 
 	/**
 	@brief Destructs the Entity object.
@@ -90,4 +91,6 @@ protected:
 	C_Vec2 pos;
 	///The dimensions of the Entity.
 	C_Vec2 dimensions;
+	///The ID of the type of Entity.
+	std::string iD;
 };

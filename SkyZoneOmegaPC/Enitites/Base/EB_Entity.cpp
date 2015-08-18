@@ -1,7 +1,7 @@
 #include "EB_Entity.h"
 
-EB_Entity::EB_Entity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: sprite(sprite), pos(pos), dimensions(dimensions)
+EB_Entity::EB_Entity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, std::string iD)
+	: sprite(sprite), pos(pos), dimensions(dimensions), iD(iD)
 {
 }
 

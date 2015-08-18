@@ -16,8 +16,9 @@ public:
 	@param pos The position of the Entity.
 	@param dimensions The dimensions of the Entity.
 	@param velocity The velocities of the Entity.
+	@param iD The ID of the Entity type.
 	*/
-	EB_Velocity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities);
+	EB_Velocity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities, std::string iD);
 
 	/**
 	@brief Destructs the Velocity Entity object.

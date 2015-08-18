@@ -1,7 +1,7 @@
 #include "EB_Velocity.h"
 
-EB_Velocity::EB_Velocity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities)
-	: EB_Entity(sprite, pos, dimensions), velocities(velocities)
+EB_Velocity::EB_Velocity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities, std::string iD)
+	: EB_Entity(sprite, pos, dimensions, iD), velocities(velocities)
 {
 }
 

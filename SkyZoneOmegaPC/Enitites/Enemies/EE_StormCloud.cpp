@@ -1,7 +1,8 @@
 #include "EE_StormCloud.h"
 
 EE_StormCloud::EE_StormCloud(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-500.0f, 0.0f), 3, C_Vec2(562, 500), 0.075f), dead(false), deathParticles(false)
+	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-500.0f, 0.0f), 3,C_Vec2(562, 500), 0.075f, "EE_StormCloud"), 
+	dead(false), deathParticles(false)
 {
 	//Initialise the sprite position
 	int spriteYindex = rand() % 4;

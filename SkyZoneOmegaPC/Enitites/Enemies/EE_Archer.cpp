@@ -1,7 +1,7 @@
 #include "EE_Archer.h"
 
 EE_Archer::EE_Archer(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-350.0f, 0.0f), 6, C_Vec2(218, 320), 0.075f), 
+	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-350.0f, 0.0f), 6, C_Vec2(218, 320), 0.075f, "EE_Archer"), 
 	dead(false), coinSpawn(false), deathParticles(false), fireArrow(false), health(3)
 {
 }
