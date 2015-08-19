@@ -18,8 +18,9 @@ public:
 	@param dimensions The dimensions of the Arrow.
 	@param velocity The velocity of the Arrow.
 	@param iD The ID of the Entity type.
+	@param dmage The ammount of damage the Arrow does.
 	*/
-	EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity, std::string iD);
+	EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity, std::string iD, int damage);
 
 	/**
 	@brief Destructs the Arrow object.
@@ -50,9 +51,17 @@ public:
 	*/
 	bool getDeathParticles();
 
+	/**
+	@brief Returns the value of damage.
+	@returns damage The amount of damage the arrow does.
+	*/
+	int getDamage();
+
 protected:
 	///A boolean for if the Arrow is dead and to be deleted.
 	bool dead;
 	///A boolean for if the Arrow should spawn particles upon death.
 	bool deathParticles;
+	///The amount of damage the arrow does.
+	int damage;
 };

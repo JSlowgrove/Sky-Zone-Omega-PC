@@ -42,17 +42,9 @@ public:
 	*/
 	void draw(SDL_Renderer* renderer);
 
-	/**
-	@brief Returns the value of damage.
-	@returns damage The amount of damage the arrow does.
-	*/
-	int getDamage();
-
 private:
 	///The screen dimensions.
 	C_Vec2 screenDimensions;
-	///The amount of damage the arrow does.
-	int damage;
 	///The fire particle effect.
 	PS_ParticleEffect* fireEffect;
 };

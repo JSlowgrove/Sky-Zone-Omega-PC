@@ -110,6 +110,7 @@
     <ClCompile Include="Enitites\Pickups\EPU_Shield.cpp" />
     <ClCompile Include="Enitites\Player\EP_Player.cpp" />
     <ClCompile Include="Enitites\Player\EP_PlayerArcher.cpp" />
+    <ClCompile Include="Gameplay\G_CollisionManager.cpp" />
     <ClCompile Include="Gameplay\G_Gameplay.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem\PS_Particle.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Enitites\Pickups\EPU_Shield.h" />
     <ClInclude Include="Enitites\Player\EP_Player.h" />
     <ClInclude Include="Enitites\Player\EP_PlayerArcher.h" />
+    <ClInclude Include="Gameplay\G_CollisionManager.h" />
     <ClInclude Include="Gameplay\G_Gameplay.h" />
     <ClInclude Include="ParticleSystem\PS_Particle.h" />
     <ClInclude Include="ParticleSystem\PS_ParticleEffect.h" />

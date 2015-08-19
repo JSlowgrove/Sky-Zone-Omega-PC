@@ -1,7 +1,7 @@
 #include "EA_PlayerArrow.h"
 
 EA_PlayerArrow::EA_PlayerArrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions)
-	: EA_Arrow(sprite, pos, dimensions, C_Vec2(1500.0f, 0.0f), "EA_PlayerArrow"), screenDimensions(screenDimensions), damage(1)
+	: EA_Arrow(sprite, pos, dimensions, C_Vec2(1500.0f, 0.0f), "EA_PlayerArrow", 1), screenDimensions(screenDimensions)
 {
 }
 
@@ -20,9 +20,4 @@ void EA_PlayerArrow::update(float dt)
 		//set the arrow to dead
 		dead = true;
 	}
-}
-
-int EA_PlayerArrow::getDamage()
-{
-	return damage;
 }

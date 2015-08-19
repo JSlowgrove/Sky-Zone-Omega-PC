@@ -3,7 +3,7 @@
 #include <vector>
 #include "../Enitites/E_EntityManager.h"
 #include "../Enitites/Player/EP_Player.h"
-#include "../Enitites/Base/EB_Entity.h"
+#include "G_CollisionManager.h"
 
 /**
 @brief Contains the data and functions for the Gameplay.
@@ -30,20 +30,11 @@ public:
 	*/
 	void update(float dt);
 
-	/**
-	@brief A function that handles all of the collision detection between the player and the entities.
-	*/
-	void entityCollisionDetection();
-
 private:
 	///A pointer to the Player.
 	EP_Player* player;
 	///A pointer to the EntityManager.
 	E_EntityManager* entityManager;
-
-	/**
-	@brief A function that handles all of the collision detection between the Player and the StormClouds.
-	@param stormCloud A pointer to the StormCloud.
-	*/
-	void playerStormCloudCollisionDetection(EB_Entity* stormCloud);
+	///A pointer to the CollisionManager.
+	G_CollisionManager* collisionManager;
 };

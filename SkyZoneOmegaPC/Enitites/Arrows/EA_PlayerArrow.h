@@ -31,15 +31,7 @@ public:
 	*/
 	void update(float dt);
 
-	/**
-	@brief Returns the value of damage.
-	@returns damage The amount of damage the arrow does.
-	*/
-	int getDamage();
-
 private:
 	///The screen dimensions.
 	C_Vec2 screenDimensions;
-	///The amount of damage the arrow does.
-	int damage;
 };

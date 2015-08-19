@@ -1,7 +1,7 @@
 #include "EA_ArcherArrow.h"
 
 EA_ArcherArrow::EA_ArcherArrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: EA_Arrow(sprite, pos, dimensions, C_Vec2(-1500.0f, 0.0f), "EA_ArcherArrow")
+	: EA_Arrow(sprite, pos, dimensions, C_Vec2(-1500.0f, 0.0f), "EA_ArcherArrow", 1)
 {
 }
 
