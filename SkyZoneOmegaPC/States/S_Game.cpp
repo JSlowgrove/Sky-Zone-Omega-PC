@@ -26,7 +26,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	entityManager = new E_EntityManager(dimensions, player, renderer, fireSprite, minFireTint, maxFireTint);
 
 	//Initialise gameplay
-	gameplay = new G_Gameplay(player, entityManager);
+	gameplay = new G_Gameplay(dimensions, player, entityManager);
 
 	//TMP
 	backgroundMusic->muteMusic();

@@ -112,6 +112,7 @@
     <ClCompile Include="Enitites\Player\EP_PlayerArcher.cpp" />
     <ClCompile Include="Gameplay\G_CollisionManager.cpp" />
     <ClCompile Include="Gameplay\G_Gameplay.cpp" />
+    <ClCompile Include="Gameplay\G_SpawnManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem\PS_Particle.cpp" />
     <ClCompile Include="ParticleSystem\PS_ParticleEffect.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Enitites\Player\EP_PlayerArcher.h" />
     <ClInclude Include="Gameplay\G_CollisionManager.h" />
     <ClInclude Include="Gameplay\G_Gameplay.h" />
+    <ClInclude Include="Gameplay\G_SpawnManager.h" />
     <ClInclude Include="ParticleSystem\PS_Particle.h" />
     <ClInclude Include="ParticleSystem\PS_ParticleEffect.h" />
     <ClInclude Include="States\S_Game.h" />

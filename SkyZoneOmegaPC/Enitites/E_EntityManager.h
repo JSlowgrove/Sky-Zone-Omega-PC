@@ -35,7 +35,7 @@ public:
 	@param minTint The minimum tint for the fire particles.
 	@param maxTint The maximum tint for the fire particles.
 	*/
-	E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, C_Texture* fireSprite, 
+	E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, C_Texture* fireSprite,
 		SDL_Colour minFireTint, SDL_Colour maxFireTint);
 
 	/**
@@ -66,6 +66,13 @@ public:
 	@returns The pointer to the wanted texture.
 	*/
 	C_Texture* getTexture(std::string iD);
+
+	/**
+	@brief Gets the dimensions of the wanted entity.
+	@param iD The ID of the dimensions to return.
+	@returns The dimensions of the wanted entity.
+	*/
+	C_Vec2 getEntityDimensions(std::string iD);
 
 	/**
 	@brief Gets the vector array of StyphBird pointers.
@@ -149,6 +156,60 @@ public:
 	*/
 	void playCoinCollectSound();
 
+	/**
+	@brief Spawn a new StyphBird.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnStyphBird(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new StormCloud.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnStormCloud(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new Archer.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnArcher(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new Coin.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnCoin(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new Health pickup.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnHealth(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new Flaming pickup.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnFlaming(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new CoinAll pickup.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnCoinAll(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new KillAll pickup.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnKillAll(C_Vec2 spawnPos);
+
+	/**
+	@brief Spawn a new Shield pickup.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnShield(C_Vec2 spawnPos);
+
 private:
 	///The screen dimensions
 	C_Vec2 screenDimensions;
@@ -156,14 +217,10 @@ private:
 	SDL_Renderer* renderer;
 	///A pointer to the Player.
 	EP_Player* player;
-	///The dimensions of the spawn-able entities.
-	C_Vec2 entityDimensions[9];
-	///The dimensions of the Arrows.
-	C_Vec2 arrowDimensions;
-	///A timer for the entity spawner.
-	C_Timer spawnTimer;
 	///An unordered map of the sprite textures.
 	std::unordered_map<std::string, C_Texture*> textures;
+	///An unordered map of the entity dimensions.
+	std::unordered_map<std::string, C_Vec2> entityDimensions;
 
 	//Enemies
 
@@ -221,7 +278,7 @@ private:
 	@brief A function that deletes all of the entities flagged as dead.
 	*/
 	void removeDeadEntites();
-	
+
 	/**
 	@brief A function that creates the particle effects for if the entities are killed.
 	@param entityPos The position of the entity.
@@ -233,27 +290,9 @@ private:
 	*/
 	void createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity, C_Vec2 deadEntityDimensions,
 		bool coinSpawn, int maxCoins, std::string entityType);
-	
+
 	/**
 	@brief A function that deletes all of the entities flagged as dead.
 	*/
 	void removeCompletedEffects();
-
-	/**
-	@brief A function to spawn a new wave of Entities.
-	*/
-	void spawnEntityWave();
-
-	/**
-	@brief A function to pick a new Entity type.
-	@returns The type of the new Entity to spawn.
-	*/
-	int pickEntity();
-
-	/**
-	@brief A function to spawn a new Entity.
-	@param spawnY The generated y position for the Entity to spawn at.
-	@param entityToSpawn The type of the new Entity to spawn.
-	*/
-	void spawnEntity(float spawnY, int entityToSpawn);
 };

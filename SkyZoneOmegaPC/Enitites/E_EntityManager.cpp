@@ -3,10 +3,8 @@
 E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, 
 	C_Texture* fireSprite, SDL_Colour minFireTint, SDL_Colour maxFireTint) :
 	screenDimensions(dimensions), player(player), renderer(renderer),
-	arrowDimensions(C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f)),
 	coinCollectSound(new C_Audio("Assets/Audio/powerUp2.ogg")),
-	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg")),
-	spawnTimer(1.0f)
+	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg"))
 {	
 	//Initialise the textures
 	textures["EE_StyphBird"] = new C_Texture("Assets/Images/stymphalianBird.png", renderer);
@@ -43,21 +41,22 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 	minColourTints["PS_Fire"] = minFireTint;
 	maxColourTints["PS_Fire"] = maxFireTint;
 
+	//Initialise dimensions
+	entityDimensions["EE_StyphBird"] = C_Vec2(dimensions * 0.06f);
+	entityDimensions["EE_StormCloud"] = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
+	entityDimensions["EE_Archer"] = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);
+	entityDimensions["EPU_Coin"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	entityDimensions["EPU_Health"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	entityDimensions["EPU_Flaming"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	entityDimensions["EPU_CoinAll"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	entityDimensions["EPU_KillAll"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	entityDimensions["EPU_Shield"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	entityDimensions["EA_Arrow"] = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
+
 	//Initialise array sounds
 	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
 	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg");
 	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg");
-
-	//Initialise spawn-able entity dimensions
-	entityDimensions[0] = C_Vec2(dimensions * 0.06f);//styphBirdDimensions
-	entityDimensions[1] = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);//stormCloudsDimensions
-	entityDimensions[2] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//coinDimensions
-	entityDimensions[3] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//healthPickupDimensions
-	entityDimensions[4] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//flamingPickpDimensions
-	entityDimensions[5] = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);//archerDimensions
-	entityDimensions[6] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//coinAllPickupDimensions
-	entityDimensions[7] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//killAllPickupDimensions
-	entityDimensions[8] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);//shieldPickupDimensions
 }
 
 E_EntityManager::~E_EntityManager()
@@ -162,20 +161,14 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 		case SDLK_h:
 			player->increaseHealth();
 			break;			
-		case SDLK_c:
-			coinAllPickups.push_back(new EPU_CoinAll(textures["EPU_CoinAll"],
-				C_Vec2(screenDimensions.x + entityDimensions[6].x, player->getPosition().y),
-				entityDimensions[6], screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		case SDLK_c://CoinAllPickup
+			spawnCoinAll(C_Vec2(screenDimensions.x + entityDimensions["EPU_CoinAll"].x, player->getPosition().y));
 			break;
-		case SDLK_d:  //KillAllPowerUp
-			killAllPickups.push_back(new EPU_KillAll(textures["EPU_KillAll"],
-				C_Vec2(screenDimensions.x + entityDimensions[7].x, player->getPosition().y),
-				entityDimensions[7], screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		case SDLK_d://KillAllPickup
+			spawnKillAll(C_Vec2(screenDimensions.x + entityDimensions["EPU_KillAll"].x, player->getPosition().y));
 			break;
-		case SDLK_s: //Shields
-			shieldPickups.push_back(new EPU_Shield(textures["EPU_Shield"],
-				C_Vec2(screenDimensions.x + entityDimensions[8].x, player->getPosition().y),
-				entityDimensions[8], screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		case SDLK_s://ShieldPickup
+			spawnShield(C_Vec2(screenDimensions.x + entityDimensions["EPU_Shield"].x, player->getPosition().y));
 			break;
 		}
 		break;
@@ -190,21 +183,12 @@ void E_EntityManager::update(float dt)
 	//remove completed particle effects
 	removeCompletedEffects();
 
-	//Update the spawn timer
-	spawnTimer.upadateTimer(dt);
-	//check if a new wave of entities should be spawned
-	if (spawnTimer.checkTimer())
-	{
-		spawnEntityWave();
-		spawnTimer.resetTimer();
-	}
-
 	//check if the player should fire an flaming arrow
 	if (player->getFireArrow() && player->getFlaming())
 	{
 		flamingArrows.push_back(new EA_FlamingArrow(textures["EA_PlayerArrow"], textures["PS_FireParticle"],
 			C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
-			arrowDimensions, screenDimensions, minColourTints["PS_Fire"], maxColourTints["PS_Fire"]));
+			entityDimensions["EA_Arrow"], screenDimensions, minColourTints["PS_Fire"], maxColourTints["PS_Fire"]));
 		player->setFireArrow(false);
 	}
 
@@ -213,7 +197,7 @@ void E_EntityManager::update(float dt)
 	{
 		playerArrows.push_back(new EA_PlayerArrow(textures["EA_PlayerArrow"],
 			C_Vec2(player->getPosition().x + screenDimensions.x * 0.08f, player->getPosition().y),
-			arrowDimensions, screenDimensions));
+			entityDimensions["EA_Arrow"], screenDimensions));
 		player->setFireArrow(false);
 	}
 	
@@ -243,7 +227,7 @@ void E_EntityManager::update(float dt)
 		if (archer->getFireArrow())
 		{
 			//Fire an arrow
-			archerArrows.push_back(new EA_ArcherArrow(textures["EA_ArcherArrow"], archer->getPosition(), arrowDimensions));
+			archerArrows.push_back(new EA_ArcherArrow(textures["EA_ArcherArrow"], archer->getPosition(), entityDimensions["EA_Arrow"]));
 			archer->setFireArrow(false);
 		}
 	}
@@ -374,11 +358,6 @@ void E_EntityManager::draw()
 	{
 		deathEffect->draw(renderer);
 	}
-}
-
-C_Texture* E_EntityManager::getTexture(std::string iD)
-{
-	return textures[iD];
 }
 
 void E_EntityManager::removeDeadEntites()
@@ -581,12 +560,12 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 		for (int i = 0; i <= numOfCoins; i++)
 		{
 			//generate a new random position for the coin
-			C_Vec2 coinPos = entityPos + (deadEntityDimensions * 0.5f) - (entityDimensions[2] * 0.5f);
-			coinPos += C_Vec2((rand() % (int)(screenDimensions.y * 0.1f)) - entityDimensions[2].y,
-				(rand() % (int)(screenDimensions.y * 0.1f)) - entityDimensions[2].y);
+			C_Vec2 coinPos = entityPos + (deadEntityDimensions * 0.5f) - (entityDimensions["EPU_Coin"] * 0.5f);
+			coinPos += C_Vec2((rand() % (int)(screenDimensions.y * 0.1f)) - entityDimensions["EPU_Coin"].y,
+				(rand() % (int)(screenDimensions.y * 0.1f)) - entityDimensions["EPU_Coin"].y);
 
 			//spawn the coin
-			coins.push_back(new EPU_Coin(textures["EPU_Coin"], coinPos, entityDimensions[2], screenDimensions, entityVelocity));
+			coins.push_back(new EPU_Coin(textures["EPU_Coin"], coinPos, entityDimensions["EPU_Coin"], screenDimensions, entityVelocity));
 		}
 		
 	}
@@ -625,172 +604,14 @@ void E_EntityManager::removeCompletedEffects()
 	}
 }
 
-void E_EntityManager::spawnEntityWave()
+C_Texture* E_EntityManager::getTexture(std::string iD)
 {
-	//Get a number between 0 and 5 for max 6 number of things to spawn
-	int numberToSpawn = (rand() % 6);
-
-	//Divide the screen height into the number of things to spawn
-	float zoneHeight = screenDimensions.y / numberToSpawn;
-		
-	for (int i = 0; i <= numberToSpawn; i++)
-	{
-		//Get a number between 0 and 5 for max 6 thing to spawn
-		int entityToSpawn = pickEntity();
-
-		//initialise the new spawn position
-		float spawnY = 0.0f;
-
-		//work out the minimum spawn y position within its heights zone
-		float minimumY = i * zoneHeight;
-
-		//work out the maximum spawn y position within its heights zone
-		float maximumY = ((i+1) * zoneHeight) - 1;
-		maximumY -= entityDimensions[entityToSpawn].y;
-
-		//make a random y spawn within the min and max height
-		spawnY = (float)(rand() % (int)(maximumY - minimumY)) + minimumY;
-
-		//spawn the entity
-		spawnEntity(spawnY, entityToSpawn);
-	}
-	
+	return textures[iD];
 }
 
-int E_EntityManager::pickEntity()
+C_Vec2 E_EntityManager::getEntityDimensions(std::string iD)
 {
-	//generate a new number between 1 and 200
-	int spawnNumber = (rand() % 201) + 1;
-
-	//work out the coin and health spawn % depending on lives left
-	switch (player->getHealth())
-	{
-	case 3://3 lives left - 50% coin, 0% health
-		if (spawnNumber <= 100) //50% chance
-		{
-			//entity is a coin
-			return 2;
-		}
-		break;
-
-	case 2://2 lives left - 40% coin, 10% health
-		if (spawnNumber <= 80) //40% chance
-		{
-			//entity is a coin
-			return 2;
-		}
-		else if (spawnNumber >= 81 && spawnNumber <= 100) //10% chance
-		{
-			//entity is a health
-			return 3;
-		}
-		break;
-
-	case 1://1 life left - 30% coin, 20% health
-		if (spawnNumber <= 60) //30% chance
-		{
-			//entity is a coin
-			return 2;
-		}
-		else if (spawnNumber >= 61 && spawnNumber <= 100) //20% chance
-		{
-			//entity is a health
-			return 3;
-		}
-		break;
-	}
-		
-	if (spawnNumber >= 101 && spawnNumber <= 140) // 20% chance
-	{
-		//entity is a cloud
-		return 1;
-	}
-	else if (spawnNumber >= 141 && spawnNumber <= 170) // 15% chance
-	{
-		//entity is a styphBird
-		return 0;
-	}
-	else if (spawnNumber >= 171 && spawnNumber <= 190) // 19% chance
-	{
-		//entity is a archer
-		return 5;
-	}
-	else if (spawnNumber >= 191 && spawnNumber <= 194) // 2% chance
-	{
-		//entity is a firePowerUp
-		return 4;
-	}
-	else if (spawnNumber >= 195 && spawnNumber <= 197) // 1.5% chance
-	{
-		//entity is a Shield
-		return 8;
-	}
-	else if (spawnNumber >= 198 && spawnNumber <= 199) // 1% chance
-	{
-		//entity is a killAllPowerUp
-		return 7;
-	}
-	else if (spawnNumber == 200) // 0.5% chance
-	{
-		//entity is a coinAllPowerUp
-		return 6;
-	}
-
-	//something has gone wrong
-	return -1;
-}
-
-void E_EntityManager::spawnEntity(float spawnY, int entityToSpawn)
-{
-	//Spawn the new entity
-	switch (entityToSpawn)
-	{
-	case 0: //StyphBird
-		styphBirds.push_back(new EE_StyphBird(textures["EE_StyphBird"],
-			C_Vec2(screenDimensions.x + entityDimensions[0].x, spawnY),
-			entityDimensions[0]));
-		break;
-	case 1: //StormCloud
-		stormClouds.push_back(new EE_StormCloud(textures["EE_StormCloud"],
-			C_Vec2(screenDimensions.x + entityDimensions[1].x, spawnY),
-			entityDimensions[1]));
-		break;
-	case 2: //Coin
-		coins.push_back(new EPU_Coin(textures["EPU_Coin"],
-			C_Vec2(screenDimensions.x + entityDimensions[2].x, spawnY),
-			entityDimensions[2], screenDimensions, C_Vec2(-500.0f, 0.0f)));
-		break;
-	case 3: //Health
-		healthPickups.push_back(new EPU_Health(textures["EPU_Health"],
-			C_Vec2(screenDimensions.x + entityDimensions[3].x, spawnY),
-			entityDimensions[3], screenDimensions, C_Vec2(-500.0f, 0.0f)));
-		break;
-	case 4: //FirePowerUp
-		flamingPickups.push_back(new EPU_Flaming(textures["EPU_Flaming"],
-			C_Vec2(screenDimensions.x + entityDimensions[4].x, spawnY),
-			entityDimensions[4], screenDimensions, C_Vec2(-500.0f, 0.0f)));
-		break;
-	case 5: //Archer
-		archers.push_back(new EE_Archer(textures["EE_Archer"],
-			C_Vec2(screenDimensions.x + entityDimensions[5].x, spawnY),
-			entityDimensions[5]));
-		break;
-	case 6: //CoinAllPowerUp
-		coinAllPickups.push_back(new EPU_CoinAll(textures["EPU_CoinAll"],
-			C_Vec2(screenDimensions.x + entityDimensions[6].x, spawnY),
-			entityDimensions[6], screenDimensions, C_Vec2(-500.0f, 0.0f)));
-		break;
-	case 7:  //KillAllPowerUp
-		killAllPickups.push_back(new EPU_KillAll(textures["EPU_KillAll"],
-			C_Vec2(screenDimensions.x + entityDimensions[7].x, spawnY),
-			entityDimensions[7], screenDimensions, C_Vec2(-500.0f, 0.0f)));
-		break;
-	case 8: //Shields
-		shieldPickups.push_back(new EPU_Shield(textures["EPU_Shield"],
-			C_Vec2(screenDimensions.x + entityDimensions[8].x, spawnY),
-			entityDimensions[8], screenDimensions, C_Vec2(-500.0f, 0.0f)));
-		break;
-	}
+	return entityDimensions[iD];
 }
 
 std::vector<EE_StyphBird*> E_EntityManager::getStyphBirds()
@@ -862,6 +683,61 @@ void E_EntityManager::playCoinCollectSound()
 { 
 	coinCollectSound->playEffect(); 
 };
+
+void E_EntityManager::spawnStyphBird(C_Vec2 spawnPos)
+{
+	styphBirds.push_back(
+		new EE_StyphBird(getTexture("EE_StyphBird"),spawnPos,
+		getEntityDimensions("EE_StyphBird")));
+}
+
+void E_EntityManager::spawnStormCloud(C_Vec2 spawnPos)
+{
+	stormClouds.push_back(new EE_StormCloud(getTexture("EE_StormCloud"), spawnPos,
+		getEntityDimensions("EE_StormCloud")));
+}
+
+void E_EntityManager::spawnArcher(C_Vec2 spawnPos)
+{
+	archers.push_back(new EE_Archer(getTexture("EE_Archer"), spawnPos,
+		getEntityDimensions("EE_Archer")));
+}
+
+void E_EntityManager::spawnCoin(C_Vec2 spawnPos)
+{
+	coins.push_back(new EPU_Coin(getTexture("EPU_Coin"), spawnPos,
+		getEntityDimensions("EPU_Coin"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+}
+
+void E_EntityManager::spawnHealth(C_Vec2 spawnPos)
+{
+	healthPickups.push_back(new EPU_Health(getTexture("EPU_Health"), spawnPos,
+		getEntityDimensions("EPU_Health"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+}
+
+void E_EntityManager::spawnFlaming(C_Vec2 spawnPos)
+{
+	flamingPickups.push_back(new EPU_Flaming(getTexture("EPU_Flaming"), spawnPos,
+		getEntityDimensions("EPU_Flaming"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+}
+
+void E_EntityManager::spawnCoinAll(C_Vec2 spawnPos)
+{
+	coinAllPickups.push_back(new EPU_CoinAll(getTexture("EPU_CoinAll"), spawnPos,
+		getEntityDimensions("EPU_CoinAll"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+}
+
+void E_EntityManager::spawnKillAll(C_Vec2 spawnPos)
+{
+	getKillAllPickups().push_back(new EPU_KillAll(getTexture("EPU_KillAll"), spawnPos,
+		getEntityDimensions("EPU_KillAll"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+}
+
+void E_EntityManager::spawnShield(C_Vec2 spawnPos)
+{
+	shieldPickups.push_back(new EPU_Shield(getTexture("EPU_Shield"), spawnPos,
+		getEntityDimensions("EPU_Shield"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+}
 
 ////Notes
 //-problem with clouds bounding boxes including the lighting effects which throws off the 
