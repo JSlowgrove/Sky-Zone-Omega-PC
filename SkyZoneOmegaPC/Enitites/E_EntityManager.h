@@ -61,20 +61,97 @@ public:
 	void draw();
 
 	/**
-	@brief Gets the pointer to the coin texture.
-	@returns The pointer to the coin texture.
+	@brief Gets the pointer to the wanted texture.
+	@param iD The ID of the texture to return.
+	@returns The pointer to the wanted texture.
 	*/
-	C_Texture* getCoinTexture();
+	C_Texture* getTexture(std::string iD);
 
 	/**
-	@brief Gets the pointer to the Health texture.
-	@returns The pointer to the Health texture.
+	@brief Gets the vector array of StyphBird pointers.
+	@returns The vector array of StyphBird pointers
 	*/
-	C_Texture* getHealthTexture();
+	std::vector<EE_StyphBird*> getStyphBirds();
+
+	/**
+	@brief Gets the vector array of StormCloud pointers.
+	@returns The vector array of StormCloud pointers
+	*/
+	std::vector<EE_StormCloud*> getStormClouds();
+
+	/**
+	@brief Gets the vector array of Archer pointers.
+	@returns The vector array of Archer pointers
+	*/
+	std::vector<EE_Archer*> getArchers();
+
+	/**
+	@brief Gets the vector array of Coin pointers.
+	@returns The vector array of Coin pointers
+	*/
+	std::vector<EPU_Coin*> getCoins();
+
+	/**
+	@brief Gets the vector array of Health pointers.
+	@returns The vector array of Health pointers
+	*/
+	std::vector<EPU_Health*> getHealthPickups();
+
+	/**
+	@brief Gets the vector array of Flaming pointers.
+	@returns The vector array of Flaming pointers
+	*/
+	std::vector<EPU_Flaming*> getFlamingPickups();
+
+	/**
+	@brief Gets the vector array of KillAll pointers.
+	@returns The vector array of KillAll pointers
+	*/
+	std::vector<EPU_KillAll*> getKillAllPickups();
+
+	/**
+	@brief Gets the vector array of CoinAll pointers.
+	@returns The vector array of CoinAll pointers
+	*/
+	std::vector<EPU_CoinAll*> getCoinAllPickups();
+
+	/**
+	@brief Gets the vector array of Shield pointers.
+	@returns The vector array of Shield pointers
+	*/
+	std::vector<EPU_Shield*> getShieldPickups();
+
+	/**
+	@brief Gets the vector array of PlayerArrow pointers.
+	@returns The vector array of PlayerArrow pointers
+	*/
+	std::vector<EA_PlayerArrow*> getPlayerArrows();
+
+	/**
+	@brief Gets the vector array of FlamingArrow pointers.
+	@returns The vector array of FlamingArrow pointers
+	*/
+	std::vector<EA_FlamingArrow*> getFlamingArrows();
+
+	/**
+	@brief Gets the vector array of ArcherArrow pointers.
+	@returns The vector array of ArcherArrow pointers
+	*/
+	std::vector<EA_ArcherArrow*> getArcherArrows();
+
+	/**
+	@brief Plays the current health loss sound.
+	*/
+	void playHealthLostSound();
+
+	/**
+	@brief Plays the coin collect sound.
+	*/
+	void playCoinCollectSound();
 
 private:
 	///The screen dimensions
-	C_Vec2 dimensions;
+	C_Vec2 screenDimensions;
 	///A pointer to the renderer.
 	SDL_Renderer* renderer;
 	///A pointer to the Player.
@@ -161,11 +238,6 @@ private:
 	@brief A function that deletes all of the entities flagged as dead.
 	*/
 	void removeCompletedEffects();
-
-	/**
-	@brief A function that handles all of the collision detection between the player and the entities.
-	*/
-	void entityCollisionDetection();
 
 	/**
 	@brief A function to spawn a new wave of Entities.

@@ -25,6 +25,9 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	//Initialise entity manager
 	entityManager = new E_EntityManager(dimensions, player, renderer, fireSprite, minFireTint, maxFireTint);
 
+	//Initialise gameplay
+	gameplay = new G_Gameplay(player, entityManager);
+
 	//TMP
 	backgroundMusic->muteMusic();
 }
@@ -37,6 +40,7 @@ S_Game::~S_Game()
 	delete backgroundMusic;
 	//Delete pointers
 	delete background;
+	delete gameplay;
 	delete entityManager;
 	delete player;
 	delete playerSprite;
@@ -126,6 +130,9 @@ void S_Game::update(float dt)
 	//Update Entity Manager
 	entityManager->update(dt);
 
+	//Update Gameplay
+	gameplay->update(dt);
+
 	//Update coins text
 	numOfCoins->setText(std::to_string(player->getCoins()));
 }
@@ -148,7 +155,7 @@ void S_Game::draw()
 		C_Vec2(dimensions.x * 0.50f, dimensions.y * 0.01f), C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.075f));
 
 	//Draw the coin next to the number of coins
-	entityManager->getCoinTexture()
+	entityManager->getTexture("EPU_Coin")
 		->pushToScreen(renderer, 
 		C_Vec2(dimensions.x * 0.045f, dimensions.y * 0.022f), 
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f));
@@ -175,13 +182,13 @@ void S_Game::draw()
 	}
 
 	//Draw the player health
-	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
+	entityManager->getTexture("EPU_Health")->pushSpriteToScreen(renderer,
 		C_Vec2(dimensions.x * 0.52f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthOneSprite, C_Vec2(300, 299));
-	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
+	entityManager->getTexture("EPU_Health")->pushSpriteToScreen(renderer,
 		C_Vec2(dimensions.x * 0.56f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthTwoSprite, C_Vec2(300, 299));
-	entityManager->getHealthTexture()->pushSpriteToScreen(renderer,
+	entityManager->getTexture("EPU_Health")->pushSpriteToScreen(renderer,
 		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthThreeSprite, C_Vec2(300, 299));
 }

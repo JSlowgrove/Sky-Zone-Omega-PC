@@ -73,6 +73,12 @@
     <Filter Include="Source Files\Entities\Player">
       <UniqueIdentifier>{54297bf1-08ee-4c16-9b37-5109b378ec39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Gameplay">
+      <UniqueIdentifier>{32e34113-f803-4e7a-8825-9716bf4da949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameplay">
+      <UniqueIdentifier>{69f049ef-588e-4b65-8f8c-3c5e7cdc457a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -180,6 +186,9 @@
     <ClCompile Include="Enitites\Pickups\EPU_Shield.cpp">
       <Filter>Source Files\Entities\Pickups</Filter>
     </ClCompile>
+    <ClCompile Include="Gameplay\G_Gameplay.cpp">
+      <Filter>Source Files\Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -286,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="Enitites\Pickups\EPU_Shield.h">
       <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Gameplay\G_Gameplay.h">
+      <Filter>Header Files\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

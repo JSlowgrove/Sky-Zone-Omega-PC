@@ -13,6 +13,7 @@
 #include "../BackgroundSystem/B_BackgroundManager.h"
 #include "../Enitites/Player/EP_Player.h"
 #include "../Enitites/E_EntityManager.h"
+#include "../Gameplay/G_Gameplay.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -65,6 +66,8 @@ private:
 	C_Texture* playerArcherSprite;
 	///The EntityManager.
 	E_EntityManager* entityManager;
+	///The Gameplay.
+	G_Gameplay* gameplay;
 	///The texture for the scoreScroll.
 	C_Texture* scoreScroll;
 	///The texture for the healthScroll.
