@@ -187,7 +187,7 @@ void E_EntityManager::update(float dt)
 	if (player->getFireArrow() && player->getFlaming())
 	{
 		flamingArrows.push_back(new EA_FlamingArrow(textures["EA_PlayerArrow"], textures["PS_FireParticle"],
-			C_Vec2(player->getPosition().x + player->getDimensions().x, player->getPosition().y),
+			C_Vec2(player->getPosition().x + (player->getDimensions().x * 0.4f), player->getPosition().y),
 			entityDimensions["EA_Arrow"], screenDimensions, minColourTints["PS_Fire"], maxColourTints["PS_Fire"]));
 		player->setFireArrow(false);
 	}
@@ -196,7 +196,7 @@ void E_EntityManager::update(float dt)
 	if (player->getFireArrow() && !player->getFlaming())
 	{
 		playerArrows.push_back(new EA_PlayerArrow(textures["EA_PlayerArrow"],
-			C_Vec2(player->getPosition().x + screenDimensions.x * 0.08f, player->getPosition().y),
+			C_Vec2(player->getPosition().x + (player->getDimensions().x * 0.4f), player->getPosition().y),
 			entityDimensions["EA_Arrow"], screenDimensions));
 		player->setFireArrow(false);
 	}
@@ -742,7 +742,6 @@ void E_EntityManager::spawnShield(C_Vec2 spawnPos)
 ////Notes
 //-problem with clouds bounding boxes including the lighting effects which throws off the 
 //positioning, need to redo bounding boxes of clouds so that it does not include them.
-//-player needs to be shrunk to 1/8th of the screen size so that it can fit in a zone.
 //-Player also needs to possibly change where the arrows are fired on as at the moment 
 //things can be spawned out of arrow range at the bottom and possibly at the top.
 //-Possibly change to oval oval collision detection to improve it.
@@ -751,3 +750,4 @@ void E_EntityManager::spawnShield(C_Vec2 spawnPos)
 //-possibly make the power ups be stored by the player and the player should activate them.
 //-possibly make the amount of time between waves of entities decrease as the score increases.
 //-OO the HELL out of the entity manager!!!!!
+//shrink the size of the archer and styphBird to fit the player more?
