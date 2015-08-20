@@ -214,7 +214,7 @@ void G_CollisionManager::playerShieldCollisionDetection(EPU_Shield* shield)
 	if (player->entityCollisionTest(shield->getPosition(), shield->getDimensions()))
 	{
 		shield->setDeadStatus(true);
-		//TODO
+		player->activateShield();
 	}
 }
 

@@ -127,6 +127,11 @@ public:
 	*/
 	bool getFlaming();
 
+	/**
+	@brief Activates the Player shield.
+	*/
+	void activateShield();
+
 private:
 	///The user commands for the Player.
 	bool pressed;
@@ -155,4 +160,6 @@ private:
 	PS_ParticleEffect* fireEffect;
 	///An offset for the position of the fire effect from the position the player.
 	C_Vec2 fireEffectOffset;
+	///A bool fo if the Player shield is active
+	bool shield;
 };

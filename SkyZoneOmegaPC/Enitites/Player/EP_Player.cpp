@@ -158,8 +158,14 @@ void EP_Player::increaseHealth()
 
 void EP_Player::decreaseHealth()
 {
-	//decrease health if higher than 0
-	if (health > 0)
+	//If the shield is active
+	if (shield)
+	{
+		//deactivate the shield
+		shield = false;
+		sprite->setColourTint(255, 255, 255);//tmp
+	}
+	else if (health > 0)//decrease health if higher than 0
 	{
 		health--;
 	}
@@ -223,4 +229,10 @@ void EP_Player::setFlaming(bool flamingPowerUp)
 bool EP_Player::getFlaming()
 {
 	return flamingPowerUp;
+}
+
+void EP_Player::activateShield()
+{
+	shield = true;
+	sprite->setColourTint(0, 255, 255);//tmp
 }

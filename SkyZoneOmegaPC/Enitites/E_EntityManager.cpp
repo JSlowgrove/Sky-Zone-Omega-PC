@@ -745,7 +745,6 @@ void E_EntityManager::spawnShield(C_Vec2 spawnPos)
 //-Player also needs to possibly change where the arrows are fired on as at the moment 
 //things can be spawned out of arrow range at the bottom and possibly at the top.
 //-Possibly change to oval oval collision detection to improve it.
-//-Make the shield pickup do something.
 //-Add slow down power up?
 //-possibly make the power ups be stored by the player and the player should activate them.
 //-possibly make the amount of time between waves of entities decrease as the score increases.
