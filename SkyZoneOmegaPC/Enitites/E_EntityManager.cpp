@@ -53,10 +53,7 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 	entityDimensions["EPU_Shield"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	entityDimensions["EA_Arrow"] = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
 
-	//Initialise array sounds
-	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
-	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg");
-	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg");
+	
 }
 
 E_EntityManager::~E_EntityManager()
@@ -142,10 +139,6 @@ E_EntityManager::~E_EntityManager()
 	}
 
 	//Delete audio
-	for (auto healthLossSound : healthLossSounds)
-	{
-		delete healthLossSound;
-	}
 	delete coinCollectSound;
 	delete healthCollectSound;
 }
@@ -672,11 +665,6 @@ std::vector<EA_FlamingArrow*> E_EntityManager::getFlamingArrows()
 std::vector<EA_ArcherArrow*> E_EntityManager::getArcherArrows()
 { 
 	return archerArrows; 
-};
-
-void E_EntityManager::playHealthLostSound()
-{ 
-	healthLossSounds[player->getHealth()]->playEffect(); 
 };
 
 void E_EntityManager::playCoinCollectSound()

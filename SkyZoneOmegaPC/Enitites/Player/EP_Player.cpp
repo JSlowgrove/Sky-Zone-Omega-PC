@@ -12,6 +12,11 @@ EP_Player::EP_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture
 {
 	//set the fire effect to not be emitting
 	fireEffect->setEmitting(false);
+
+	//Initialise array sounds
+	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
+	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg");
+	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg");
 }
 
 EP_Player::~EP_Player()
@@ -19,6 +24,10 @@ EP_Player::~EP_Player()
 	//delete pointers
 	delete archer;
 	delete fireEffect;
+	for (auto healthLossSound : healthLossSounds)
+	{
+		delete healthLossSound;
+	}
 }
 
 void EP_Player::update(float dt)
@@ -167,7 +176,10 @@ void EP_Player::decreaseHealth()
 	}
 	else if (health > 0)//decrease health if higher than 0
 	{
+		//decrease health
 		health--;
+		//play sound
+		healthLossSounds[health]->playEffect();
 	}
 }
 

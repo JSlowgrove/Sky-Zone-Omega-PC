@@ -6,6 +6,7 @@
 #include "../../Core/C_Vec2.h"
 #include "../../Core/C_Timer.h"
 #include "../../Core/C_Utilities.h"
+#include "../../Core/C_Audio.h"
 #include "../../ParticleSystem/PS_ParticleEffect.h"
 
 /**
@@ -160,6 +161,8 @@ private:
 	PS_ParticleEffect* fireEffect;
 	///An offset for the position of the fire effect from the position the player.
 	C_Vec2 fireEffectOffset;
-	///A bool fo if the Player shield is active
+	///A bool for if the Player shield is active
 	bool shield;
+	///The array of hit audio.
+	C_Audio* healthLossSounds[3];
 };

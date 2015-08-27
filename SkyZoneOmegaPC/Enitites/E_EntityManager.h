@@ -147,11 +147,6 @@ public:
 	std::vector<EA_ArcherArrow*> getArcherArrows();
 
 	/**
-	@brief Plays the current health loss sound.
-	*/
-	void playHealthLostSound();
-
-	/**
 	@brief Plays the coin collect sound.
 	*/
 	void playCoinCollectSound();
@@ -266,8 +261,6 @@ private:
 
 	//Audio
 
-	///The array of hit audio.
-	C_Audio* healthLossSounds[3];
 	///The health collect sound effect.
 	C_Audio* healthCollectSound;
 	///The coin collect sound effect.

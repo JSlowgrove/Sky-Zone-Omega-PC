@@ -98,7 +98,6 @@ void G_CollisionManager::playerStyphBirdCollisionDetection(EE_StyphBird* styphBi
 		styphBird->setDeathParticles(true);
 		styphBird->setDeadStatus(true);
 		player->decreaseHealth();
-		entityManager->playHealthLostSound();
 	}
 }
 
@@ -110,7 +109,6 @@ void G_CollisionManager::playerStormCloudCollisionDetection(EE_StormCloud* storm
 		stormCloud->setDeathParticles(true);
 		stormCloud->setDeadStatus(true);
 		player->decreaseHealth();
-		entityManager->playHealthLostSound();
 	}
 }
 
@@ -120,7 +118,6 @@ void G_CollisionManager::playerArrowCollisionDetection(EA_Arrow* arrow)
 	if (player->entityCollisionTest(arrow->getPosition(), arrow->getDimensions()))
 	{
 		player->decreaseHealth();
-		entityManager->playHealthLostSound();
 		arrow->setDeadStatus(true);
 		arrow->setDeathParticles(true);
 	}
@@ -144,7 +141,6 @@ void G_CollisionManager::playerHealthCollisionDetection(EPU_Health* health)
 	{
 		health->setDeadStatus(true);
 		player->increaseHealth();
-		entityManager->playHealthLostSound();
 	}
 }
 
