@@ -12,6 +12,7 @@
 #include "Pickups/EPU_CoinAll.h"
 #include "Pickups/EPU_KillAll.h"
 #include "Pickups/EPU_Shield.h"
+#include "Pickups/EPU_TimeSlow.h"
 #include "Arrows/EA_PlayerArrow.h"
 #include "Arrows/EA_FlamingArrow.h"
 #include "Arrows/EA_ArcherArrow.h"
@@ -129,6 +130,12 @@ public:
 	std::vector<EPU_Shield*> getShieldPickups();
 
 	/**
+	@brief Gets the vector array of TimeSlow pointers.
+	@returns The vector array of TimeSlow pointers
+	*/
+	std::vector<EPU_TimeSlow*> getTimeSlowPickups();
+
+	/**
 	@brief Gets the vector array of PlayerArrow pointers.
 	@returns The vector array of PlayerArrow pointers
 	*/
@@ -205,6 +212,12 @@ public:
 	*/
 	void spawnShield(C_Vec2 spawnPos);
 
+	/**
+	@brief Spawn a new TimeSlow pickup.
+	@param spawnPos The position to spawn at.
+	*/
+	void spawnTimeSlow(C_Vec2 spawnPos);
+
 private:
 	///The screen dimensions
 	C_Vec2 screenDimensions;
@@ -240,6 +253,8 @@ private:
 	std::vector<EPU_CoinAll*> coinAllPickups;
 	///The vector array of shield.
 	std::vector<EPU_Shield*> shieldPickups;
+	///The vector array of TimeSlow power ups.
+	std::vector<EPU_TimeSlow*> timeSlowPickups;
 
 	//Arrows
 

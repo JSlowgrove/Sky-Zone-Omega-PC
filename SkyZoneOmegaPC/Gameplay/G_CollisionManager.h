@@ -89,6 +89,12 @@ private:
 	void playerShieldCollisionDetection(EPU_Shield* shield);
 
 	/**
+	@brief A function that handles all of the collision detection between the Player and a TimeSlow pickup.
+	@param shield A pointer to the TimeSlow.
+	*/
+	void playerTimeSlowCollisionDetection(EPU_TimeSlow* timeSlow);
+
+	/**
 	@brief A function that handles all of the collision detection between an Arrow and a StyphBird.
 	@param arrow A pointer to the Arrow.
 	@param styphBird A pointer to the StyphBird.

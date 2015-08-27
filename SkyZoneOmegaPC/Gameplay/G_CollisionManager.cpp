@@ -88,6 +88,12 @@ void G_CollisionManager::entityCollisionDetection()
 	{
 		playerShieldCollisionDetection(shield);
 	}
+
+	//Collision for the player and the time slow power ups
+	for (auto timeSlow : entityManager->getTimeSlowPickups())
+	{
+		playerTimeSlowCollisionDetection(timeSlow);
+	}
 }
 
 void G_CollisionManager::playerStyphBirdCollisionDetection(EE_StyphBird* styphBird)
@@ -211,6 +217,16 @@ void G_CollisionManager::playerShieldCollisionDetection(EPU_Shield* shield)
 	{
 		shield->setDeadStatus(true);
 		player->activateShield();
+	}
+}
+
+void G_CollisionManager::playerTimeSlowCollisionDetection(EPU_TimeSlow* timeSlow)
+{
+	//Collision between the player and the timeSlow
+	if (player->entityCollisionTest(timeSlow->getPosition(), timeSlow->getDimensions()))
+	{
+		timeSlow->setDeadStatus(true);
+		//TODO
 	}
 }
 

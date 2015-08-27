@@ -108,6 +108,7 @@
     <ClCompile Include="Enitites\Pickups\EPU_KillAll.cpp" />
     <ClCompile Include="Enitites\Pickups\EPU_Pickup.cpp" />
     <ClCompile Include="Enitites\Pickups\EPU_Shield.cpp" />
+    <ClCompile Include="Enitites\Pickups\EPU_TimeSlow.cpp" />
     <ClCompile Include="Enitites\Player\EP_Player.cpp" />
     <ClCompile Include="Enitites\Player\EP_PlayerArcher.cpp" />
     <ClCompile Include="Gameplay\G_CollisionManager.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Enitites\Pickups\EPU_KillAll.h" />
     <ClInclude Include="Enitites\Pickups\EPU_Pickup.h" />
     <ClInclude Include="Enitites\Pickups\EPU_Shield.h" />
+    <ClInclude Include="Enitites\Pickups\EPU_TimeSlow.h" />
     <ClInclude Include="Enitites\Player\EP_Player.h" />
     <ClInclude Include="Enitites\Player\EP_PlayerArcher.h" />
     <ClInclude Include="Gameplay\G_CollisionManager.h" />

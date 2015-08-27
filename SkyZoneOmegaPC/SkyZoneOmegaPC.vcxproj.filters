@@ -195,6 +195,9 @@
     <ClCompile Include="Gameplay\G_SpawnManager.cpp">
       <Filter>Source Files\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Enitites\Pickups\EPU_TimeSlow.cpp">
+      <Filter>Source Files\Entities\Pickups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -310,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="Gameplay\G_SpawnManager.h">
       <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Enitites\Pickups\EPU_TimeSlow.h">
+      <Filter>Header Files\Entities\Pickups</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

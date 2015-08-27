@@ -16,6 +16,7 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 	textures["EPU_CoinAll"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
 	textures["EPU_KillAll"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
 	textures["EPU_Shield"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
+	textures["EPU_TimeSlow"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
 	textures["EA_PlayerArrow"] = new C_Texture("Assets/Images/playerArrow.png", renderer);
 	textures["EA_ArcherArrow"] = new C_Texture("Assets/Images/archerArrow.png", renderer);
 	textures["PS_DeathParticle"] = new C_Texture("Assets/Images/particle.png", renderer);
@@ -26,6 +27,7 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 	textures["EPU_CoinAll"]->setColourTint(255, 255, 0);
 	textures["EPU_KillAll"]->setColourTint(0, 0, 0);
 	textures["EPU_Shield"]->setColourTint(0, 255, 255);
+	textures["EPU_TimeSlow"]->setColourTint(0, 255, 0);
 
 	//Initialise the min and max tint colours for the particle effects
 	minColourTints["EE_StyphBird"] = { (Uint8)155, (Uint8)100, (Uint8)0 };
@@ -51,6 +53,7 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 	entityDimensions["EPU_CoinAll"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	entityDimensions["EPU_KillAll"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	entityDimensions["EPU_Shield"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
+	entityDimensions["EPU_TimeSlow"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	entityDimensions["EA_Arrow"] = C_Vec2(dimensions.y * 0.08f, dimensions.y * 0.02f);
 
 	
@@ -112,6 +115,12 @@ E_EntityManager::~E_EntityManager()
 		delete shield;
 	}
 
+	//Delete time slow power ups
+	for (auto timeSlow : timeSlowPickups)
+	{
+		delete timeSlow;
+	}
+
 	//Delete arrows
 	for (auto arrow : playerArrows)
 	{
@@ -162,6 +171,9 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 			break;
 		case SDLK_s://ShieldPickup
 			spawnShield(C_Vec2(screenDimensions.x + entityDimensions["EPU_Shield"].x, player->getPosition().y));
+			break;
+		case SDLK_t://TimeSlowPickup
+			spawnTimeSlow(C_Vec2(screenDimensions.x + entityDimensions["EPU_TimeSlow"].x, player->getPosition().y));
 			break;
 		}
 		break;
@@ -261,6 +273,12 @@ void E_EntityManager::update(float dt)
 		shield->update(dt);
 	}
 
+	//Update time slows
+	for (auto timeSlow : timeSlowPickups)
+	{
+		timeSlow->update(dt);
+	}
+
 	//Update Arrows
 	for (auto arrow : playerArrows)
 	{
@@ -312,6 +330,12 @@ void E_EntityManager::draw()
 	for (auto shield : shieldPickups)
 	{
 		shield->draw(renderer);
+	}
+
+	//Draw the time slow power ups
+	for (auto timeSlow : timeSlowPickups)
+	{
+		timeSlow->draw(renderer);
 	}
 
 	//Draw the arrows
@@ -484,6 +508,18 @@ void E_EntityManager::removeDeadEntites()
 		}
 	}
 
+	//Remove time slow power ups
+	for (unsigned int i = 0; i < timeSlowPickups.size(); i++)
+	{
+		if (timeSlowPickups[i]->getDeadStatus())
+		{
+			//delete pointer
+			delete timeSlowPickups[i];
+			//erase from array
+			timeSlowPickups.erase(timeSlowPickups.begin() + i);
+		}
+	}
+
 	//Remove dead Arrows
 	for (unsigned int i = 0; i < playerArrows.size(); i++)
 	{
@@ -652,6 +688,11 @@ std::vector<EPU_Shield*> E_EntityManager::getShieldPickups()
 	return shieldPickups; 
 };
 
+std::vector<EPU_TimeSlow*> E_EntityManager::getTimeSlowPickups()
+{
+	return timeSlowPickups;
+};
+
 std::vector<EA_PlayerArrow*> E_EntityManager::getPlayerArrows()
 { 
 	return playerArrows; 
@@ -727,13 +768,19 @@ void E_EntityManager::spawnShield(C_Vec2 spawnPos)
 		getEntityDimensions("EPU_Shield"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
 }
 
+void E_EntityManager::spawnTimeSlow(C_Vec2 spawnPos)
+{
+	timeSlowPickups.push_back(new EPU_TimeSlow(getTexture("EPU_TimeSlow"), spawnPos,
+		getEntityDimensions("EPU_TimeSlow"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+}
+
 ////Notes
 //-problem with clouds bounding boxes including the lighting effects which throws off the 
 //positioning, need to redo bounding boxes of clouds so that it does not include them.
 //-Player also needs to possibly change where the arrows are fired on as at the moment 
 //things can be spawned out of arrow range at the bottom and possibly at the top.
 //-Possibly change to oval oval collision detection to improve it.
-//-Add slow down power up?
+//-make slow down power up do something.
 //-possibly make the power ups be stored by the player and the player should activate them.
 //-possibly make the amount of time between waves of entities decrease as the score increases.
 //-OO the HELL out of the entity manager!!!!!
