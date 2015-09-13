@@ -13,22 +13,15 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 	textures["EE_Archer"] = new C_Texture("Assets/Images/archer.png", renderer);
 	textures["EPU_Coin"] = new C_Texture("Assets/Images/coin.png", renderer);
 	textures["EPU_Health"] = new C_Texture("Assets/Images/health300x299.png", renderer);
-	textures["EPU_Flaming"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
-	textures["EPU_CoinAll"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
-	textures["EPU_KillAll"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
-	textures["EPU_Shield"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
-	textures["EPU_TimeSlow"] = new C_Texture("Assets/Images/particle.png", renderer);//tmp
+	textures["EPU_Flaming"] = new C_Texture("Assets/Images/flaming.png", renderer);
+	textures["EPU_CoinAll"] = new C_Texture("Assets/Images/coinAll.png", renderer);
+	textures["EPU_KillAll"] = new C_Texture("Assets/Images/killAll.png", renderer);
+	textures["EPU_Shield"] = new C_Texture("Assets/Images/shield.png", renderer);
+	textures["EPU_TimeSlow"] = new C_Texture("Assets/Images/timeSlow.png", renderer);
 	textures["EA_PlayerArrow"] = new C_Texture("Assets/Images/playerArrow.png", renderer);
 	textures["EA_ArcherArrow"] = new C_Texture("Assets/Images/archerArrow.png", renderer);
 	textures["PS_DeathParticle"] = new C_Texture("Assets/Images/particle.png", renderer);
 	textures["PS_FireParticle"] = fireSprite;
-
-	//tmp
-	textures["EPU_Flaming"]->setColourTint(255, 0, 0);
-	textures["EPU_CoinAll"]->setColourTint(255, 255, 0);
-	textures["EPU_KillAll"]->setColourTint(0, 0, 0);
-	textures["EPU_Shield"]->setColourTint(0, 255, 255);
-	textures["EPU_TimeSlow"]->setColourTint(0, 255, 0);
 
 	//Initialise the min and max tint colours for the particle effects
 	minColourTints["EE_StyphBird"] = { (Uint8)155, (Uint8)100, (Uint8)0 };
@@ -167,7 +160,7 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 		case SDLK_c://CoinAllPickup
 			spawnCoinAll(C_Vec2(screenDimensions.x + entityDimensions["EPU_CoinAll"].x, player->getPosition().y));
 			break;
-		case SDLK_d://KillAllPickup
+		case SDLK_k://KillAllPickup
 			spawnKillAll(C_Vec2(screenDimensions.x + entityDimensions["EPU_KillAll"].x, player->getPosition().y));
 			break;
 		case SDLK_s://ShieldPickup
@@ -175,6 +168,9 @@ void E_EntityManager::input(SDL_Event& incomingEvent)
 			break;
 		case SDLK_t://TimeSlowPickup
 			spawnTimeSlow(C_Vec2(screenDimensions.x + entityDimensions["EPU_TimeSlow"].x, player->getPosition().y));
+			break;
+		case SDLK_f://FlamingPickup
+			spawnFlaming(C_Vec2(screenDimensions.x + entityDimensions["EPU_Flaming"].x, player->getPosition().y));
 			break;
 		}
 		break;
@@ -771,7 +767,7 @@ void E_EntityManager::spawnCoinAll(C_Vec2 spawnPos)
 
 void E_EntityManager::spawnKillAll(C_Vec2 spawnPos)
 {
-	getKillAllPickups().push_back(new EPU_KillAll(getTexture("EPU_KillAll"), spawnPos,
+	killAllPickups.push_back(new EPU_KillAll(getTexture("EPU_KillAll"), spawnPos,
 		getEntityDimensions("EPU_KillAll"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
@@ -793,7 +789,6 @@ void E_EntityManager::spawnTimeSlow(C_Vec2 spawnPos)
 //-Player also needs to possibly change where the arrows are fired on as at the moment 
 //things can be spawned out of arrow range at the bottom and possibly at the top.
 //-Possibly change to oval oval collision detection to improve it.
-//-make slow down power up do something.
 //-possibly make the power ups be stored by the player and the player should activate them.
 //-possibly make the amount of time between waves of entities decrease as the score increases.
 //-OO the HELL out of the entity manager!!!!!

@@ -106,10 +106,15 @@ int G_SpawnManager::pickEntity()
 		//entity is a styphBird
 		return 0;
 	}
-	else if (spawnNumber >= 171 && spawnNumber <= 190) // 19% chance
+	else if (spawnNumber >= 171 && spawnNumber <= 186) // 17% chance
 	{
 		//entity is a archer
 		return 5;
+	}
+	else if (spawnNumber >= 187 && spawnNumber <= 190) // 2% chance
+	{
+		//entity is a timeSlowPickup
+		return 9;
 	}
 	else if (spawnNumber >= 191 && spawnNumber <= 194) // 2% chance
 	{
@@ -168,6 +173,9 @@ std::string G_SpawnManager::getEntityID(int entityType)
 	case 8: //Shields
 		return "EPU_Shield";
 		break;
+	case 9: //TimeSlow
+		return "EPU_TimeSlow";
+		break;
 	}
 }
 
@@ -211,6 +219,10 @@ void G_SpawnManager::spawnEntity(float spawnY, int entityToSpawn)
 	case 8: //Shields
 		entityManager->spawnShield(
 			C_Vec2(screenDimensions.x + entityManager->getEntityDimensions("EPU_Shield").x, spawnY));
+		break;
+	case 9: //TimeSlow
+		entityManager->spawnTimeSlow(
+			C_Vec2(screenDimensions.x + entityManager->getEntityDimensions("EPU_TimeSlow").x, spawnY));
 		break;
 	}
 }
