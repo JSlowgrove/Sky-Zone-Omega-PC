@@ -25,8 +25,8 @@ void G_SpawnManager::update(float dt)
 
 void G_SpawnManager::spawnEntityWave()
 {
-	//Get a number between 0 and 5 for max 6 number of things to spawn
-	int numberToSpawn = (rand() % 6);
+	//Get a number between 0 and 3 for max 4 number of things to spawn
+	int numberToSpawn = (rand() % 4);
 
 	//Divide the screen height into the number of things to spawn
 	float zoneHeight = screenDimensions.y / numberToSpawn;
