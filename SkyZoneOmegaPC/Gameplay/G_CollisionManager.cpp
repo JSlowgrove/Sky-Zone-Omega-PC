@@ -227,7 +227,7 @@ void G_CollisionManager::playerTimeSlowCollisionDetection(EPU_TimeSlow* timeSlow
 	if (player->entityCollisionTest(timeSlow->getPosition(), timeSlow->getDimensions()))
 	{
 		timeSlow->setDeadStatus(true);
-		*universalSpeed = 0.5f;
+		player->setTimeSlow(true);
 	}
 }
 

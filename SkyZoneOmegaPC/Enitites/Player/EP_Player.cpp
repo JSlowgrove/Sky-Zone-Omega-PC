@@ -7,7 +7,7 @@ EP_Player::EP_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture
 	screenDimensions(screenDimensions), 
 	pressed(false), health(3), maxHealth(3), coins(0), maxCoins(999999999),
 	archer(new EP_PlayerArcher(archerSprite, archerPos, archerDimensions, universalSpeed)), 
-	archerOffset(archerPos - pos), flamingPowerUp(false), flamingPowerUpTimer(30), 
+	archerOffset(archerPos - pos), flamingPowerUp(false), flamingPowerUpTimer(30), timeSlowPowerUp(false), timeSlowPowerUpTimer(10),
 	fireEffectOffset(C_Vec2(screenDimensions.x * 0.022f, screenDimensions.y * 0.05f)),
 	fireEffect(new PS_ParticleEffect(fireSprite, pos + fireEffectOffset, true, 5.0f, 15.0f, 0.1f, minTint, maxTint))
 {
@@ -52,6 +52,19 @@ void EP_Player::update(float dt)
 
 			//set the fire effect to not be emitting
 			fireEffect->setEmitting(false);
+		}
+	}
+
+	//If the timeSlow power up is active update the timer
+	if (timeSlowPowerUp)
+	{
+		timeSlowPowerUpTimer.upadateTimer(dt);
+		
+		//If the timer has ended reset the timer and deactivate the power up
+		if (timeSlowPowerUpTimer.checkTimer())
+		{
+			timeSlowPowerUpTimer.resetTimer();
+			timeSlowPowerUp = false;
 		}
 	}
 
@@ -242,6 +255,16 @@ void EP_Player::setFlaming(bool flamingPowerUp)
 bool EP_Player::getFlaming()
 {
 	return flamingPowerUp;
+}
+
+void EP_Player::setTimeSlow(bool timeSlowPowerUp)
+{
+	this->timeSlowPowerUp = timeSlowPowerUp;
+}
+
+bool EP_Player::getTimeSlow()
+{
+	return timeSlowPowerUp;
 }
 
 void EP_Player::activateShield()

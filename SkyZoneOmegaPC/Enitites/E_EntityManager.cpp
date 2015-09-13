@@ -189,6 +189,16 @@ void E_EntityManager::update(float dt)
 	//remove completed particle effects
 	removeCompletedEffects();
 
+	//set the time speed to be the value of the time slow effect if active
+	if (player->getTimeSlow())
+	{
+		*universalSpeed = 0.5f;
+	}
+	else
+	{
+		*universalSpeed = 1.0f;
+	}
+
 	//check if the player should fire an flaming arrow
 	if (player->getFireArrow() && player->getFlaming())
 	{

@@ -124,10 +124,22 @@ public:
 	void setFlaming(bool flamingPowerUp);
 
 	/**
-	@brief Gets the value of the archer firing boolean.
+	@brief Gets the value of the flamingPowerUp boolean.
 	@returns The value of flamingPowerUp.
 	*/
 	bool getFlaming();
+
+	/**
+	@brief Sets the value of the timeSlowPowerUp boolean.
+	@param flamingPowerUp The new value of timeSlowPowerUp.
+	*/
+	void setTimeSlow(bool timeSlowPowerUp);
+
+	/**
+	@brief Gets the value of the timeSlowPowerUp boolean.
+	@returns The value of timeSlowPowerUp.
+	*/
+	bool getTimeSlow();
 
 	/**
 	@brief Activates the Player shield.
@@ -166,4 +178,8 @@ private:
 	bool shield;
 	///The array of hit audio.
 	C_Audio* healthLossSounds[3];
+	///A boolean for if the player has the time slow power up active.
+	bool timeSlowPowerUp;
+	///The timeSlowPowerUp timer.
+	C_Timer timeSlowPowerUpTimer;
 };
