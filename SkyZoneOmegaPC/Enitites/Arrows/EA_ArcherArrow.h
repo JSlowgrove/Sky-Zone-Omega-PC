@@ -16,8 +16,9 @@ public:
 	@param sprite A pointer to the objects Texture.
 	@param pos The position of the ArcherArrow.
 	@param dimensions The dimensions of the ArcherArrow.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	EA_ArcherArrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions);
+	EA_ArcherArrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed);
 
 	/**
 	@brief Destructs the ArcherArrow object.

@@ -3,7 +3,6 @@
 S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions)
 	: S_State(stateManager, renderer, dimensions), 
 	mousePos(C_Vec2()), 
-	background(new B_BackgroundManager(renderer, dimensions)),
 	playerSprite(new C_Texture("Assets/Images/player699x436.png", renderer)),
 	playerArcherSprite(new C_Texture("Assets/Images/tmp.png", renderer)),//tmp
 	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
@@ -17,16 +16,23 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	//Initialise random seed
 	srand((unsigned int)time(NULL));
 
+	//Initialise universal speed
+	universalSpeed = new float(1.0f);
+
+	//Initialise backgrounds
+	background = new B_BackgroundManager(renderer, dimensions, universalSpeed);
+
 	//Initialise player
 	player = new EP_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.125f, 
 		playerArcherSprite, C_Vec2(dimensions.x * 0.1125f, dimensions.y * 0.38f), 
-		C_Vec2(dimensions.y * 0.0625f, dimensions.y * 0.09375f), dimensions, fireSprite, minFireTint, maxFireTint);
+		C_Vec2(dimensions.y * 0.0625f, dimensions.y * 0.09375f), dimensions, fireSprite, 
+		minFireTint, maxFireTint, universalSpeed);
 
 	//Initialise entity manager
-	entityManager = new E_EntityManager(dimensions, player, renderer, fireSprite, minFireTint, maxFireTint);
+	entityManager = new E_EntityManager(dimensions, player, renderer, fireSprite, minFireTint, maxFireTint, universalSpeed);
 
 	//Initialise gameplay
-	gameplay = new G_Gameplay(dimensions, player, entityManager);
+	gameplay = new G_Gameplay(dimensions, player, entityManager, universalSpeed);
 
 	//TMP
 	backgroundMusic->muteMusic();
@@ -46,6 +52,7 @@ S_Game::~S_Game()
 	delete playerSprite;
 	delete scoreScroll;
 	delete healthScroll;
+	delete universalSpeed;
 }
 
 bool S_Game::input()

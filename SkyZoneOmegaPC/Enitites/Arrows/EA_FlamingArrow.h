@@ -21,9 +21,10 @@ public:
 	@param screenDimensions The dimensions of the screen.
 	@param minTint The minimum tint for the fire particles.
 	@param maxTint The maximum tint for the fire particles.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
 	EA_FlamingArrow(C_Texture* sprite, C_Texture* fireSprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions,
-		SDL_Colour minTint, SDL_Colour maxTint);
+		SDL_Colour minTint, SDL_Colour maxTint, float* universalSpeed);
 
 	/**
 	@brief Destructs the FlamingArrow object.

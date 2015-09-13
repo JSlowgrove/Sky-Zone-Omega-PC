@@ -1,11 +1,12 @@
 #include "EP_Player.h"
 
 EP_Player::EP_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture* archerSprite, C_Vec2 archerPos,
-	C_Vec2 archerDimensions, C_Vec2 screenDimensions, C_Texture* fireSprite, SDL_Colour minTint, SDL_Colour maxTint)
-	: EB_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f, "EP_Player"),
+	C_Vec2 archerDimensions, C_Vec2 screenDimensions, C_Texture* fireSprite, SDL_Colour minTint, SDL_Colour maxTint, 
+	float* universalSpeed)
+	: EB_Animated(sprite, pos, dimensions, 5, C_Vec2(699, 436), 0.1f, "EP_Player", universalSpeed),
 	screenDimensions(screenDimensions), 
 	pressed(false), health(3), maxHealth(3), coins(0), maxCoins(999999999),
-	archer(new EP_PlayerArcher(archerSprite, archerPos, archerDimensions)), 
+	archer(new EP_PlayerArcher(archerSprite, archerPos, archerDimensions, universalSpeed)), 
 	archerOffset(archerPos - pos), flamingPowerUp(false), flamingPowerUpTimer(30), 
 	fireEffectOffset(C_Vec2(screenDimensions.x * 0.022f, screenDimensions.y * 0.05f)),
 	fireEffect(new PS_ParticleEffect(fireSprite, pos + fireEffectOffset, true, 5.0f, 15.0f, 0.1f, minTint, maxTint))

@@ -35,9 +35,10 @@ public:
 	@param fireSprite A pointer to the particles Texture.
 	@param minTint The minimum tint for the fire particles.
 	@param maxTint The maximum tint for the fire particles.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
 	E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, C_Texture* fireSprite,
-		SDL_Colour minFireTint, SDL_Colour maxFireTint);
+		SDL_Colour minFireTint, SDL_Colour maxFireTint, float* universalSpeed);
 
 	/**
 	@brief Destructs the Entity Manager.
@@ -229,6 +230,8 @@ private:
 	std::unordered_map<std::string, C_Texture*> textures;
 	///An unordered map of the entity dimensions.
 	std::unordered_map<std::string, C_Vec2> entityDimensions;
+	///A pointer for the universal speed of the game.
+	float* universalSpeed;
 
 	//Enemies
 

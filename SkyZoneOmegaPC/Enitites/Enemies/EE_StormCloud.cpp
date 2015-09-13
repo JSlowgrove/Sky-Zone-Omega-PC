@@ -1,7 +1,7 @@
 #include "EE_StormCloud.h"
 
-EE_StormCloud::EE_StormCloud(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-500.0f, 0.0f), 3,C_Vec2(562, 500), 0.075f, "EE_StormCloud"), 
+EE_StormCloud::EE_StormCloud(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed)
+	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-500.0f, 0.0f), 3, C_Vec2(562, 500), 0.075f, "EE_StormCloud", universalSpeed),
 	dead(false), deathParticles(false)
 {
 	//Initialise the sprite position
@@ -63,12 +63,12 @@ void EE_StormCloud::animate(float dt)
 		{
 			spriteIndex.x = 0.0f;
 			//set the length of the next animation frame
-			animationTimer.setTimerLength(0.5f);
+			animationTimer.resetTimerLength((1 / *universalSpeed) * 0.5f);
 		}
 		else if (spriteIndex.x > 0.0f)
 		{
 			//set the length of the next animation frame
-			animationTimer.setTimerLength(0.075f);
+			animationTimer.resetTimerLength((1 / *universalSpeed) * 0.075f);
 		}
 	}
 }

@@ -28,13 +28,19 @@ void C_Timer::resetTimer()
 	finished = false;
 }
 
-void C_Timer::setTimerLength(float timerLength)
+void C_Timer::resetTimerLength(float timerLength)
 {
 	//set the timer length
 	this->timerLength = timerLength;
 
 	//reset the timer
 	resetTimer();
+}
+
+void C_Timer::setTimerLength(float timerLength)
+{
+	//set the timer length
+	this->timerLength = timerLength;
 }
 
 bool C_Timer::checkTimer()

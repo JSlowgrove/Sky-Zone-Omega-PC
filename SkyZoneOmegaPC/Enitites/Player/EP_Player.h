@@ -28,10 +28,11 @@ public:
 	@param fireSprite A pointer to the particles Texture.
 	@param minTint The minimum tint for the fire particles.
 	@param maxTint The maximum tint for the fire particles.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
 	EP_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture* archerSprite, C_Vec2 archerPos,
 		C_Vec2 archerDimensions, C_Vec2 screenDimensions, C_Texture* fireSprite, SDL_Colour minTint, 
-		SDL_Colour maxTint);
+		SDL_Colour maxTint, float* universalSpeed);
 
 	/**
 	@brief Destructs the Player object.

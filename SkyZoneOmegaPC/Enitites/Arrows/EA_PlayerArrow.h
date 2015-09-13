@@ -17,8 +17,9 @@ public:
 	@param pos The position of the PlayerArrow.
 	@param dimensions The dimensions of the PlayerArrow.
 	@param screenDimensions The dimensions of the screen.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	EA_PlayerArrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions);
+	EA_PlayerArrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions, float* universalSpeed);
 
 	/**
 	@brief Destructs the PlayerArrow object.

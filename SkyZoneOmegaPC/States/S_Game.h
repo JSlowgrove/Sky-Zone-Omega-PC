@@ -80,4 +80,6 @@ private:
 	SDL_Colour minFireTint;
 	///The max tint colour for use with the fire effect.
 	SDL_Colour maxFireTint;
+	///A pointer for the universal speed of the game.
+	float* universalSpeed;
 };

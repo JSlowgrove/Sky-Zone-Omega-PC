@@ -1,10 +1,11 @@
 #include "E_EntityManager.h"
 
 E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, 
-	C_Texture* fireSprite, SDL_Colour minFireTint, SDL_Colour maxFireTint) :
+	C_Texture* fireSprite, SDL_Colour minFireTint, SDL_Colour maxFireTint, float* universalSpeed) :
 	screenDimensions(dimensions), player(player), renderer(renderer),
 	coinCollectSound(new C_Audio("Assets/Audio/powerUp2.ogg")),
-	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg"))
+	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg")),
+	universalSpeed(universalSpeed)
 {	
 	//Initialise the textures
 	textures["EE_StyphBird"] = new C_Texture("Assets/Images/stymphalianBird.png", renderer);
@@ -193,7 +194,7 @@ void E_EntityManager::update(float dt)
 	{
 		flamingArrows.push_back(new EA_FlamingArrow(textures["EA_PlayerArrow"], textures["PS_FireParticle"],
 			C_Vec2(player->getPosition().x + (player->getDimensions().x * 0.4f), player->getPosition().y),
-			entityDimensions["EA_Arrow"], screenDimensions, minColourTints["PS_Fire"], maxColourTints["PS_Fire"]));
+			entityDimensions["EA_Arrow"], screenDimensions, minColourTints["PS_Fire"], maxColourTints["PS_Fire"], universalSpeed));
 		player->setFireArrow(false);
 	}
 
@@ -202,7 +203,7 @@ void E_EntityManager::update(float dt)
 	{
 		playerArrows.push_back(new EA_PlayerArrow(textures["EA_PlayerArrow"],
 			C_Vec2(player->getPosition().x + (player->getDimensions().x * 0.4f), player->getPosition().y),
-			entityDimensions["EA_Arrow"], screenDimensions));
+			entityDimensions["EA_Arrow"], screenDimensions, universalSpeed));
 		player->setFireArrow(false);
 	}
 	
@@ -232,7 +233,8 @@ void E_EntityManager::update(float dt)
 		if (archer->getFireArrow())
 		{
 			//Fire an arrow
-			archerArrows.push_back(new EA_ArcherArrow(textures["EA_ArcherArrow"], archer->getPosition(), entityDimensions["EA_Arrow"]));
+			archerArrows.push_back(new EA_ArcherArrow(textures["EA_ArcherArrow"], archer->getPosition(), 
+				entityDimensions["EA_Arrow"], universalSpeed));
 			archer->setFireArrow(false);
 		}
 	}
@@ -594,7 +596,8 @@ void E_EntityManager::createDeathEffects(C_Vec2 entityPos, C_Vec2 entityVelocity
 				(rand() % (int)(screenDimensions.y * 0.1f)) - entityDimensions["EPU_Coin"].y);
 
 			//spawn the coin
-			coins.push_back(new EPU_Coin(textures["EPU_Coin"], coinPos, entityDimensions["EPU_Coin"], screenDimensions, entityVelocity));
+			coins.push_back(new EPU_Coin(textures["EPU_Coin"], coinPos, entityDimensions["EPU_Coin"], 
+				screenDimensions, entityVelocity, universalSpeed));
 		}
 		
 	}
@@ -717,61 +720,61 @@ void E_EntityManager::spawnStyphBird(C_Vec2 spawnPos)
 {
 	styphBirds.push_back(
 		new EE_StyphBird(getTexture("EE_StyphBird"),spawnPos,
-		getEntityDimensions("EE_StyphBird")));
+		getEntityDimensions("EE_StyphBird"), universalSpeed));
 }
 
 void E_EntityManager::spawnStormCloud(C_Vec2 spawnPos)
 {
 	stormClouds.push_back(new EE_StormCloud(getTexture("EE_StormCloud"), spawnPos,
-		getEntityDimensions("EE_StormCloud")));
+		getEntityDimensions("EE_StormCloud"), universalSpeed));
 }
 
 void E_EntityManager::spawnArcher(C_Vec2 spawnPos)
 {
 	archers.push_back(new EE_Archer(getTexture("EE_Archer"), spawnPos,
-		getEntityDimensions("EE_Archer")));
+		getEntityDimensions("EE_Archer"), universalSpeed));
 }
 
 void E_EntityManager::spawnCoin(C_Vec2 spawnPos)
 {
 	coins.push_back(new EPU_Coin(getTexture("EPU_Coin"), spawnPos,
-		getEntityDimensions("EPU_Coin"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		getEntityDimensions("EPU_Coin"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
 void E_EntityManager::spawnHealth(C_Vec2 spawnPos)
 {
 	healthPickups.push_back(new EPU_Health(getTexture("EPU_Health"), spawnPos,
-		getEntityDimensions("EPU_Health"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		getEntityDimensions("EPU_Health"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
 void E_EntityManager::spawnFlaming(C_Vec2 spawnPos)
 {
 	flamingPickups.push_back(new EPU_Flaming(getTexture("EPU_Flaming"), spawnPos,
-		getEntityDimensions("EPU_Flaming"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		getEntityDimensions("EPU_Flaming"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
 void E_EntityManager::spawnCoinAll(C_Vec2 spawnPos)
 {
 	coinAllPickups.push_back(new EPU_CoinAll(getTexture("EPU_CoinAll"), spawnPos,
-		getEntityDimensions("EPU_CoinAll"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		getEntityDimensions("EPU_CoinAll"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
 void E_EntityManager::spawnKillAll(C_Vec2 spawnPos)
 {
 	getKillAllPickups().push_back(new EPU_KillAll(getTexture("EPU_KillAll"), spawnPos,
-		getEntityDimensions("EPU_KillAll"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		getEntityDimensions("EPU_KillAll"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
 void E_EntityManager::spawnShield(C_Vec2 spawnPos)
 {
 	shieldPickups.push_back(new EPU_Shield(getTexture("EPU_Shield"), spawnPos,
-		getEntityDimensions("EPU_Shield"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		getEntityDimensions("EPU_Shield"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
 void E_EntityManager::spawnTimeSlow(C_Vec2 spawnPos)
 {
 	timeSlowPickups.push_back(new EPU_TimeSlow(getTexture("EPU_TimeSlow"), spawnPos,
-		getEntityDimensions("EPU_TimeSlow"), screenDimensions, C_Vec2(-500.0f, 0.0f)));
+		getEntityDimensions("EPU_TimeSlow"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
 
 ////Notes

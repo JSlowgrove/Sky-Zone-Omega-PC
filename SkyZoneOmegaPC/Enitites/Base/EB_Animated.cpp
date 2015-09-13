@@ -1,8 +1,8 @@
 #include "EB_Animated.h"
 
-EB_Animated::EB_Animated(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, 
-	int animationFrames, C_Vec2 spriteDimensions, float animationLength, std::string iD)
-	: EB_Entity(sprite, pos, dimensions, iD), animationFrames(animationFrames),
+EB_Animated::EB_Animated(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, int animationFrames, 
+	C_Vec2 spriteDimensions, float animationLength, std::string iD, float* universalSpeed)
+	: EB_Entity(sprite, pos, dimensions, iD, universalSpeed), animationFrames(animationFrames),
 	spriteDimensions(spriteDimensions), animationTimer(animationLength), spriteIndex(C_Vec2())
 {
 }

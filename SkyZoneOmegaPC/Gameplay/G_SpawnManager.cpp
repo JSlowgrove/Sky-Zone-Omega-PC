@@ -1,7 +1,7 @@
 #include "G_SpawnManager.h"
 
-G_SpawnManager::G_SpawnManager(C_Vec2 screenDimensions, EP_Player* player, E_EntityManager* entityManager)
-	: screenDimensions(screenDimensions), player(player), entityManager(entityManager), spawnTimer(1.0f)
+G_SpawnManager::G_SpawnManager(C_Vec2 screenDimensions, EP_Player* player, E_EntityManager* entityManager, float* universalSpeed)
+	: screenDimensions(screenDimensions), player(player), entityManager(entityManager), spawnTimer(1.0f), universalSpeed(universalSpeed)
 {
 }
 
@@ -11,6 +11,8 @@ G_SpawnManager::~G_SpawnManager()
 
 void G_SpawnManager::update(float dt)
 {
+	//set the length of the timer length depending on the universal speed
+	spawnTimer.setTimerLength(1 / *universalSpeed);
 	//Update the spawn timer
 	spawnTimer.upadateTimer(dt);
 	//check if a new wave of entities should be spawned

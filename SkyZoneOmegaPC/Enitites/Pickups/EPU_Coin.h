@@ -18,8 +18,10 @@ public:
 	@param dimensions The dimensions of the Coin.
 	@param screenDimensions The dimensions of the screen.
 	@param velocities The velocities of the Coin.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	EPU_Coin(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions, C_Vec2 velocities);
+	EPU_Coin(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 screenDimensions, 
+		C_Vec2 velocities, float* universalSpeed);
 
 	/**
 	@brief Destructs the Coin object.

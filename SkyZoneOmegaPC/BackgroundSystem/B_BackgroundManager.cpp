@@ -1,6 +1,6 @@
 #include "B_BackgroundManager.h"
 
-B_BackgroundManager::B_BackgroundManager(SDL_Renderer* renderer, C_Vec2 dimensions)
+B_BackgroundManager::B_BackgroundManager(SDL_Renderer* renderer, C_Vec2 dimensions, float* universalSpeed)
 {
 	//Initialise the background textures
 	background[0] = new C_Texture("Assets/Images/bottomBackground.png", renderer);
@@ -8,11 +8,11 @@ B_BackgroundManager::B_BackgroundManager(SDL_Renderer* renderer, C_Vec2 dimensio
 	background[2] = new C_Texture("Assets/Images/topBackground.png", renderer);
 
 	//Initialise the background layers
-	bottomBackgroundLayer = new B_Background(background[0], C_Vec2(), dimensions, C_Vec2());
-	middleBackgroundLayer[0] = new B_Background(background[1], C_Vec2(), dimensions, C_Vec2(-400.0f, 0.0f));
-	middleBackgroundLayer[1] = new B_Background(background[1], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-400.0f, 0.0f));
-	topBackgroundLayer[0] = new B_Background(background[2], C_Vec2(), dimensions, C_Vec2(-750.0f, 0.0f));
-	topBackgroundLayer[1] = new B_Background(background[2], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-750.0f, 0.0f));
+	bottomBackgroundLayer = new B_Background(background[0], C_Vec2(), dimensions, C_Vec2(), universalSpeed);
+	middleBackgroundLayer[0] = new B_Background(background[1], C_Vec2(), dimensions, C_Vec2(-400.0f, 0.0f), universalSpeed);
+	middleBackgroundLayer[1] = new B_Background(background[1], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-400.0f, 0.0f), universalSpeed);
+	topBackgroundLayer[0] = new B_Background(background[2], C_Vec2(), dimensions, C_Vec2(-750.0f, 0.0f), universalSpeed);
+	topBackgroundLayer[1] = new B_Background(background[2], C_Vec2(dimensions.x, 0.0f), dimensions, C_Vec2(-750.0f, 0.0f), universalSpeed);
 }
 
 B_BackgroundManager::~B_BackgroundManager()

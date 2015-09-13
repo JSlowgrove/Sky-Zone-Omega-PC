@@ -19,8 +19,10 @@ public:
 	@param velocity The velocity of the Arrow.
 	@param iD The ID of the Entity type.
 	@param dmage The ammount of damage the Arrow does.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity, std::string iD, int damage);
+	EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity, 
+		std::string iD, int damage, float* universalSpeed);
 
 	/**
 	@brief Destructs the Arrow object.

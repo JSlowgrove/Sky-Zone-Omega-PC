@@ -1,7 +1,7 @@
 #include "EE_Archer.h"
 
-EE_Archer::EE_Archer(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions)
-	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-350.0f, 0.0f), 6, C_Vec2(218, 320), 0.075f, "EE_Archer"), 
+EE_Archer::EE_Archer(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed)
+	: EB_VelocityAnimated(sprite, pos, dimensions, C_Vec2(-350.0f, 0.0f), 6, C_Vec2(218, 320), 0.075f, "EE_Archer", universalSpeed),
 	dead(false), coinSpawn(false), deathParticles(false), fireArrow(false), health(3)
 {
 }
@@ -79,6 +79,9 @@ void EE_Archer::decreaseHealth(int damage)
 
 void EE_Archer::animate(float dt)
 {
+	//set the length of the timer length depending on the universal speed
+	animationTimer.setTimerLength((1 / *universalSpeed) * 0.075f);
+
 	//Update the animation
 	animationTimer.upadateTimer(dt);
 

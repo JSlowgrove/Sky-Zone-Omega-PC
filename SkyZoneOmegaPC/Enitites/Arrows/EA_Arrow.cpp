@@ -1,7 +1,7 @@
 #include "EA_Arrow.h"
 
-EA_Arrow::EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity, std::string iD, int damage)
-	: EB_Velocity(sprite, pos, dimensions, velocity, iD), dead(false), deathParticles(false), damage(damage)
+EA_Arrow::EA_Arrow(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocity, std::string iD, int damage, float* universalSpeed)
+	: EB_Velocity(sprite, pos, dimensions, velocity, iD, universalSpeed), dead(false), deathParticles(false), damage(damage)
 {
 }
 

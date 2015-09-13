@@ -1,6 +1,7 @@
 #include "G_CollisionManager.h"
 
-G_CollisionManager::G_CollisionManager(EP_Player* player, E_EntityManager* entityManager) : player(player), entityManager(entityManager)
+G_CollisionManager::G_CollisionManager(EP_Player* player, E_EntityManager* entityManager, float* universalSpeed) 
+	: player(player), entityManager(entityManager), universalSpeed(universalSpeed)
 {
 }
 
@@ -226,7 +227,7 @@ void G_CollisionManager::playerTimeSlowCollisionDetection(EPU_TimeSlow* timeSlow
 	if (player->entityCollisionTest(timeSlow->getPosition(), timeSlow->getDimensions()))
 	{
 		timeSlow->setDeadStatus(true);
-		//TODO
+		*universalSpeed = 0.5f;
 	}
 }
 

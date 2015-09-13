@@ -15,8 +15,9 @@ public:
 	@brief Constructs the CollisionManager.
 	@param player A pointer to the Player.
 	@param entityManager A pointer to the EntityManager.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	G_CollisionManager(EP_Player* player, E_EntityManager* entityManager);
+	G_CollisionManager(EP_Player* player, E_EntityManager* entityManager, float* universalSpeed);
 
 	/**
 	@brief Destructs the G_CollisionManager.
@@ -33,6 +34,8 @@ private:
 	EP_Player* player;
 	///A pointer to the EntityManager.
 	E_EntityManager* entityManager;
+	///A pointer for the universal speed of the game.
+	float* universalSpeed;
 
 	/**
 	@brief A function that handles all of the collision detection between the Player and a StymphBird.

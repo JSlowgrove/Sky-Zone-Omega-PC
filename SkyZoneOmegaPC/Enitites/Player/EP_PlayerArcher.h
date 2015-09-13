@@ -17,8 +17,9 @@ public:
 	@param sprite A pointer to the objects Texture.
 	@param pos The position of the Player Archer.
 	@param dimensions The dimensions of the Player Archer.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	EP_PlayerArcher(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions);
+	EP_PlayerArcher(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed);
 
 	/**
 	@brief Destructs the Player Archer object.

@@ -20,9 +20,10 @@ public:
 	@param spriteDimensions The dimensions of the sprite.
 	@param animationLength The length of each animation frame.
 	@param iD The ID of the Entity type.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
 	EB_Animated(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, int animationFrames, 
-		C_Vec2 spriteDimensions, float animationLength, std::string iD);
+		C_Vec2 spriteDimensions, float animationLength, std::string iD, float* universalSpee);
 
 	/**
 	@brief Destructs the Animated Entity object.

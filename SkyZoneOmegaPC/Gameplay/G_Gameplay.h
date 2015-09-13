@@ -18,8 +18,9 @@ public:
 	@param screenDimensions The screen dimensions.
 	@param player A pointer to the Player.
 	@param entityManager A pointer to the EntityManager.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	G_Gameplay(C_Vec2 screenDimensions, EP_Player* player, E_EntityManager* entityManager);
+	G_Gameplay(C_Vec2 screenDimensions, EP_Player* player, E_EntityManager* entityManager, float* universalSpeed);
 
 	/**
 	@brief Destructs the Gameplay object.
@@ -43,4 +44,6 @@ private:
 	G_CollisionManager* collisionManager;
 	///A pointer to the SpawnManager
 	G_SpawnManager* spawnManager;
+	///A pointer for the universal speed of the game.
+	float* universalSpeed;
 };

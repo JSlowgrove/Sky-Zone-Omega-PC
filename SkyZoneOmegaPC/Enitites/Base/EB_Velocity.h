@@ -17,8 +17,9 @@ public:
 	@param dimensions The dimensions of the Entity.
 	@param velocity The velocities of the Entity.
 	@param iD The ID of the Entity type.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	EB_Velocity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities, std::string iD);
+	EB_Velocity(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 velocities, std::string iD, float* universalSpee);
 
 	/**
 	@brief Destructs the Velocity Entity object.

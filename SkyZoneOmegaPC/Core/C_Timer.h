@@ -30,9 +30,15 @@ public:
 	void resetTimer();
 
 	/**
-	@brief changes the timer length.
+	@brief Changes the timer length.
 	*/
 	void setTimerLength(float timerLength);
+
+
+	/**
+	@brief Change the timer length and reset the timer.
+	*/
+	void resetTimerLength(float timerLength);
 
 	/**
 	@brief Returns if the timer has finished or not.

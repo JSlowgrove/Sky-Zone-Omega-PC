@@ -16,8 +16,9 @@ public:
 	@brief Constructs the Background Manager.
 	@param renderer A pointer to the renderer.
 	@param dimensions The screen dimensions.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	B_BackgroundManager(SDL_Renderer* renderer, C_Vec2 dimensions);
+	B_BackgroundManager(SDL_Renderer* renderer, C_Vec2 dimensions, float* universalSpeed);
 
 	/**
 	@brief Destructs the Background Manager.
@@ -45,4 +46,6 @@ private:
 	B_Background* middleBackgroundLayer[2];
 	///The top background layer backgrounds.
 	B_Background* topBackgroundLayer[2];
+	///A pointer for the universal speed of the game.
+	float* universalSpeed;
 };

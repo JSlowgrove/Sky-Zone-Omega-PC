@@ -15,8 +15,9 @@ public:
 	@param screenDimensions The screen dimensions.
 	@param player A pointer to the Player.
 	@param entityManager A pointer to the EntityManager.
+	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	G_SpawnManager(C_Vec2 screenDimensions, EP_Player* player, E_EntityManager* entityManager);
+	G_SpawnManager(C_Vec2 screenDimensions, EP_Player* player, E_EntityManager* entityManager, float* universalSpeed);
 
 	/**
 	@brief Destructs the SpawnManager.
@@ -38,6 +39,8 @@ private:
 	E_EntityManager* entityManager;
 	///A timer for the entity spawner.
 	C_Timer spawnTimer;
+	///A pointer for the universal speed of the game.
+	float* universalSpeed;
 
 	/**
 	@brief A function to spawn a new wave of Entities.
