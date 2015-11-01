@@ -7,7 +7,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	playerArcherSprite(new C_Texture("Assets/Images/tmp.png", renderer)),//tmp
 	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
 	healthScroll(new C_Texture("Assets/Images/healthScroll.png", renderer)),
-	backgroundMusic(new C_Music("Assets/Audio/Firebrand.ogg")),
+	backgroundMusic(new C_Music("Assets/Audio/gameplayLoop.ogg")),
 	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf", (int)(dimensions.y * 0.06f), renderer, 255, 255, 255)),
 	minFireTint({ (Uint8)255, (Uint8)0, (Uint8)0 }),
 	maxFireTint({ (Uint8)255, (Uint8)255, (Uint8)0 }),
@@ -33,9 +33,6 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 
 	//Initialise gameplay
 	gameplay = new G_Gameplay(dimensions, player, entityManager, universalSpeed);
-
-	//TMP
-	backgroundMusic->muteMusic();
 }
 
 S_Game::~S_Game()

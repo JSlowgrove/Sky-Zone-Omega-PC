@@ -160,6 +160,41 @@ public:
 	void playCoinCollectSound();
 
 	/**
+	@brief Plays the health collect sound.
+	*/
+	void playHealthCollectSound();
+
+	/**
+	@brief Plays the shield collect sound.
+	*/
+	void playShieldCollectSound();
+
+	/**
+	@brief Plays the coin and kill all collect sound.
+	*/
+	void playCoinKillAllCollectSound();
+
+	/**
+	@brief Plays the fire collect sound.
+	*/
+	void playFireCollectSound();
+
+	/**
+	@brief Plays the time slow collect sound.
+	*/
+	void playTimeSlowCollectSound();
+
+	/**
+	@brief Plays the enemy death sound.
+	*/
+	void playEnemyDeathSound();
+
+	/**
+	@brief Plays the enemy hit sound.
+	*/
+	void playEnemyHitSound();
+
+	/**
 	@brief Spawn a new StyphBird.
 	@param spawnPos The position to spawn at.
 	*/
@@ -279,10 +314,26 @@ private:
 
 	//Audio
 
+	///The arrow shot sound effect.
+	C_Audio* arrowShotSound;
+	///The fire arrow shot sound effect.
+	C_Audio* fireArrowShotSound;
 	///The health collect sound effect.
 	C_Audio* healthCollectSound;
 	///The coin collect sound effect.
 	C_Audio* coinCollectSound;
+	///The shield collect sound effect.
+	C_Audio* shieldCollectSound;
+	///The coin all and the kill all collect sound effect.
+	C_Audio* coinKillAllCollectSound;
+	///The fire collect sound effect.
+	C_Audio* fireCollectSound;
+	///The time slow collect sound effect.
+	C_Audio* timeSlowCollectSound;
+	///The enemy death sound effect.
+	C_Audio* enemyDeathSound;
+	///The enemy hit sound effect.
+	C_Audio* enemyHitSound;
 
 
 	/**

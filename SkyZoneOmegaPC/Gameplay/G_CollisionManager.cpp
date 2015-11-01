@@ -148,6 +148,7 @@ void G_CollisionManager::playerHealthCollisionDetection(EPU_Health* health)
 	{
 		health->setDeadStatus(true);
 		player->increaseHealth();
+		entityManager->playHealthCollectSound();
 	}
 }
 
@@ -158,6 +159,7 @@ void G_CollisionManager::playerFlamingCollisionDetection(EPU_Flaming* flaming)
 	{
 		flaming->setDeadStatus(true);
 		player->setFlaming(true);
+		entityManager->playFireCollectSound();
 	}
 }
 
@@ -184,6 +186,7 @@ void G_CollisionManager::playerCoinAllCollisionDetection(EPU_CoinAll* coinAll)
 			stormCloud->setDeathParticles(true);
 			stormCloud->setDeadStatus(true);
 		}
+		entityManager->playCoinKillAllCollectSound();
 	}
 }
 
@@ -208,6 +211,7 @@ void G_CollisionManager::playerKillAllCollisionDetection(EPU_KillAll* killAll)
 			stormCloud->setDeathParticles(true);
 			stormCloud->setDeadStatus(true);
 		}
+		entityManager->playCoinKillAllCollectSound();
 	}
 }
 
@@ -218,6 +222,7 @@ void G_CollisionManager::playerShieldCollisionDetection(EPU_Shield* shield)
 	{
 		shield->setDeadStatus(true);
 		player->activateShield();
+		entityManager->playShieldCollectSound();
 	}
 }
 
@@ -228,6 +233,7 @@ void G_CollisionManager::playerTimeSlowCollisionDetection(EPU_TimeSlow* timeSlow
 	{
 		timeSlow->setDeadStatus(true);
 		player->setTimeSlow(true);
+		entityManager->playTimeSlowCollectSound();
 	}
 }
 
@@ -242,6 +248,7 @@ void G_CollisionManager::arrowStyphBirdCollisionDetection(EA_Arrow* arrow, EE_St
 		styphBird->setCoinSpawn(true);
 		arrow->setDeadStatus(true);
 		arrow->setDeathParticles(true);
+		entityManager->playEnemyDeathSound();
 	}
 }
 
@@ -260,6 +267,11 @@ void G_CollisionManager::arrowArcherCollisionDetection(EA_Arrow* arrow, EE_Arche
 		{
 			archer->setDeathParticles(true);
 			archer->setCoinSpawn(true);
+			entityManager->playEnemyDeathSound();
+		}
+		else
+		{
+			entityManager->playEnemyHitSound();
 		}
 	}
 }

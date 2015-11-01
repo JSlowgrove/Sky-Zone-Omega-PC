@@ -3,8 +3,16 @@
 E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Renderer* renderer, 
 	C_Texture* fireSprite, SDL_Colour minFireTint, SDL_Colour maxFireTint, float* universalSpeed) :
 	screenDimensions(dimensions), player(player), renderer(renderer),
-	coinCollectSound(new C_Audio("Assets/Audio/powerUp2.ogg")),
+	arrowShotSound(new C_Audio("Assets/Audio/arrowShot.ogg")),
+	fireArrowShotSound(new C_Audio("Assets/Audio/fireShot.ogg")),
+	coinCollectSound(new C_Audio("Assets/Audio/coinCollect.ogg")),
 	healthCollectSound(new C_Audio("Assets/Audio/healthUp.ogg")),
+	shieldCollectSound(new C_Audio("Assets/Audio/shieldCollect.ogg")),
+	coinKillAllCollectSound(new C_Audio("Assets/Audio/coinKillAllCollect.ogg")),
+	fireCollectSound(new C_Audio("Assets/Audio/fireCollect.ogg")),
+	timeSlowCollectSound(new C_Audio("Assets/Audio/timeSlowCollect.ogg")),
+	enemyDeathSound(new C_Audio("Assets/Audio/enemyDeath.ogg")),
+	enemyHitSound(new C_Audio("Assets/Audio/enemyHit.ogg")),
 	universalSpeed(universalSpeed)
 {	
 	//Initialise the textures
@@ -144,6 +152,12 @@ E_EntityManager::~E_EntityManager()
 	//Delete audio
 	delete coinCollectSound;
 	delete healthCollectSound;
+	delete shieldCollectSound;
+	delete coinKillAllCollectSound;
+	delete fireCollectSound;
+	delete timeSlowCollectSound;
+	delete enemyDeathSound;
+	delete enemyHitSound;
 }
 
 //TMP
@@ -202,6 +216,7 @@ void E_EntityManager::update(float dt)
 			C_Vec2(player->getPosition().x + (player->getDimensions().x * 0.4f), player->getPosition().y),
 			entityDimensions["EA_Arrow"], screenDimensions, minColourTints["PS_Fire"], maxColourTints["PS_Fire"], universalSpeed));
 		player->setFireArrow(false);
+		fireArrowShotSound->playEffect();
 	}
 
 	//check if the player should fire a normal arrow
@@ -211,6 +226,7 @@ void E_EntityManager::update(float dt)
 			C_Vec2(player->getPosition().x + (player->getDimensions().x * 0.4f), player->getPosition().y),
 			entityDimensions["EA_Arrow"], screenDimensions, universalSpeed));
 		player->setFireArrow(false);
+		arrowShotSound->playEffect();
 	}
 	
 	//Update particle effects
@@ -722,6 +738,41 @@ void E_EntityManager::playCoinCollectSound()
 	coinCollectSound->playEffect(); 
 };
 
+void E_EntityManager::playHealthCollectSound()
+{
+	healthCollectSound->playEffect();
+};
+
+void E_EntityManager::playShieldCollectSound()
+{
+	shieldCollectSound->playEffect();
+};
+
+void E_EntityManager::playCoinKillAllCollectSound()
+{
+	coinKillAllCollectSound->playEffect();
+};
+
+void E_EntityManager::playFireCollectSound()
+{
+	fireCollectSound->playEffect();
+};
+
+void E_EntityManager::playTimeSlowCollectSound()
+{
+	timeSlowCollectSound->playEffect();
+};
+
+void E_EntityManager::playEnemyDeathSound()
+{
+	enemyDeathSound->playEffect();
+};
+
+void E_EntityManager::playEnemyHitSound()
+{
+	enemyHitSound->playEffect();
+};
+
 void E_EntityManager::spawnStyphBird(C_Vec2 spawnPos)
 {
 	styphBirds.push_back(
@@ -789,7 +840,5 @@ void E_EntityManager::spawnTimeSlow(C_Vec2 spawnPos)
 //-Player also needs to possibly change where the arrows are fired on as at the moment 
 //things can be spawned out of arrow range at the bottom and possibly at the top.
 //-Possibly change to oval oval collision detection to improve it.
-//-possibly make the power ups be stored by the player and the player should activate them.
 //-possibly make the amount of time between waves of entities decrease as the score increases.
-//-OO the HELL out of the entity manager!!!!!
 //shrink the size of the archer and styphBird to fit the player more?

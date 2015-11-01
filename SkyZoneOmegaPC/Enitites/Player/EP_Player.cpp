@@ -15,9 +15,9 @@ EP_Player::EP_Player(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, C_Texture
 	fireEffect->setEmitting(false);
 
 	//Initialise array sounds
-	healthLossSounds[0] = new C_Audio("Assets/Audio/deathSound.ogg");
-	healthLossSounds[1] = new C_Audio("Assets/Audio/hitSound2.ogg");
-	healthLossSounds[2] = new C_Audio("Assets/Audio/hitSound.ogg");
+	healthLossSounds[0] = new C_Audio("Assets/Audio/death.ogg");
+	healthLossSounds[1] = new C_Audio("Assets/Audio/damage2.ogg");
+	healthLossSounds[2] = new C_Audio("Assets/Audio/damage.ogg");
 }
 
 EP_Player::~EP_Player()
