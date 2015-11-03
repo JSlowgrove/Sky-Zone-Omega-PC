@@ -120,6 +120,7 @@
     <ClCompile Include="States\S_Game.cpp" />
     <ClCompile Include="States\S_State.cpp" />
     <ClCompile Include="States\S_StateManager.cpp" />
+    <ClCompile Include="UI\UI_Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackgroundSystem\B_BackgroundManager.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="States\S_Game.h" />
     <ClInclude Include="States\S_State.h" />
     <ClInclude Include="States\S_StateManager.h" />
+    <ClInclude Include="UI\UI_Button.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

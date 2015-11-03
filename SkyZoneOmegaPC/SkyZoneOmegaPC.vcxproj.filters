@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Gameplay">
       <UniqueIdentifier>{69f049ef-588e-4b65-8f8c-3c5e7cdc457a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{efed3cd7-edb3-43b7-a724-6abe2fc9dd94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{f0d01458-25cc-4833-9c97-f495c424768b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -198,6 +204,9 @@
     <ClCompile Include="Enitites\Pickups\EPU_TimeSlow.cpp">
       <Filter>Source Files\Entities\Pickups</Filter>
     </ClCompile>
+    <ClCompile Include="UI\UI_Button.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -316,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="Enitites\Pickups\EPU_TimeSlow.h">
       <Filter>Header Files\Entities\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UI_Button.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
