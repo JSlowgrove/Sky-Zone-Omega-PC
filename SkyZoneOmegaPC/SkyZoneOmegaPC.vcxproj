@@ -117,6 +117,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem\PS_Particle.cpp" />
     <ClCompile Include="ParticleSystem\PS_ParticleEffect.cpp" />
+    <ClCompile Include="States\Menus\SM_Credits.cpp" />
+    <ClCompile Include="States\Menus\SM_EndGame.cpp" />
+    <ClCompile Include="States\Menus\SM_Help.cpp" />
+    <ClCompile Include="States\Menus\SM_MainMenu.cpp" />
+    <ClCompile Include="States\Menus\SM_Scores.cpp" />
     <ClCompile Include="States\S_Game.cpp" />
     <ClCompile Include="States\S_State.cpp" />
     <ClCompile Include="States\S_StateManager.cpp" />
@@ -159,6 +164,11 @@
     <ClInclude Include="Gameplay\G_SpawnManager.h" />
     <ClInclude Include="ParticleSystem\PS_Particle.h" />
     <ClInclude Include="ParticleSystem\PS_ParticleEffect.h" />
+    <ClInclude Include="States\Menus\SM_Credits.h" />
+    <ClInclude Include="States\Menus\SM_EndGame.h" />
+    <ClInclude Include="States\Menus\SM_Help.h" />
+    <ClInclude Include="States\Menus\SM_MainMenu.h" />
+    <ClInclude Include="States\Menus\SM_Scores.h" />
     <ClInclude Include="States\S_Game.h" />
     <ClInclude Include="States\S_State.h" />
     <ClInclude Include="States\S_StateManager.h" />
