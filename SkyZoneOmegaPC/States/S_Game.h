@@ -14,6 +14,7 @@
 #include "../Enitites/Player/EP_Player.h"
 #include "../Enitites/E_EntityManager.h"
 #include "../Gameplay/G_Gameplay.h"
+#include "Menus/SM_MainMenu.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -27,8 +28,9 @@ public:
 	@param stateManager A pointer to the StateManager.
 	@param renderer A pointer to the renderer.
 	@param dimensions The screen dimensions.
+	@param backgroundMusic The background music of the State.
 	*/
-	S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions);
+	S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions, C_Music* backgroundMusic);
 
 	/**
 	@brief Destructs the Game State object.

@@ -21,8 +21,9 @@ public:
 	@param stateManager A pointer to the StateManager.
 	@param renderer A pointer to the renderer.
 	@param dimensions The screen dimensions.
+	@param backgroundMusic The background music of the State.
 	*/
-	SM_Credits(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions);
+	SM_Credits(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions, C_Music* backgroundMusic);
 
 	/**
 	@brief Destructs the State object.
@@ -49,4 +50,6 @@ public:
 private:
 	///The background music.
 	C_Music* backgroundMusic;
+	///A pointer for the universal speed of the menu.
+	float* universalSpeed;
 };

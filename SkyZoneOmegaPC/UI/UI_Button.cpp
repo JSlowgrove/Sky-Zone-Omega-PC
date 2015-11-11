@@ -1,125 +1,149 @@
 #include "UI_Button.h"
 
-/**************************************************************************************************************/
-
-/*Constructs an Button object.*/
 UI_Button::UI_Button(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed)
-	: EB_Entity(sprite, pos, dimensions, "UI_Button", universalSpeed)
+	: EB_Entity(sprite, pos, dimensions, "UI_Button", universalSpeed),
+	text(NULL), border(0.0f), pressed(false), usingImage(true)
 {
-	/*initialise the text*/
-	text = NULL;
-
-	/*initialise the border*/
-	border = 0.0f;
-
-	/*initialise state*/
-	state = false;
 }
 
-/**************************************************************************************************************/
-
-/*Constructs an Button object.*/
 UI_Button::UI_Button(C_Texture* sprite, C_Vec2 pos, std::string message, std::string fontLocation, int fontSize,
 	int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed)
-	: EB_Entity(sprite, pos, minDimensions, "UI_Button", universalSpeed)
+	: EB_Entity(sprite, pos, minDimensions, "UI_Button", universalSpeed),
+	text(new C_Text(message, fontLocation, fontSize, renderer, r, g, b)),
+	border(border), pressed(false), usingImage(true)
 {
-	/*initialise the text*/
-	text = new C_Text(message, fontLocation, fontSize, renderer, r, g, b);
-
-	/*initialise the variables*/
-	this->border = border;
-
-	/*a variable for the new button size*/
+	//A variable for the new button size
 	C_Vec2 size = getDimensions();
 
-	/*make sure that the box wraps the text along the x*/
+	//Make sure that the box wraps the text along the x
 	if (text->getDimensions().x + border > getDimensions().x)
 	{
 		size.x = text->getDimensions().x + border;
 	}
 
-	/*make sure that the box wraps the text along the y*/
+	//Make sure that the box wraps the text along the y
 	if (text->getDimensions().y + border > getDimensions().y)
 	{
 		size.y = text->getDimensions().y + border;
 	}
 	
-	/*set the dimensions of the button*/
+	//Set the dimensions of the button
 	setDimensions(size);
-
-	/*initialise state*/
-	state = false;
 }
 
-/**************************************************************************************************************/
+UI_Button::UI_Button(int buttonR, int buttonG, int buttonB, C_Vec2 pos, std::string message, std::string fontLocation, int fontSize,
+	int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed)
+	: EB_Entity(new C_Texture(renderer, buttonR, buttonG, buttonB), pos, minDimensions, "UI_Button", universalSpeed),
+	text(new C_Text(message, fontLocation, fontSize, renderer, r, g, b)),
+	border(border), pressed(false), usingImage(false)
+{
 
-/*Destructs an Button object.*/
+	//A variable for the new button size
+	C_Vec2 size = getDimensions();
+
+	//Make sure that the box wraps the text along the x
+	if (text->getDimensions().x + border > getDimensions().x)
+	{
+		size.x = text->getDimensions().x + border;
+	}
+
+	//Make sure that the box wraps the text along the y
+	if (text->getDimensions().y + border > getDimensions().y)
+	{
+		size.y = text->getDimensions().y + border;
+	}
+
+	//Set the dimensions of the button
+	setDimensions(size);
+}
+
 UI_Button::~UI_Button()
 {
 	/*delete pointers*/
 	delete text;
 }
 
-/**************************************************************************************************************/
-
-/*Updates the Button.*/
 void UI_Button::update(float dt)
 {
 }
 
-/**************************************************************************************************************/
-
-/*Handles the input for the button.*/
 bool UI_Button::input(SDL_Event& incomingEvent)
 {
-	/*a vec2 for testing the input position*/
 	C_Vec2 inputPos;
-
-	/*get the input position*/
 	inputPos.x = ((float)incomingEvent.motion.x);
 	inputPos.y = ((float)incomingEvent.motion.y);
 
-	/*a ternary operator checking if the input position is above the button*/
+		//A ternary operator checking if the input position is above the button
 	bool overButton = (inputPos.x > getPosition().x && inputPos.x < getPosition().x + getDimensions().x
 		&& inputPos.y > getPosition().y && inputPos.y < getPosition().y + getDimensions().y) ? 1 : 0;
 
+	//If the button is pressed but is not over the button anymore reset the button
+	if (pressed && !overButton)
+	{
+		//reset the button
+		pressed = false;
+		if (!usingImage)
+		{
+			//Remove the tint the button if not using an image for the button
+			sprite->setColourTint(255, 255, 255);
+		}
+	}
+
 	switch (incomingEvent.type)
 	{
-	case SDL_MOUSEBUTTONDOWN: /*If pressed*/
+	case SDL_MOUSEBUTTONDOWN: //If pressed
 
-		/*if the left mouse button*/
+		//If the left mouse button
 		if (incomingEvent.button.button == SDL_BUTTON_LEFT)
 		{
-			/*if the position is above the button*/
+			//If the position is above the button
 			if (overButton)
 			{
-				/*the button is pressed*/
-				state = true;
+				//The button is pressed
+				pressed = true;
+				if (!usingImage)
+				{
+					//Tint the button if not using an image for the button
+					sprite->setColourTint(200, 200, 200);
+				}
 			}
 		}
 		break;
 
-	case SDL_MOUSEBUTTONUP: /*If released*/
+	case SDL_MOUSEBUTTONUP: //If released
 
-		/*if the left mouse button*/
+		//If the left mouse button
 		if (incomingEvent.button.button == SDL_BUTTON_LEFT)
 		{
-			/*the button is not pressed*/
-			state = false;
+			//If the button is pressed return true
+			if (pressed && overButton)
+			{
+				return true;
+			}
+			else
+			{
+				//reset the button
+				pressed = false;
+				if (!usingImage)
+				{
+					//Remove the tint the button if not using an image for the button
+					sprite->setColourTint(255, 255, 255);
+				}
+			}
 		}
 		break;
 	}
 
-	/*return the state*/
-	return state;
+	//Return the state
+	return false;
 }
 
-/**************************************************************************************************************/
-
-/*Draws the Button text to the screen.*/
-void UI_Button::drawText(SDL_Renderer* renderer)
+void UI_Button::draw(SDL_Renderer* renderer)
 {
-	/*Push the text to the screen*/
+	//Push the button to the screen
+	sprite->pushToScreen(renderer, pos, dimensions);
+
+	//Push the text to the screen
 	text->pushToScreen(C_Vec2(
 		(getPosition().x + (getDimensions().x * 0.5f) - (text->getDimensions().x * 0.5f)),
 		(getPosition().y + (getDimensions().y * 0.5f) - (text->getDimensions().y * 0.5f))

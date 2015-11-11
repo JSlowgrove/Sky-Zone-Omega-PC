@@ -5,7 +5,8 @@
 #include "Core/C_Vec2.h"
 #include "Core/C_Utilities.h"
 #include "States/S_StateManager.h"
-#include "States/S_Game.h"
+#include "States/Menus/SM_MainMenu.h"
+#include "Core/C_Music.h"
 
 //The declaration of the main function
 int main(int argc, char *argv[]);
@@ -60,7 +61,7 @@ int main(int argc, char *argv[])
 	C_Vec2 windowPos = C_Vec2(100, 100);
 	SDL_Window *window = SDL_CreateWindow(title.c_str(),
 		(int)windowPos.x, (int)windowPos.y,
-		1080, 640,
+		1080, 608,
 		SDL_WINDOW_SHOWN);
 
 #endif	
@@ -72,9 +73,12 @@ int main(int argc, char *argv[])
 	//closest resolution it can to the windows resolution (adds bars of the render colour)
 	SDL_RenderSetLogicalSize(renderer, (int)targetRes.x, (int)targetRes.y);
 
-	//setup state manager and initial state
+	//The background music
+	C_Music* backgroundMusic = new C_Music("Assets/Audio/gameplayLoop.ogg");
+
+	//Setup state manager and initial state
 	S_StateManager * stateManager = new S_StateManager();
-	stateManager->addState(new S_Game(stateManager, renderer, targetRes));
+	stateManager->addState(new SM_MainMenu(stateManager, renderer, targetRes, backgroundMusic));
 
 	//Start Game Loop
 	bool go = true;
@@ -111,6 +115,10 @@ int main(int argc, char *argv[])
 	}
 	//destroy data
 	delete stateManager;
+	//Stop music
+	backgroundMusic->stopMusic();
+	//Delete audio pointers
+	delete backgroundMusic;
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 	return 0;

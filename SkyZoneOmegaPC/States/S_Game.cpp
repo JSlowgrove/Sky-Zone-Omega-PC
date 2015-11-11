@@ -1,14 +1,14 @@
 #include "S_Game.h"
 
-S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions)
+S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions, C_Music* backgroundMusic)
 	: S_State(stateManager, renderer, dimensions), 
 	mousePos(C_Vec2()), 
 	playerSprite(new C_Texture("Assets/Images/player699x436.png", renderer)),
 	playerArcherSprite(new C_Texture("Assets/Images/tmp.png", renderer)),//tmp
 	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
 	healthScroll(new C_Texture("Assets/Images/healthScroll.png", renderer)),
-	backgroundMusic(new C_Music("Assets/Audio/gameplayLoop.ogg")),
-	numOfCoins(new C_Text("", "Assets/Font/TheMoment.ttf", (int)(dimensions.y * 0.06f), renderer, 255, 255, 255)),
+	backgroundMusic(backgroundMusic),
+	numOfCoins(new C_Text("", "Assets/Font/MonogramsToolbox.ttf", (int)(dimensions.y * 0.04f), renderer, 255, 255, 255)),
 	minFireTint({ (Uint8)255, (Uint8)0, (Uint8)0 }),
 	maxFireTint({ (Uint8)255, (Uint8)255, (Uint8)0 }),
 	fireSprite(new C_Texture("Assets/Images/fireParticle.png", renderer))
@@ -37,10 +37,6 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 
 S_Game::~S_Game()
 {	
-	//Stop music
-	backgroundMusic->stopMusic();
-	//Delete audio pointers
-	delete backgroundMusic;
 	//Delete pointers
 	delete background;
 	delete gameplay;
@@ -68,9 +64,11 @@ bool S_Game::input()
 		case SDL_KEYDOWN:
 			switch (incomingEvent.key.keysym.sym)
 			{
-			case SDLK_ESCAPE: //If Escape is pressed, end the game loop
+			case SDLK_ESCAPE: //If Escape is pressed, go back to the main menu
 
-				return false;
+				//Go to the game state
+				stateManager->changeState(new SM_MainMenu(stateManager, renderer, dimensions, backgroundMusic));
+				return true;
 				break;
 
 				//TMP
