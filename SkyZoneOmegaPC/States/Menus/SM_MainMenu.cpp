@@ -145,6 +145,11 @@ void SM_MainMenu::update(float dt)
 {
 	//Keep the music playing
 	backgroundMusic->startMusic();
+	//Update the buttons
+	creditsButton->update(dt);
+	playButton->update(dt);
+	scoresButton->update(dt);
+	exitButton->update(dt);
 }
 
 void SM_MainMenu::draw()

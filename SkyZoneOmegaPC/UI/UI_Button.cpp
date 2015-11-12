@@ -1,16 +1,16 @@
 #include "UI_Button.h"
 
-UI_Button::UI_Button(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed)
+UI_Button::UI_Button(C_Texture* spritesheet, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed)
 	: EB_Entity(sprite, pos, dimensions, "UI_Button", universalSpeed),
-	text(NULL), border(0.0f), pressed(false), usingImage(true)
+	text(NULL), border(0.0f), pressed(false), spritesheet(true), spriteIndex(0)
 {
 }
 
-UI_Button::UI_Button(C_Texture* sprite, C_Vec2 pos, std::string message, std::string fontLocation, int fontSize,
+UI_Button::UI_Button(C_Texture* spritesheet, C_Vec2 pos, std::string message, std::string fontLocation, int fontSize,
 	int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed)
 	: EB_Entity(sprite, pos, minDimensions, "UI_Button", universalSpeed),
 	text(new C_Text(message, fontLocation, fontSize, renderer, r, g, b)),
-	border(border), pressed(false), usingImage(true)
+	border(border), pressed(false), spritesheet(true), spriteIndex(0)
 {
 	//A variable for the new button size
 	C_Vec2 size = getDimensions();
@@ -35,7 +35,7 @@ UI_Button::UI_Button(int buttonR, int buttonG, int buttonB, C_Vec2 pos, std::str
 	int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed)
 	: EB_Entity(new C_Texture(renderer, buttonR, buttonG, buttonB), pos, minDimensions, "UI_Button", universalSpeed),
 	text(new C_Text(message, fontLocation, fontSize, renderer, r, g, b)),
-	border(border), pressed(false), usingImage(false)
+	border(border), pressed(false), spritesheet(false), spriteIndex(0)
 {
 
 	//A variable for the new button size
@@ -59,12 +59,38 @@ UI_Button::UI_Button(int buttonR, int buttonG, int buttonB, C_Vec2 pos, std::str
 
 UI_Button::~UI_Button()
 {
-	/*delete pointers*/
+	//delete pointers
 	delete text;
+	//delete the texture if not a passed in spritesheet
+	if (!spritesheet)
+	{
+		delete sprite;
+	}
 }
 
 void UI_Button::update(float dt)
 {
+	//set the look of the button depending on the state of pressed
+	if (pressed)
+	{
+		if (!spritesheet)
+		{
+			//Tint the button if not using a spritesheet for the button
+			sprite->setColourTint(200, 200, 200);
+		}
+		//Set the sprite index for the spritesheet (does not matter if not using spritesheet)
+		spriteIndex = 1;
+	}
+	else
+	{
+		if (!spritesheet)
+		{
+			//Remove the tint the button if not using a spritesheet for the button
+			sprite->setColourTint(255, 255, 255);
+		}
+		//Set the sprite index for the spritesheet (does not matter if not using spritesheet)
+		spriteIndex = 0;
+	}
 }
 
 bool UI_Button::input(SDL_Event& incomingEvent)
@@ -82,11 +108,6 @@ bool UI_Button::input(SDL_Event& incomingEvent)
 	{
 		//reset the button
 		pressed = false;
-		if (!usingImage)
-		{
-			//Remove the tint the button if not using an image for the button
-			sprite->setColourTint(255, 255, 255);
-		}
 	}
 
 	switch (incomingEvent.type)
@@ -101,11 +122,6 @@ bool UI_Button::input(SDL_Event& incomingEvent)
 			{
 				//The button is pressed
 				pressed = true;
-				if (!usingImage)
-				{
-					//Tint the button if not using an image for the button
-					sprite->setColourTint(200, 200, 200);
-				}
 			}
 		}
 		break;
@@ -124,11 +140,6 @@ bool UI_Button::input(SDL_Event& incomingEvent)
 			{
 				//reset the button
 				pressed = false;
-				if (!usingImage)
-				{
-					//Remove the tint the button if not using an image for the button
-					sprite->setColourTint(255, 255, 255);
-				}
 			}
 		}
 		break;
@@ -141,7 +152,15 @@ bool UI_Button::input(SDL_Event& incomingEvent)
 void UI_Button::draw(SDL_Renderer* renderer)
 {
 	//Push the button to the screen
-	sprite->pushToScreen(renderer, pos, dimensions);
+	if (!spritesheet)
+	{
+		sprite->pushToScreen(renderer, pos, dimensions);
+	}
+	else
+	{
+		sprite->pushSpriteToScreen(renderer, pos, C_Vec2(dimensions.x * spriteIndex, 0.0f), dimensions);
+	}
+
 
 	//Push the text to the screen
 	text->pushToScreen(C_Vec2(

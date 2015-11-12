@@ -13,16 +13,16 @@ class UI_Button : public EB_Entity
 public:
 	/**
 	Constructs the Button object with an image.
-	@param sprite A pointer to the objects Texture.
+	@param spritesheet A pointer to the objects Texture.
 	@param pos The position of the Button.
 	@param dimensions The dimensions of the Button.
 	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	UI_Button(C_Texture* sprite, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed);
+	UI_Button(C_Texture* spritesheet, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed);
 
 	/**
 	Constructs the Button object with an image and text.
-	@param sprite A pointer to the objects Texture.
+	@param spritesheet A pointer to the objects Texture.
 	@param pos The position of the Button.
 	@param message The text of the Button.
 	@param fontLocation The location of the font.
@@ -85,8 +85,10 @@ private:
 	C_Text* text;
 	///The size of the border from the button and the text.
 	float border;
-	///A boolean for if the button is using an image.
-	bool usingImage;
+	///A boolean for if the button is using an spritesheet.
+	bool spritesheet;
 	///A boolean for if the button has been pressed.
 	bool pressed;
+	///The x index of the sprite in the spritesheet if on is used
+	int spriteIndex;
 };
