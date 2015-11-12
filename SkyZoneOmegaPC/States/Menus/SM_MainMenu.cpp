@@ -30,7 +30,7 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[0]), //Position
 		"play", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
-		0, 0, 0, //Font colour
+		206, 158, 0, //Font colour
 		renderer, //The renderer
 		dimensions.y * 0.025f, //Border
 		buttonDim, //Minimum dimensions of the button
@@ -42,7 +42,7 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[1]), //Position
 		"Scores", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
-		0, 0, 0, //Font colour
+		206, 158, 0, //Font colour
 		renderer, //The renderer
 		dimensions.y * 0.025f, //Border
 		buttonDim, //Minimum dimensions of the button
@@ -54,7 +54,7 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[2]), //Position
 		"Credits", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
-		0, 0, 0, //Font colour
+		206, 158, 0, //Font colour
 		renderer, //The renderer
 		dimensions.y * 0.025f, //Border
 		buttonDim, //Minimum dimensions of the button
@@ -67,7 +67,7 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[3]), //Position
 		"Exit", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
-		0, 0, 0, //Font colour
+		206, 158, 0, //Font colour
 		renderer, //The renderer
 		dimensions.y * 0.025f, //Border
 		buttonDim, //Minimum dimensions of the button
@@ -75,7 +75,7 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		);
 
 	//tmp
-	//backgroundMusic->muteMusic();
+	backgroundMusic->muteMusic();
 }
 
 SM_MainMenu::~SM_MainMenu()
@@ -125,6 +125,9 @@ bool SM_MainMenu::input()
 		//Handle the credits button input
 		if (creditsButton->input(incomingEvent))
 		{
+			//Go to the game state
+			stateManager->changeState(new SM_Credits(stateManager, renderer, dimensions, backgroundMusic));
+			return true;
 		}
 
 		//Handle the scores button input

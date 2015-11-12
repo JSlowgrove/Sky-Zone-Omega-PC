@@ -8,6 +8,8 @@
 #include "../../Core/C_Audio.h"
 #include "../../Core/C_Music.h"
 #include "../../Core/C_Text.h"
+#include "../../UI/UI_Button.h"
+#include "SM_MainMenu.h"
 
 /**
 @brief A State that contains and runs the Credits Menu.
@@ -50,6 +52,18 @@ public:
 private:
 	///The background music.
 	C_Music* backgroundMusic;
+	///The Background Image.
+	C_Texture* background;
 	///A pointer for the universal speed of the menu.
 	float* universalSpeed;
+	///The credits image
+	C_Texture* credits;
+	///The Exit Button
+	UI_Button* exitButton;
+	///The Coin Image.
+	C_Texture* coin;
+	///The dimensions of the coin image
+	C_Vec2 coinDim;
+	//The Y position of the Button
+	float buttonYPos;
 };

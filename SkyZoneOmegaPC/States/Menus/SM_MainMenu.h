@@ -9,6 +9,7 @@
 #include "../../Core/C_Music.h"
 #include "../../Core/C_Text.h"
 #include "../../UI/UI_Button.h"
+#include "../Menus/SM_Credits.h"
 #include "../S_Game.h"
 
 /**

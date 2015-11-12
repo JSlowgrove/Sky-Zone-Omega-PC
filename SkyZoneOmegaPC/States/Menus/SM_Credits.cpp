@@ -2,10 +2,29 @@
 
 SM_Credits::SM_Credits(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dimensions, C_Music* backgroundMusic)
 	: S_State(stateManager, renderer, dimensions),
-	backgroundMusic(backgroundMusic)
+	backgroundMusic(backgroundMusic),
+	background(new C_Texture("Assets/Images/nongamebackground.png", renderer)),
+	credits(new C_Texture("Assets/Images/credits.png", renderer)),
+	coin(new C_Texture("Assets/Images/coin.png", renderer)),
+	coinDim(C_Vec2(dimensions.y * 0.125f, dimensions.y * 0.125f)),
+	buttonYPos((dimensions.y * 0.075f) * 11.0f)
 {
 	//Initialise universal speed
 	universalSpeed = new float(0.0f);
+
+	//Initialise Buttons
+	exitButton =
+		new UI_Button(
+		255, 255, 255, //Button colour
+		C_Vec2(dimensions.x * 0.3f, buttonYPos), //Position
+		"Back", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
+		(int)(dimensions.y * 0.06f), //Font size
+		206, 158, 0, //Font colour
+		renderer, //The renderer
+		dimensions.y * 0.025f, //Border
+		C_Vec2(dimensions.x * 0.4f, dimensions.y * 0.125f), //Minimum dimensions of the button
+		universalSpeed //Universal Speed
+		);
 }
 
 SM_Credits::~SM_Credits()
@@ -15,6 +34,10 @@ SM_Credits::~SM_Credits()
 	//Delete audio pointers
 	delete backgroundMusic;
 	delete universalSpeed;
+	delete credits;
+	delete background;
+	delete exitButton;
+	delete coin;
 }
 
 bool SM_Credits::input()
@@ -36,9 +59,19 @@ bool SM_Credits::input()
 			{
 			case SDLK_ESCAPE: //If Escape is pressed, end the game loop
 
-				return false;
+				//Go to the Main Menu state
+				stateManager->changeState(new SM_MainMenu(stateManager, renderer, dimensions, backgroundMusic));
+				return true;
 				break;
 			}
+		}
+
+		//Handle the exit button input
+		if (exitButton->input(incomingEvent))
+		{
+			//Go to the Main Menu state
+			stateManager->changeState(new SM_MainMenu(stateManager, renderer, dimensions, backgroundMusic));
+			return true;
 		}
 	}
 	return true;
@@ -48,8 +81,26 @@ void SM_Credits::update(float dt)
 {
 	//Keep the music playing
 	backgroundMusic->startMusic();
+	//Update the buttons
+	exitButton->update(dt);
 }
 
 void SM_Credits::draw()
 {
+	//draw the images
+	background->pushToScreen(renderer, C_Vec2(), dimensions);
+	credits->pushToScreen(renderer, C_Vec2(dimensions.x * 0.125f, dimensions.y * 0.05f), dimensions * 0.75);
+
+	//Draw the two coins outside the button
+	coin->pushToScreen(
+		renderer,
+		C_Vec2((dimensions.x * 0.2f) - (coinDim.x * 0.5f), buttonYPos),
+		coinDim);
+	coin->pushToScreen(
+		renderer,
+		C_Vec2((dimensions.x * 0.8f) - (coinDim.x * 0.5f), buttonYPos),
+		coinDim);
+
+	//draw the button
+	exitButton->draw(renderer);
 }
