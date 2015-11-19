@@ -15,6 +15,8 @@
 #include "../Enitites/E_EntityManager.h"
 #include "../Gameplay/G_Gameplay.h"
 #include "Menus/SM_MainMenu.h"
+#include "Menus/SM_EndGame.h"
+#include "Menus/SM_Help.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -84,4 +86,9 @@ private:
 	SDL_Colour maxFireTint;
 	///A pointer for the universal speed of the game.
 	float* universalSpeed;
+
+	/**
+	@brief A function to reset the Game.
+	*/
+	void resetGame();
 };

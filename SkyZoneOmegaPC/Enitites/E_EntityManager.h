@@ -46,12 +46,6 @@ public:
 	~E_EntityManager();
 
 	/**
-	@brief Handles the input THIS IS TMP FOR DEBUGGING.
-	@param incomingEvent A reference to the incoming SDL event.
-	*/
-	void input(SDL_Event& incomingEvent);
-
-	/**
 	@brief A function to update the Entities.
 	@param dt The delta time.
 	*/

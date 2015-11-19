@@ -160,37 +160,6 @@ E_EntityManager::~E_EntityManager()
 	delete enemyHitSound;
 }
 
-//TMP
-void E_EntityManager::input(SDL_Event& incomingEvent)
-{
-	switch (incomingEvent.type)
-	{
-	case SDL_KEYDOWN:
-		switch (incomingEvent.key.keysym.sym)
-		{
-		case SDLK_h:
-			player->increaseHealth();
-			break;			
-		case SDLK_c://CoinAllPickup
-			spawnCoinAll(C_Vec2(screenDimensions.x + entityDimensions["EPU_CoinAll"].x, player->getPosition().y));
-			break;
-		case SDLK_k://KillAllPickup
-			spawnKillAll(C_Vec2(screenDimensions.x + entityDimensions["EPU_KillAll"].x, player->getPosition().y));
-			break;
-		case SDLK_s://ShieldPickup
-			spawnShield(C_Vec2(screenDimensions.x + entityDimensions["EPU_Shield"].x, player->getPosition().y));
-			break;
-		case SDLK_t://TimeSlowPickup
-			spawnTimeSlow(C_Vec2(screenDimensions.x + entityDimensions["EPU_TimeSlow"].x, player->getPosition().y));
-			break;
-		case SDLK_f://FlamingPickup
-			spawnFlaming(C_Vec2(screenDimensions.x + entityDimensions["EPU_Flaming"].x, player->getPosition().y));
-			break;
-		}
-		break;
-	}
-}
-
 void E_EntityManager::update(float dt)
 {
 	//remove entities flagged as dead.

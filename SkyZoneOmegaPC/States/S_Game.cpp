@@ -109,8 +109,6 @@ bool S_Game::input()
 			}
 			break;
 		}
-		//TMP Handle Entity Spawning Input
-		entityManager->input(incomingEvent);
 
 		//Handle player input
 		player->input(incomingEvent, mousePos);
@@ -137,6 +135,14 @@ void S_Game::update(float dt)
 
 	//Update coins text
 	numOfCoins->setText(std::to_string(player->getCoins()));
+
+	//If the game is over go to end game
+	if (player->getHealth() <= 0)
+	{
+		//Go to the end game state
+		stateManager->addState(new SM_EndGame(stateManager, renderer, dimensions, backgroundMusic, player->getCoins()));
+		resetGame();
+	}
 }
 
 void S_Game::draw()
@@ -193,4 +199,22 @@ void S_Game::draw()
 	entityManager->getTexture("EPU_Health")->pushSpriteToScreen(renderer,
 		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthThreeSprite, C_Vec2(300, 299));
+}
+
+void S_Game::resetGame()
+{
+	//Reset universal speed
+	*universalSpeed = 1.0f;
+	
+	//Reset player
+	player = new EP_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.125f,
+		playerArcherSprite, C_Vec2(dimensions.x * 0.1125f, dimensions.y * 0.38f),
+		C_Vec2(dimensions.y * 0.0625f, dimensions.y * 0.09375f), dimensions, fireSprite,
+		minFireTint, maxFireTint, universalSpeed);
+
+	//Reset entity manager
+	entityManager = new E_EntityManager(dimensions, player, renderer, fireSprite, minFireTint, maxFireTint, universalSpeed);
+
+	//Reset gameplay
+	gameplay = new G_Gameplay(dimensions, player, entityManager, universalSpeed);
 }
