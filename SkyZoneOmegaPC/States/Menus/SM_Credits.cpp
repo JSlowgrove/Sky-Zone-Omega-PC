@@ -12,7 +12,7 @@ SM_Credits::SM_Credits(S_StateManager* stateManager, SDL_Renderer* renderer, C_V
 	//Initialise universal speed
 	universalSpeed = new float(0.0f);
 
-	//Initialise Buttons
+	//Initialise Button
 	exitButton =
 		new UI_Button(
 		255, 255, 255, //Button colour
@@ -29,10 +29,7 @@ SM_Credits::SM_Credits(S_StateManager* stateManager, SDL_Renderer* renderer, C_V
 
 SM_Credits::~SM_Credits()
 {
-	//Stop music
-	backgroundMusic->stopMusic();
-	//Delete audio pointers
-	delete backgroundMusic;
+	//Delete pointers
 	delete universalSpeed;
 	delete credits;
 	delete background;
@@ -81,7 +78,7 @@ void SM_Credits::update(float dt)
 {
 	//Keep the music playing
 	backgroundMusic->startMusic();
-	//Update the buttons
+	//Update the button
 	exitButton->update(dt);
 }
 

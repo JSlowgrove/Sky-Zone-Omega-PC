@@ -10,6 +10,7 @@
 #include "../../Core/C_Text.h"
 #include "../../UI/UI_Button.h"
 #include "../Menus/SM_Credits.h"
+#include "../Menus/SM_Scores.h"
 #include "../S_Game.h"
 
 /**

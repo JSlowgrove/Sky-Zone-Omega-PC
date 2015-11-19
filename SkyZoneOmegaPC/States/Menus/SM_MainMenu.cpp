@@ -133,6 +133,9 @@ bool SM_MainMenu::input()
 		//Handle the scores button input
 		if (scoresButton->input(incomingEvent))
 		{
+			//Go to the game state
+			stateManager->changeState(new SM_Scores(stateManager, renderer, dimensions, backgroundMusic));
+			return true;
 		}
 
 		//Handle the exit button input
