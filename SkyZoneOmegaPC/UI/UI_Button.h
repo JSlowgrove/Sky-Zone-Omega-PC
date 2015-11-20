@@ -16,13 +16,15 @@ public:
 	@param spritesheet A pointer to the objects Texture.
 	@param pos The position of the Button.
 	@param dimensions The dimensions of the Button.
+	@param spriteDimensions The dimensions of the sprite.
 	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	UI_Button(C_Texture* spritesheet, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed);
+	UI_Button(C_Texture* spritesheet, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 spriteDimensions, float* universalSpeed);
 
 	/**
 	Constructs the Button object with an image and text.
 	@param spritesheet A pointer to the objects Texture.
+	@param spriteDimensions The dimensions of the sprite.
 	@param pos The position of the Button.
 	@param message The text of the Button.
 	@param fontLocation The location of the font.
@@ -34,8 +36,9 @@ public:
 	@param minDimensions The minimum dimensions of the Button.
 	@param universalSpeed A pointer for the universal speed of the game.
 	*/
-	UI_Button(C_Texture* sprite, C_Vec2 pos, std::string message, std::string fontLocation, int fontSize, 
-		int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed);
+	UI_Button(C_Texture* sprite, C_Vec2 spriteDimensions, C_Vec2 pos, std::string message, std::string fontLocation, 
+		int fontSize, int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, 
+		float* universalSpeed);
 
 	/**
 	Constructs the Button object with a colour and text.
@@ -81,12 +84,16 @@ public:
 	void draw(SDL_Renderer* renderer);
 
 private:
+	///The dimensions of the sprites
+	C_Vec2 spriteDimensions;
 	///The text of the button.
 	C_Text* text;
 	///The size of the border from the button and the text.
 	float border;
 	///A boolean for if the button is using an spritesheet.
 	bool spritesheet;
+	///A boolean for if the button is using text.
+	bool usingText;
 	///A boolean for if the button has been pressed.
 	bool pressed;
 	///The x index of the sprite in the spritesheet if on is used

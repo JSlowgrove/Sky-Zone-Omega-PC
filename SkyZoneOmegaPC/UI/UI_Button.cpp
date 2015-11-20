@@ -1,16 +1,16 @@
 #include "UI_Button.h"
 
-UI_Button::UI_Button(C_Texture* spritesheet, C_Vec2 pos, C_Vec2 dimensions, float* universalSpeed)
-	: EB_Entity(sprite, pos, dimensions, "UI_Button", universalSpeed),
-	text(NULL), border(0.0f), pressed(false), spritesheet(true), spriteIndex(0)
+UI_Button::UI_Button(C_Texture* spritesheet, C_Vec2 pos, C_Vec2 dimensions, C_Vec2 spriteDimensions, float* universalSpeed)
+	: EB_Entity(spritesheet, pos, dimensions, "UI_Button", universalSpeed),
+	text(NULL), border(0.0f), pressed(false), spritesheet(true), spriteIndex(0), spriteDimensions(spriteDimensions), usingText(false)
 {
 }
 
-UI_Button::UI_Button(C_Texture* spritesheet, C_Vec2 pos, std::string message, std::string fontLocation, int fontSize,
-	int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed)
-	: EB_Entity(sprite, pos, minDimensions, "UI_Button", universalSpeed),
+UI_Button::UI_Button(C_Texture* spritesheet, C_Vec2 spriteDimensions, C_Vec2 pos, std::string message, std::string fontLocation, 
+	int fontSize, int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed)
+	: EB_Entity(spritesheet, pos, minDimensions, "UI_Button", universalSpeed),
 	text(new C_Text(message, fontLocation, fontSize, renderer, r, g, b)),
-	border(border), pressed(false), spritesheet(true), spriteIndex(0)
+	border(border), pressed(false), spritesheet(true), spriteIndex(0), spriteDimensions(spriteDimensions), usingText(true)
 {
 	//A variable for the new button size
 	C_Vec2 size = getDimensions();
@@ -35,7 +35,7 @@ UI_Button::UI_Button(int buttonR, int buttonG, int buttonB, C_Vec2 pos, std::str
 	int r, int g, int b, SDL_Renderer* renderer, float border, C_Vec2 minDimensions, float* universalSpeed)
 	: EB_Entity(new C_Texture(renderer, buttonR, buttonG, buttonB), pos, minDimensions, "UI_Button", universalSpeed),
 	text(new C_Text(message, fontLocation, fontSize, renderer, r, g, b)),
-	border(border), pressed(false), spritesheet(false), spriteIndex(0)
+	border(border), pressed(false), spritesheet(false), spriteIndex(0), spriteDimensions(C_Vec2()), usingText(true)
 {
 
 	//A variable for the new button size
@@ -134,6 +134,8 @@ bool UI_Button::input(SDL_Event& incomingEvent)
 			//If the button is pressed return true
 			if (pressed && overButton)
 			{
+				//reset the button
+				pressed = false;
 				return true;
 			}
 			else
@@ -158,13 +160,16 @@ void UI_Button::draw(SDL_Renderer* renderer)
 	}
 	else
 	{
-		sprite->pushSpriteToScreen(renderer, pos, C_Vec2(dimensions.x * spriteIndex, 0.0f), dimensions);
+		sprite->pushSpriteToScreen(renderer, pos, dimensions, C_Vec2(spriteDimensions.x * spriteIndex, 0.0f), spriteDimensions);
 	}
 
 
-	//Push the text to the screen
-	text->pushToScreen(C_Vec2(
-		(getPosition().x + (getDimensions().x * 0.5f) - (text->getDimensions().x * 0.5f)),
-		(getPosition().y + (getDimensions().y * 0.5f) - (text->getDimensions().y * 0.5f))
-		));
+	//Push the text to the screen if button has text
+	if (usingText)
+	{
+		text->pushToScreen(C_Vec2(
+			(getPosition().x + (getDimensions().x * 0.5f) - (text->getDimensions().x * 0.5f)),
+			(getPosition().y + (getDimensions().y * 0.5f) - (text->getDimensions().y * 0.5f))
+			));
+	}
 }

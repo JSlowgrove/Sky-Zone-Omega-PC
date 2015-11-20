@@ -17,6 +17,7 @@
 #include "Menus/SM_MainMenu.h"
 #include "Menus/SM_EndGame.h"
 #include "Menus/SM_Help.h"
+#include "../UI/UI_Button.h"
 
 /**
 @brief A State that contains and runs the Game.
@@ -86,6 +87,14 @@ private:
 	SDL_Colour maxFireTint;
 	///A pointer for the universal speed of the game.
 	float* universalSpeed;
+	///The fire arrow button.
+	UI_Button* fireArrowButton;
+	///The Help button.
+	UI_Button* helpButton;
+	///The help button spritesheet
+	C_Texture* helpButtonSpritesheet;
+	///The fire arrow button spritesheet
+	C_Texture* fireArrowButtonSpritesheet;
 
 	/**
 	@brief A function to reset the Game.

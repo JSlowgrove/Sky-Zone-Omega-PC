@@ -11,7 +11,9 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	numOfCoins(new C_Text("", "Assets/Font/MonogramsToolbox.ttf", (int)(dimensions.y * 0.04f), renderer, 255, 255, 255)),
 	minFireTint({ (Uint8)255, (Uint8)0, (Uint8)0 }),
 	maxFireTint({ (Uint8)255, (Uint8)255, (Uint8)0 }),
-	fireSprite(new C_Texture("Assets/Images/fireParticle.png", renderer))
+	fireSprite(new C_Texture("Assets/Images/fireParticle.png", renderer)),
+	fireArrowButtonSpritesheet(new C_Texture("Assets/Images/fireButton.png", renderer)),
+	helpButtonSpritesheet(new C_Texture("Assets/Images/buttons.png", renderer))
 {
 	//Initialise random seed
 	srand((unsigned int)time(NULL));
@@ -33,6 +35,25 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 
 	//Initialise gameplay
 	gameplay = new G_Gameplay(dimensions, player, entityManager, universalSpeed);
+
+	//Initialise Buttons
+	fireArrowButton =
+		new UI_Button(
+		fireArrowButtonSpritesheet, //spritesheet
+		C_Vec2(dimensions.x * 0.825f, dimensions.y * 0.875f), //Position
+		C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.1f), //Dimensions of the button
+		C_Vec2(115.0f, 140.0f), //dimensions of the sprite
+		universalSpeed //Universal Speed
+		);
+	
+	helpButton =
+		new UI_Button(
+		helpButtonSpritesheet, //spritesheet
+		C_Vec2(dimensions.x * 0.935f, dimensions.y * 0.01f), //Position
+		C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.1f), //dimensions of the button
+		C_Vec2(115.0f, 140.0f), //dimensions of the sprite
+		universalSpeed //Universal Speed
+		);
 }
 
 S_Game::~S_Game()
@@ -43,9 +64,15 @@ S_Game::~S_Game()
 	delete entityManager;
 	delete player;
 	delete playerSprite;
+	delete playerArcherSprite;
 	delete scoreScroll;
 	delete healthScroll;
+	delete numOfCoins;
 	delete universalSpeed;
+	delete fireArrowButton;
+	delete helpButton;
+	delete helpButtonSpritesheet;
+	delete fireArrowButtonSpritesheet;
 }
 
 bool S_Game::input()
@@ -68,17 +95,6 @@ bool S_Game::input()
 
 				//Go to the help state
 				stateManager->addState(new SM_Help(stateManager, renderer, dimensions, backgroundMusic));
-				break;
-
-				//TMP
-			case SDLK_i:
-				player->increaseCoins();
-				break;
-			case SDLK_m:
-				backgroundMusic->muteMusic();
-				break;
-			case SDLK_u:
-				backgroundMusic->unmuteMusic();
 				break;
 			}
 			break;
@@ -109,6 +125,19 @@ bool S_Game::input()
 			break;
 		}
 
+		//Handle button inputs
+		if (helpButton->input(incomingEvent))
+		{
+			//Go to the help state
+			stateManager->addState(new SM_Help(stateManager, renderer, dimensions, backgroundMusic));
+		}
+		
+		if (fireArrowButton->input(incomingEvent))
+		{
+			//set the player to fire an arrow
+			player->setFiring(true);
+		}
+
 		//Handle player input
 		player->input(incomingEvent, mousePos);
 	}
@@ -122,6 +151,10 @@ void S_Game::update(float dt)
 
 	//Update background
 	background->update(dt);
+
+	//Update buttons
+	helpButton->update(dt);
+	fireArrowButton->update(dt);
 
 	//Update player
 	player->update(dt);
@@ -198,6 +231,10 @@ void S_Game::draw()
 	entityManager->getTexture("EPU_Health")->pushSpriteToScreen(renderer,
 		C_Vec2(dimensions.x * 0.6f, dimensions.y * 0.022f),
 		C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f), healthThreeSprite, C_Vec2(300, 299));
+
+	//Draw the buttons
+	helpButton->draw(renderer);
+	fireArrowButton->draw(renderer);
 }
 
 void S_Game::resetGame()

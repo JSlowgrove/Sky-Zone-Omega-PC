@@ -802,12 +802,3 @@ void E_EntityManager::spawnTimeSlow(C_Vec2 spawnPos)
 	timeSlowPickups.push_back(new EPU_TimeSlow(getTexture("EPU_TimeSlow"), spawnPos,
 		getEntityDimensions("EPU_TimeSlow"), screenDimensions, C_Vec2(-500.0f, 0.0f), universalSpeed));
 }
-
-////Notes
-//-problem with clouds bounding boxes including the lighting effects which throws off the 
-//positioning, need to redo bounding boxes of clouds so that it does not include them.
-//-Player also needs to possibly change where the arrows are fired on as at the moment 
-//things can be spawned out of arrow range at the bottom and possibly at the top.
-//-Possibly change to oval oval collision detection to improve it.
-//-possibly make the amount of time between waves of entities decrease as the score increases.
-//shrink the size of the archer and styphBird to fit the player more?
