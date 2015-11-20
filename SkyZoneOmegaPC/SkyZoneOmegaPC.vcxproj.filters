@@ -228,6 +228,9 @@
     <ClCompile Include="States\Menus\SM_Scores.cpp">
       <Filter>Source Files\States\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="States\S_Splash.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\C_Audio.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="States\Menus\SM_Scores.h">
       <Filter>Header Files\States\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="States\S_Splash.h">
+      <Filter>Header Files\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

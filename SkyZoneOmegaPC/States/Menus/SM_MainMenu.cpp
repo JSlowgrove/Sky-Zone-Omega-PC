@@ -73,9 +73,6 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		buttonDim, //Minimum dimensions of the button
 		universalSpeed //Universal Speed
 		);
-
-	//tmp
-	backgroundMusic->muteMusic();
 }
 
 SM_MainMenu::~SM_MainMenu()

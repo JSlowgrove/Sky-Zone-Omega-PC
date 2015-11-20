@@ -5,7 +5,7 @@
 #include "Core/C_Vec2.h"
 #include "Core/C_Utilities.h"
 #include "States/S_StateManager.h"
-#include "States/Menus/SM_MainMenu.h"
+#include "States/S_Splash.h"
 #include "Core/C_Music.h"
 
 //The declaration of the main function
@@ -76,9 +76,12 @@ int main(int argc, char *argv[])
 	//The background music
 	C_Music* backgroundMusic = new C_Music("Assets/Audio/gameplayLoop.ogg");
 
+	//tmp
+	backgroundMusic->muteMusic();
+
 	//Setup state manager and initial state
 	S_StateManager * stateManager = new S_StateManager();
-	stateManager->addState(new SM_MainMenu(stateManager, renderer, targetRes, backgroundMusic));
+	stateManager->addState(new S_Splash(stateManager, renderer, targetRes, backgroundMusic));
 
 	//Start Game Loop
 	bool go = true;
