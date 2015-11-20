@@ -171,11 +171,11 @@ void E_EntityManager::update(float dt)
 	//set the time speed to be the value of the time slow effect if active
 	if (player->getTimeSlow())
 	{
-		*universalSpeed = 0.5f;
+		*universalSpeed = (screenDimensions.x * 0.000425f);
 	}
 	else
 	{
-		*universalSpeed = 1.0f;
+		*universalSpeed = (screenDimensions.x * 0.00085f);
 	}
 
 	//check if the player should fire an flaming arrow

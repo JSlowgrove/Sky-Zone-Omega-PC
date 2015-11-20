@@ -186,7 +186,7 @@ void EP_Player::decreaseHealth()
 	{
 		//deactivate the shield
 		shield = false;
-		sprite->setColourTint(255, 255, 255);//tmp
+		sprite->setColourTint(255, 255, 255);
 	}
 	else if (health > 0)//decrease health if higher than 0
 	{
@@ -270,5 +270,5 @@ bool EP_Player::getTimeSlow()
 void EP_Player::activateShield()
 {
 	shield = true;
-	sprite->setColourTint(0, 255, 255);//tmp
+	sprite->setColourTint(0, 255, 255);
 }

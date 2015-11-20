@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
 	std::string title = "Sky Zone Omega";
 
 	//Set the window and target resolutions
-	C_Vec2 targetRes = C_Vec2(1920, 1080);
-	C_Vec2 windowRes = C_Vec2(1920, 1080);
+	C_Vec2 targetRes = C_Vec2(1080, 608);
+	C_Vec2 windowRes = C_Vec2(1080, 608);
 
 	//Initialise SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 	//Time Check
 	unsigned int lastTime = SDL_GetTicks();
 
+/*
 #if !defined(_DEBUG)
 
 	//Create Window
@@ -55,16 +56,16 @@ int main(int argc, char *argv[])
 		(int)windowRes.x, (int)windowRes.y,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-#else
+#else*/
 
 	//Create Window
 	C_Vec2 windowPos = C_Vec2(100, 100);
 	SDL_Window *window = SDL_CreateWindow(title.c_str(),
 		(int)windowPos.x, (int)windowPos.y,
-		1080, 608,
+		(int)windowRes.x, (int)windowRes.y,
 		SDL_WINDOW_SHOWN);
 
-#endif	
+//#endif	
 
 	//Create Renderer from the window
 	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);

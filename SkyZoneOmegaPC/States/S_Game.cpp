@@ -19,7 +19,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	srand((unsigned int)time(NULL));
 
 	//Initialise universal speed
-	universalSpeed = new float(1.0f);
+	universalSpeed = new float(dimensions.x * 0.00085f);
 
 	//Initialise backgrounds
 	background = new B_BackgroundManager(renderer, dimensions, universalSpeed);
@@ -240,7 +240,7 @@ void S_Game::draw()
 void S_Game::resetGame()
 {
 	//Reset universal speed
-	*universalSpeed = 1.0f;
+	*universalSpeed = (dimensions.x * 0.00085f);
 	
 	//Reset player
 	player = new EP_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.125f,
