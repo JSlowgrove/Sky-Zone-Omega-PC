@@ -1,7 +1,8 @@
 #include "G_SpawnManager.h"
 
 G_SpawnManager::G_SpawnManager(C_Vec2 screenDimensions, EP_Player* player, E_EntityManager* entityManager, float* universalSpeed)
-	: screenDimensions(screenDimensions), player(player), entityManager(entityManager), spawnTimer(1.0f), universalSpeed(universalSpeed)
+	: screenDimensions(screenDimensions), player(player), entityManager(entityManager), spawnTimer(1.0f), waveTimer(5.0f), 
+	universalSpeed(universalSpeed), waveTime(1.0f)
 {
 }
 
@@ -11,8 +12,21 @@ G_SpawnManager::~G_SpawnManager()
 
 void G_SpawnManager::update(float dt)
 {
-	//set the length of the timer length depending on the universal speed
-	spawnTimer.setTimerLength(1 / *universalSpeed);
+	//update the wave timer
+	waveTimer.upadateTimer(dt);
+	//check if the wave timer has ended
+	if (waveTimer.checkTimer())
+	{
+		//decrease the time by 5 unless at min time
+		if (waveTime > 0.5f)
+		{
+			waveTime -= 0.05f;
+		}
+		waveTimer.resetTimer();
+	}
+	
+	//set the length of the timer length depending on the universal speed and wave time
+	spawnTimer.setTimerLength(waveTime / *universalSpeed);
 	//Update the spawn timer
 	spawnTimer.upadateTimer(dt);
 	//check if a new wave of entities should be spawned
@@ -98,13 +112,13 @@ int G_SpawnManager::pickEntity()
 
 	if (spawnNumber >= 101 && spawnNumber <= 140) // 20% chance
 	{
-		//entity is a cloud
-		return 1;
+		//entity is a styphBird
+		return 0;
 	}
 	else if (spawnNumber >= 141 && spawnNumber <= 170) // 15% chance
 	{
-		//entity is a styphBird
-		return 0;
+		//entity is a cloud
+		return 1;
 	}
 	else if (spawnNumber >= 171 && spawnNumber <= 186) // 17% chance
 	{

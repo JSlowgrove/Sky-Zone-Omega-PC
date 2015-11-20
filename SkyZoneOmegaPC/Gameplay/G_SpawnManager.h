@@ -39,6 +39,10 @@ private:
 	E_EntityManager* entityManager;
 	///A timer for the entity spawner.
 	C_Timer spawnTimer;
+	///A timer for the wave number.
+	C_Timer waveTimer;
+	///The current spawn speed for the wave.
+	float waveTime;
 	///A pointer for the universal speed of the game.
 	float* universalSpeed;
 
