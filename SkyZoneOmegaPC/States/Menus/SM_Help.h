@@ -8,6 +8,8 @@
 #include "../../Core/C_Audio.h"
 #include "../../Core/C_Music.h"
 #include "../../Core/C_Text.h"
+#include "../../UI/UI_Button.h"
+#include "SM_MainMenu.h"
 
 /**
 @brief A State that contains and runs the Help Menu.
@@ -52,4 +54,16 @@ private:
 	C_Music* backgroundMusic;
 	///A pointer for the universal speed of the menu.
 	float* universalSpeed;
+	///The help image
+	C_Texture* help;
+	///The Resume Button
+	UI_Button* resumeButton;
+	///The Exit Button
+	UI_Button* exitButton;
+	///The Coin Image.
+	C_Texture* coin;
+	///The dimensions of the coin image
+	C_Vec2 coinDim;
+	//The Y position of the Button
+	float buttonYPos;
 };

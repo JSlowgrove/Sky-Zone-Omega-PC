@@ -66,9 +66,8 @@ bool S_Game::input()
 			{
 			case SDLK_ESCAPE: //If Escape is pressed, go back to the main menu
 
-				//Go to the game state
-				stateManager->changeState(new SM_MainMenu(stateManager, renderer, dimensions, backgroundMusic));
-				return true;
+				//Go to the help state
+				stateManager->addState(new SM_Help(stateManager, renderer, dimensions, backgroundMusic));
 				break;
 
 				//TMP
