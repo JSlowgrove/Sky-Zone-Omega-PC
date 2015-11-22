@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 	//Time Check
 	unsigned int lastTime = SDL_GetTicks();
 
-/*
+
 #if !defined(_DEBUG)
 
 	//Create Window
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 		(int)windowRes.x, (int)windowRes.y,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-#else*/
+#else
 
 	//Create Window
 	C_Vec2 windowPos = C_Vec2(100, 100);
@@ -65,10 +65,10 @@ int main(int argc, char *argv[])
 		(int)windowRes.x, (int)windowRes.y,
 		SDL_WINDOW_SHOWN);
 
-//#endif	
+#endif	
 
 	//Create Renderer from the window
-	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
 	//Set the renderer to work out the render at this resolution and then scale it up the 
 	//closest resolution it can to the windows resolution (adds bars of the render colour)
@@ -76,9 +76,6 @@ int main(int argc, char *argv[])
 
 	//The background music
 	C_Music* backgroundMusic = new C_Music("Assets/Audio/gameplayLoop.ogg");
-
-	//tmp
-	backgroundMusic->muteMusic();
 
 	//Setup state manager and initial state
 	S_StateManager * stateManager = new S_StateManager();

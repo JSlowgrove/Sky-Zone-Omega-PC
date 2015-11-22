@@ -111,7 +111,7 @@ void G_CollisionManager::playerStyphBirdCollisionDetection(EE_StyphBird* styphBi
 void G_CollisionManager::playerStormCloudCollisionDetection(EE_StormCloud* stormCloud)
 {
 	//Collision between the player and storm cloud
-	if (player->entityCollisionTest(stormCloud->getPosition(), stormCloud->getDimensions()))
+	if (player->entityCollisionTest(stormCloud->getPosition(), stormCloud->getCloudDim()))
 	{
 		stormCloud->setDeathParticles(true);
 		stormCloud->setDeadStatus(true);

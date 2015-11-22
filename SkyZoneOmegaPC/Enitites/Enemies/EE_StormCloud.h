@@ -56,11 +56,19 @@ public:
 	*/
 	bool getDeathParticles();
 
+	/**
+	@brief Returns the value of the clouds dimensions (Not including lighting).
+	@returns The value of cloudDim.
+	*/
+	C_Vec2 getCloudDim();
+
 private:
 	///A boolean for if the StormCloud is dead and to be deleted.
 	bool dead;
 	///A boolean for if the StormCloud should spawn particles upon death.
 	bool deathParticles;
+	///The dimensions of the actual cloud, not the cloud sprite (including lightning) dimensions.
+	C_Vec2 cloudDim;
 	
 	/**
 	@brief Animates the sprite of the storm cloud.

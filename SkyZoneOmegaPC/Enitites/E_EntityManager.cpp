@@ -17,7 +17,7 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 {	
 	//Initialise the textures
 	textures["EE_StyphBird"] = new C_Texture("Assets/Images/stymphalianBird.png", renderer);
-	textures["EE_StormCloud"] = new C_Texture("Assets/Images/cloudsSpritesheet562x500.png", renderer);
+	textures["EE_StormCloud"] = new C_Texture("Assets/Images/cloudsSpritesheet562x401.png", renderer);
 	textures["EE_Archer"] = new C_Texture("Assets/Images/archer.png", renderer);
 	textures["EPU_Coin"] = new C_Texture("Assets/Images/coin.png", renderer);
 	textures["EPU_Health"] = new C_Texture("Assets/Images/health300x299.png", renderer);
@@ -47,7 +47,7 @@ E_EntityManager::E_EntityManager(C_Vec2 dimensions, EP_Player* player, SDL_Rende
 
 	//Initialise dimensions
 	entityDimensions["EE_StyphBird"] = C_Vec2(dimensions * 0.06f);
-	entityDimensions["EE_StormCloud"] = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.25f);
+	entityDimensions["EE_StormCloud"] = C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.2f);
 	entityDimensions["EE_Archer"] = C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.15f);
 	entityDimensions["EPU_Coin"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
 	entityDimensions["EPU_Health"] = C_Vec2(dimensions.y * 0.05f, dimensions.y * 0.05f);
