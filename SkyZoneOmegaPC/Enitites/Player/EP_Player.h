@@ -178,6 +178,8 @@ private:
 	bool shield;
 	///The array of hit audio.
 	C_Audio* healthLossSounds[3];
+	///The shield loss audio
+	C_Audio* shieldLossSound;
 	///A boolean for if the player has the time slow power up active.
 	bool timeSlowPowerUp;
 	///The timeSlowPowerUp timer.
