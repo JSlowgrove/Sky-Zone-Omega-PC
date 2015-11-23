@@ -4,7 +4,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	: S_State(stateManager, renderer, dimensions), 
 	mousePos(C_Vec2()), 
 	playerSprite(new C_Texture("Assets/Images/player699x436.png", renderer)),
-	playerArcherSprite(new C_Texture("Assets/Images/tmp.png", renderer)),//tmp
+	playerArcherSprite(new C_Texture("Assets/Images/playerGuy734x571.png", renderer)),
 	scoreScroll(new C_Texture("Assets/Images/scoreScroll.png", renderer)),
 	healthScroll(new C_Texture("Assets/Images/healthScroll.png", renderer)),
 	backgroundMusic(backgroundMusic),
@@ -26,8 +26,8 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 
 	//Initialise player
 	player = new EP_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.125f, 
-		playerArcherSprite, C_Vec2(dimensions.x * 0.1125f, dimensions.y * 0.38f), 
-		C_Vec2(dimensions.y * 0.0625f, dimensions.y * 0.09375f), dimensions, fireSprite, 
+		playerArcherSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.37f), 
+		C_Vec2(dimensions.y * 0.15f, dimensions.y * 0.1f), dimensions, fireSprite, 
 		minFireTint, maxFireTint, universalSpeed);
 
 	//Initialise entity manager
@@ -244,8 +244,8 @@ void S_Game::resetGame()
 	
 	//Reset player
 	player = new EP_Player(playerSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.4f), dimensions * 0.125f,
-		playerArcherSprite, C_Vec2(dimensions.x * 0.1125f, dimensions.y * 0.38f),
-		C_Vec2(dimensions.y * 0.0625f, dimensions.y * 0.09375f), dimensions, fireSprite,
+		playerArcherSprite, C_Vec2(dimensions.x * 0.1f, dimensions.y * 0.37f),
+		C_Vec2(dimensions.y * 0.15f, dimensions.y * 0.1f), dimensions, fireSprite,
 		minFireTint, maxFireTint, universalSpeed);
 
 	//Reset entity manager
