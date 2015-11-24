@@ -57,6 +57,8 @@ private:
 	C_Music* backgroundMusic;
 	///The Background Image.
 	C_Texture* background;
+	///The Button Background Image.
+	C_Texture* buttonBackground;
 	///A pointer for the universal speed of the menu.
 	float* universalSpeed;
 	///A std::vector of the loaded scores

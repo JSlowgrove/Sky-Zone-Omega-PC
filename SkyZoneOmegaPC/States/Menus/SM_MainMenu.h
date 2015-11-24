@@ -56,6 +56,8 @@ private:
 	C_Music* backgroundMusic;
 	///The Background Image.
 	C_Texture* background;
+	///The Button Background Image.
+	C_Texture* buttonBackground;
 	///The Coin Image.
 	C_Texture* coin;
 	///The Logo Image.

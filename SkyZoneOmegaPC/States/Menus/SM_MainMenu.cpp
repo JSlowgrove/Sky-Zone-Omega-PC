@@ -4,6 +4,7 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 	: S_State(stateManager, renderer, dimensions),
 	backgroundMusic(new C_Music("Assets/Audio/gameplayLoop.ogg")),
 	background(new C_Texture("Assets/Images/nongamebackground.png", renderer)),
+	buttonBackground(new C_Texture("Assets/Images/buttonBackground981x174.png", renderer)),
 	coin(new C_Texture("Assets/Images/coin.png", renderer)),
 	logo(new C_Texture("Assets/Images/szologo.png", renderer)),
 	coinDim(C_Vec2(dimensions.y * 0.125f, dimensions.y * 0.125f)),
@@ -26,7 +27,8 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 
 	//Initialise buttons
 	playButton = new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[0]), //Position
 		"play", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -38,7 +40,8 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		);
 
 	scoresButton = new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[1]), //Position
 		"Scores", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -50,7 +53,8 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 		);
 
 	creditsButton = new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[2]), //Position
 		"Credits", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -63,7 +67,8 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 
 	exitButton = 
 		new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYpos[3]), //Position
 		"Exit", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -86,6 +91,7 @@ SM_MainMenu::~SM_MainMenu()
 	delete scoresButton;
 	delete playButton;
 	delete exitButton;
+	delete buttonBackground;
 }
 
 bool SM_MainMenu::input()

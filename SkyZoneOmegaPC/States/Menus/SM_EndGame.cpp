@@ -4,6 +4,7 @@ SM_EndGame::SM_EndGame(S_StateManager* stateManager, SDL_Renderer* renderer, C_V
 	: S_State(stateManager, renderer, dimensions),
 	backgroundMusic(backgroundMusic),
 	background(new C_Texture("Assets/Images/lostgamebackground.png", renderer)),
+	buttonBackground(new C_Texture("Assets/Images/buttonBackground981x174.png", renderer)),
 	gameOver(new C_Texture("Assets/Images/defeat.png", renderer)),
 	coin(new C_Texture("Assets/Images/coin.png", renderer)),
 	coinDim(C_Vec2(dimensions.y * 0.125f, dimensions.y * 0.125f)),
@@ -25,7 +26,8 @@ SM_EndGame::SM_EndGame(S_StateManager* stateManager, SDL_Renderer* renderer, C_V
 	//Initialise Buttons
 	retryButton =
 		new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYPos[0]), //Position
 		"Again", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -38,7 +40,8 @@ SM_EndGame::SM_EndGame(S_StateManager* stateManager, SDL_Renderer* renderer, C_V
 
 	exitButton =
 		new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYPos[1]), //Position
 		"Quit", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -71,6 +74,7 @@ SM_EndGame::~SM_EndGame()
 	delete exitButton;
 	delete coin;
 	delete gameOver;
+	delete buttonBackground;
 }
 
 bool SM_EndGame::input()

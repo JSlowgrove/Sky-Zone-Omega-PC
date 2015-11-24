@@ -54,6 +54,8 @@ private:
 	C_Music* backgroundMusic;
 	///The Background Image.
 	C_Texture* background;
+	///The Button Background Image.
+	C_Texture* buttonBackground;
 	///A pointer for the universal speed of the menu.
 	float* universalSpeed;
 	///The credits image
@@ -64,6 +66,6 @@ private:
 	C_Texture* coin;
 	///The dimensions of the coin image
 	C_Vec2 coinDim;
-	//The Y position of the Button
+	///The Y position of the Button
 	float buttonYPos;
 };

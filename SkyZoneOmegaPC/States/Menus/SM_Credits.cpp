@@ -4,6 +4,7 @@ SM_Credits::SM_Credits(S_StateManager* stateManager, SDL_Renderer* renderer, C_V
 	: S_State(stateManager, renderer, dimensions),
 	backgroundMusic(backgroundMusic),
 	background(new C_Texture("Assets/Images/nongamebackground.png", renderer)),
+	buttonBackground(new C_Texture("Assets/Images/buttonBackground981x174.png", renderer)),
 	credits(new C_Texture("Assets/Images/credits.png", renderer)),
 	coin(new C_Texture("Assets/Images/coin.png", renderer)),
 	coinDim(C_Vec2(dimensions.y * 0.125f, dimensions.y * 0.125f)),
@@ -15,7 +16,8 @@ SM_Credits::SM_Credits(S_StateManager* stateManager, SDL_Renderer* renderer, C_V
 	//Initialise Button
 	exitButton =
 		new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYPos), //Position
 		"Back", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -35,6 +37,7 @@ SM_Credits::~SM_Credits()
 	delete background;
 	delete exitButton;
 	delete coin;
+	delete buttonBackground;
 }
 
 bool SM_Credits::input()

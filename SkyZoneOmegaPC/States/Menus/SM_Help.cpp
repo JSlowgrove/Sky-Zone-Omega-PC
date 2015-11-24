@@ -5,6 +5,7 @@ SM_Help::SM_Help(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 di
 	backgroundMusic(backgroundMusic),
 	help(new C_Texture("Assets/Images/help.png", renderer)),
 	coin(new C_Texture("Assets/Images/coin.png", renderer)),
+	buttonBackground(new C_Texture("Assets/Images/buttonBackground981x174.png", renderer)),
 	coinDim(C_Vec2(dimensions.y * 0.125f, dimensions.y * 0.125f)),
 	buttonYPos((dimensions.y * 0.075f) * 11.0f)
 {
@@ -14,7 +15,8 @@ SM_Help::SM_Help(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 di
 	//Initialise Buttons
 	resumeButton =
 		new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.2f, buttonYPos), //Position
 		"Resume", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -27,7 +29,8 @@ SM_Help::SM_Help(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 di
 
 	exitButton =
 		new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.6f, buttonYPos), //Position
 		"Quit", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -47,6 +50,7 @@ SM_Help::~SM_Help()
 	delete resumeButton;
 	delete exitButton;
 	delete coin;
+	delete buttonBackground;
 }
 
 bool SM_Help::input()

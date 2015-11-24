@@ -56,6 +56,8 @@ private:
 	C_Music* backgroundMusic;
 	///The Background Image.
 	C_Texture* background;
+	///The Button Background Image.
+	C_Texture* buttonBackground;
 	///The Scores Background Image.
 	C_Texture* scoresBackground;
 	///A pointer for the universal speed of the menu.

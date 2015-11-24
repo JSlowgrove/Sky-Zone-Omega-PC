@@ -5,6 +5,7 @@ SM_Scores::SM_Scores(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec
 	backgroundMusic(backgroundMusic),
 	background(new C_Texture("Assets/Images/nongamebackground.png", renderer)),
 	scoresBackground(new C_Texture("Assets/Images/scoresBackground.png", renderer)),
+	buttonBackground(new C_Texture("Assets/Images/buttonBackground981x174.png", renderer)),
 	coin(new C_Texture("Assets/Images/coin.png", renderer)),
 	coinDim(C_Vec2(dimensions.y * 0.125f, dimensions.y * 0.125f)),
 	buttonYPos((dimensions.y * 0.075f) * 11.0f)
@@ -15,7 +16,8 @@ SM_Scores::SM_Scores(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec
 	//Initialise Button
 	exitButton =
 		new UI_Button(
-		255, 255, 255, //Button colour
+		buttonBackground, //Button Sprite
+		C_Vec2(981.0f, 174.0f), //Sprite Dimensions
 		C_Vec2(dimensions.x * 0.3f, buttonYPos), //Position
 		"Back", "Assets/Font/MonogramsToolbox.ttf", //Text & font location
 		(int)(dimensions.y * 0.06f), //Font size
@@ -48,6 +50,7 @@ SM_Scores::~SM_Scores()
 	{
 		delete scoresText[i];
 	}
+	delete buttonBackground;
 }
 
 bool SM_Scores::input()

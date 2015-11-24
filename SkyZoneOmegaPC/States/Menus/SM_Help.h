@@ -54,6 +54,8 @@ private:
 	C_Music* backgroundMusic;
 	///A pointer for the universal speed of the menu.
 	float* universalSpeed;
+	///The Button Background Image.
+	C_Texture* buttonBackground;
 	///The help image
 	C_Texture* help;
 	///The Resume Button

@@ -12,8 +12,8 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 	minFireTint({ (Uint8)255, (Uint8)0, (Uint8)0 }),
 	maxFireTint({ (Uint8)255, (Uint8)255, (Uint8)0 }),
 	fireSprite(new C_Texture("Assets/Images/fireParticle.png", renderer)),
-	fireArrowButtonSpritesheet(new C_Texture("Assets/Images/fireButton.png", renderer)),
-	helpButtonSpritesheet(new C_Texture("Assets/Images/buttons.png", renderer))
+	fireArrowButtonSpritesheet(new C_Texture("Assets/Images/arrowButton648x261.png", renderer)),
+	helpButtonSpritesheet(new C_Texture("Assets/Images/helpButton267x261.png", renderer))
 {
 	//Initialise random seed
 	srand((unsigned int)time(NULL));
@@ -42,7 +42,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 		fireArrowButtonSpritesheet, //spritesheet
 		C_Vec2(dimensions.x * 0.825f, dimensions.y * 0.875f), //Position
 		C_Vec2(dimensions.x * 0.15f, dimensions.y * 0.1f), //Dimensions of the button
-		C_Vec2(115.0f, 140.0f), //dimensions of the sprite
+		C_Vec2(648.0f, 261.0f), //dimensions of the sprite
 		universalSpeed //Universal Speed
 		);
 	
@@ -51,7 +51,7 @@ S_Game::S_Game(S_StateManager* stateManager, SDL_Renderer* renderer, C_Vec2 dime
 		helpButtonSpritesheet, //spritesheet
 		C_Vec2(dimensions.x * 0.935f, dimensions.y * 0.01f), //Position
 		C_Vec2(dimensions.y * 0.1f, dimensions.y * 0.1f), //dimensions of the button
-		C_Vec2(115.0f, 140.0f), //dimensions of the sprite
+		C_Vec2(267.0f, 261.0f), //dimensions of the sprite
 		universalSpeed //Universal Speed
 		);
 }
