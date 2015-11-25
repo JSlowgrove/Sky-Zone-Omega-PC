@@ -8,7 +8,7 @@ SM_MainMenu::SM_MainMenu(S_StateManager* stateManager, SDL_Renderer* renderer, C
 	coin(new C_Texture("Assets/Images/coin.png", renderer)),
 	logo(new C_Texture("Assets/Images/szologo.png", renderer)),
 	coinDim(C_Vec2(dimensions.y * 0.125f, dimensions.y * 0.125f)),
-	logoDim(C_Vec2(dimensions.x * 0.5f, dimensions.y * 0.33f))
+	logoDim(C_Vec2(dimensions.x * 0.35f, dimensions.y * 0.3f))
 {
 	//Initialise universal speed
 	universalSpeed = new float(0.0f);
@@ -165,7 +165,7 @@ void SM_MainMenu::draw()
 {
 	//Draw the Images
 	background->pushToScreen(renderer, C_Vec2(), dimensions);
-	logo->pushToScreen(renderer, C_Vec2(dimensions.x * 0.25f, dimensions.y * 0.01f), logoDim);
+	logo->pushToScreen(renderer, C_Vec2(dimensions.x * 0.325f, dimensions.y * 0.01f), logoDim);
 	
 	//Loop for each of the buttons
 	for (int i = 0; i < 4; i++)
