@@ -47,7 +47,7 @@ void G_SpawnManager::spawnEntityWave()
 
 	for (int i = 0; i <= numberToSpawn; i++)
 	{
-		//Get a number between 0 and 5 for max 6 thing to spawn
+		//Get the number for the entity to spawn
 		int entityToSpawn = pickEntity();
 
 		//initialise the new spawn position
